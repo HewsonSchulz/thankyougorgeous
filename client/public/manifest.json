@@ -1,0 +1,9 @@
+{
+  "name": "Thank You Gorgeous",
+  "short_name": "Thank You Gorgeous",
+  "version": "0.1",
+  "icons": [],
+  "theme_color": "#ffffff",
+  "background_color": "#ffffff",
+  "display": "standalone"
+}
