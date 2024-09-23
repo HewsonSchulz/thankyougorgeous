@@ -3,8 +3,11 @@ from django.contrib.auth.models import AbstractUser
 
 
 class User(AbstractUser):
-    # add `is_admin` property
+    # add additional fields
     is_admin = models.BooleanField(default=False)
+    phone_num = models.IntegerField(null=True, blank=True)
+    venmo = models.CharField(max_length=255, null=True, blank=True)
+    address = models.TextField(null=True, blank=True)
 
     # set email field as unique identifier for authentication
     USERNAME_FIELD = 'email'
@@ -12,3 +15,8 @@ class User(AbstractUser):
 
     # add unique constraint to email field
     email = models.EmailField(unique=True)
+
+    # add relationship to interested products
+    interested_products = models.ManyToManyField(
+        'Product', through='Interest', related_name='interested_by'
+    )
