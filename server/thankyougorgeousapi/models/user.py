@@ -16,6 +16,9 @@ class User(AbstractUser):
     # add unique constraint to email field
     email = models.EmailField(unique=True)
 
+    # remove unique constraint from username field
+    username = models.CharField(max_length=150, unique=False)
+
     # add relationship to interested products
     interested_products = models.ManyToManyField(
         'Product', through='Interest', related_name='interested_by'
