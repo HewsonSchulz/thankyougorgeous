@@ -1,15 +1,21 @@
 import json
 from json.decoder import JSONDecodeError
+from django.contrib.auth import authenticate
 from rest_framework import serializers, status
 from rest_framework.viewsets import ViewSet
 from rest_framework.response import Response
 from thankyougorgeousapi.models import User
+from .view_utils import calc_missing_props
 
 
 def update_user_attributes(user, attributes):
     for attr, value in attributes.items():
         if value is not None:
-            setattr(user, attr, value.strip() if isinstance(value, str) else value)
+            if attr == 'password':
+                # encrypt password
+                user.set_password(value)
+            else:
+                setattr(user, attr, value.strip() if isinstance(value, str) else value)
 
 
 class Profile(ViewSet):
@@ -71,27 +77,63 @@ class Profile(ViewSet):
             req_user = request.auth.user
 
             if pk is None:
-                # TODO? allow for non-pk specified PUT requests
+                # TODO? allow for unspecified pk PUT requests
                 # pk was not provided
                 user = req_user
             else:
                 # pk was provided
                 if not (req_user.is_admin or req_user.id == int(pk)):
                     return Response(
-                        {'message': '''You don't have permission to do that'''},
+                        {
+                            'valid': False,
+                            'message': '''You don't have permission to do that''',
+                        },
                         status=status.HTTP_403_FORBIDDEN,
                     )
                 user = User.objects.get(pk=pk)
 
             # update user
+            if req_body.get('password') is not None:
+                # change password
+                missing_props_msg = calc_missing_props(
+                    req_body, ['password_conf', 'old_password']
+                )
+                if missing_props_msg:
+                    return Response(
+                        {'valid': False, 'message': missing_props_msg},
+                        status=status.HTTP_400_BAD_REQUEST,
+                    )
+
+                auth_user = authenticate(
+                    email=req_user.email, password=req_body['old_password']
+                )
+                if not auth_user:
+                    # cannot validate user
+                    return Response(
+                        {
+                            'valid': False,
+                            'message': 'Your original password was entered incorrectly',
+                        },
+                        status=status.HTTP_403_FORBIDDEN,
+                    )
+
+                if req_body['password'] != req_body['password_conf']:
+                    return Response(
+                        {
+                            'valid': False,
+                            'message': 'Your password confirmation does not match',
+                        },
+                        status=status.HTTP_400_BAD_REQUEST,
+                    )
+
             writable_fields = [
                 'first_name',
                 'last_name',
                 'phone_num',
                 'venmo',
                 'address',
+                'password',
             ]
-            # TODO: update password (requires `old_password`, `password`, and `password_conf`)
             update_user_attributes(
                 user, {field: req_body.get(field) for field in writable_fields}
             )
@@ -99,18 +141,22 @@ class Profile(ViewSet):
             user.save()
 
             return Response(
-                UserSerializer(user, context={'request': request}).data,
+                {
+                    'valid': True,
+                    **UserSerializer(user, context={'request': request}).data,
+                },
                 status=status.HTTP_200_OK,
             )
 
         except User.DoesNotExist:
             return Response(
-                {'message': 'The requested user does not exist'},
+                {'valid': False, 'message': 'The requested user does not exist'},
                 status=status.HTTP_404_NOT_FOUND,
             )
         except Exception as ex:
             return Response(
-                {'error': ex.args[0]}, status=status.HTTP_500_INTERNAL_SERVER_ERROR
+                {'valid': False, 'error': ex.args[0]},
+                status=status.HTTP_500_INTERNAL_SERVER_ERROR,
             )
 
 
