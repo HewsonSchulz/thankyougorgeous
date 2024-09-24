@@ -1,21 +1,29 @@
 import json
 from json.decoder import JSONDecodeError
+from django.db import IntegrityError
 from django.contrib.auth import authenticate
 from rest_framework import serializers, status
 from rest_framework.viewsets import ViewSet
 from rest_framework.response import Response
+from rest_framework.exceptions import ValidationError
 from thankyougorgeousapi.models import User
 from .view_utils import calc_missing_props
 
 
 def update_user_attributes(user, attributes):
     for attr, value in attributes.items():
-        if value is not None:
-            if attr == 'password':
-                # encrypt password
-                user.set_password(value)
+        if attr == 'password':
+            if value is None or value == '':
+                raise ValidationError('You cannot submit a blank password')
+
+            # encrypt password
+            user.set_password(value)
+        elif hasattr(user, attr):
+            # only update if attribute exists in model
+            if isinstance(value, str):
+                setattr(user, attr, value.strip())
             else:
-                setattr(user, attr, value.strip() if isinstance(value, str) else value)
+                setattr(user, attr, value)
 
 
 class Profile(ViewSet):
@@ -95,6 +103,15 @@ class Profile(ViewSet):
             # update user
             if req_body.get('password') is not None:
                 # change password
+                if req_body['password'] == '':
+                    return Response(
+                        {
+                            'valid': False,
+                            'message': 'You cannot submit a blank password',
+                        },
+                        status=status.HTTP_400_BAD_REQUEST,
+                    )
+
                 missing_props_msg = calc_missing_props(
                     req_body, ['password_conf', 'old_password']
                 )
@@ -135,7 +152,12 @@ class Profile(ViewSet):
                 'password',
             ]
             update_user_attributes(
-                user, {field: req_body.get(field) for field in writable_fields}
+                user,
+                {
+                    field: req_body[field]
+                    for field in writable_fields
+                    if field in req_body
+                },
             )
 
             user.save()
@@ -152,6 +174,18 @@ class Profile(ViewSet):
             return Response(
                 {'valid': False, 'message': 'The requested user does not exist'},
                 status=status.HTTP_404_NOT_FOUND,
+            )
+        except ValidationError as ex:
+            # handle blank password submition
+            return Response(
+                {'valid': False, 'message': ex.args[0]},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+        except IntegrityError as ex:
+            # handle constraint failure
+            return Response(
+                {'valid': False, 'error': ex.args[0]},
+                status=status.HTTP_400_BAD_REQUEST,
             )
         except Exception as ex:
             return Response(
