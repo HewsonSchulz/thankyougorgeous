@@ -1,7 +1,11 @@
+import json
+from json.decoder import JSONDecodeError
+from django.db import IntegrityError
 from rest_framework import serializers, status
 from rest_framework.viewsets import ViewSet
 from rest_framework.response import Response
-from thankyougorgeousapi.models import Product
+from thankyougorgeousapi.models import Product, Category
+from .view_utils import calc_missing_props
 
 
 class Products(ViewSet):
@@ -31,8 +35,76 @@ class Products(ViewSet):
                 {'error': ex.args[0]}, status=status.HTTP_500_INTERNAL_SERVER_ERROR
             )
 
+    def create(self, request):
+        try:
+            req_body = json.loads(request.body)
+        except JSONDecodeError as ex:
+            return Response(
+                {
+                    'valid': False,
+                    'message': 'Your request contains invalid json',
+                    'error': ex.args[0],
+                },
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+
+        try:
+            missing_props_msg = calc_missing_props(
+                req_body, ['label', 'price', 'description']
+            )
+
+            if missing_props_msg:
+                return Response(
+                    {'valid': False, 'message': missing_props_msg},
+                    status=status.HTTP_400_BAD_REQUEST,
+                )
+
+            # ensure all specified categories exist
+            categories = []
+            if req_body.get('categories'):
+                for category_label in req_body['categories']:
+                    category = Category.objects.get(label=category_label.strip())
+                    categories.append(category)
+
+            # create product
+            new_product = Product.objects.create(
+                label=req_body['label'].strip(),
+                price=req_body['price'],
+                description=req_body['description'].strip(),
+            )
+
+            # add categories to product
+            new_product.categories.add(*categories)
+
+            return Response(
+                {
+                    'valid': True,
+                    **ProductSerializer(
+                        new_product, many=False, context={'request': request}
+                    ).data,
+                },
+                status=status.HTTP_201_CREATED,
+            )
+        except Category.DoesNotExist as ex:
+            return Response({'error': ex.args[0]}, status=status.HTTP_404_NOT_FOUND)
+        except IntegrityError as ex:
+            # handle constraint failure
+            return Response(
+                {'valid': False, 'error': ex.args[0]},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+        except Exception as ex:
+            return Response(
+                {'error': ex.args[0]}, status=status.HTTP_500_INTERNAL_SERVER_ERROR
+            )
+
 
 class ProductSerializer(serializers.ModelSerializer):
+    categories = serializers.SerializerMethodField()
+
     class Meta:
         model = Product
-        fields = ['id', 'created', 'label', 'price', 'description']
+        fields = ['id', 'created', 'label', 'price', 'description', 'categories']
+
+    def get_categories(self, obj):
+        return [category.label for category in obj.categories.all()]

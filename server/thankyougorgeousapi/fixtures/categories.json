@@ -1,0 +1,142 @@
+[
+  {
+    "model": "thankyougorgeousapi.category",
+    "pk": 1,
+    "fields": {
+      "label": "Watches"
+    }
+  },
+  {
+    "model": "thankyougorgeousapi.category",
+    "pk": 2,
+    "fields": {
+      "label": "T-Shirts"
+    }
+  },
+  {
+    "model": "thankyougorgeousapi.category",
+    "pk": 3,
+    "fields": {
+      "label": "Purses"
+    }
+  },
+  {
+    "model": "thankyougorgeousapi.category",
+    "pk": 4,
+    "fields": {
+      "label": "Scarves"
+    }
+  },
+  {
+    "model": "thankyougorgeousapi.category",
+    "pk": 5,
+    "fields": {
+      "label": "Mugs"
+    }
+  },
+  {
+    "model": "thankyougorgeousapi.category",
+    "pk": 6,
+    "fields": {
+      "label": "Plant Hangers"
+    }
+  },
+  {
+    "model": "thankyougorgeousapi.category",
+    "pk": 7,
+    "fields": {
+      "label": "Earrings"
+    }
+  },
+  {
+    "model": "thankyougorgeousapi.category",
+    "pk": 8,
+    "fields": {
+      "label": "Tote Bags"
+    }
+  },
+  {
+    "model": "thankyougorgeousapi.category",
+    "pk": 9,
+    "fields": {
+      "label": "Boxes"
+    }
+  },
+  {
+    "model": "thankyougorgeousapi.category",
+    "pk": 10,
+    "fields": {
+      "label": "Bracelets"
+    }
+  },
+  {
+    "model": "thankyougorgeousapi.category",
+    "pk": 11,
+    "fields": {
+      "label": "Jewelry"
+    }
+  },
+  {
+    "model": "thankyougorgeousapi.category",
+    "pk": 12,
+    "fields": {
+      "label": "Accessories"
+    }
+  },
+  {
+    "model": "thankyougorgeousapi.category",
+    "pk": 13,
+    "fields": {
+      "label": "Home"
+    }
+  },
+  {
+    "model": "thankyougorgeousapi.category",
+    "pk": 14,
+    "fields": {
+      "label": "Leather"
+    }
+  },
+  {
+    "model": "thankyougorgeousapi.category",
+    "pk": 15,
+    "fields": {
+      "label": "Crafts"
+    }
+  },
+  {
+    "model": "thankyougorgeousapi.category",
+    "pk": 16,
+    "fields": {
+      "label": "Candles"
+    }
+  },
+  {
+    "model": "thankyougorgeousapi.category",
+    "pk": 17,
+    "fields": {
+      "label": "Eco-Friendly"
+    }
+  },
+  {
+    "model": "thankyougorgeousapi.category",
+    "pk": 18,
+    "fields": {
+      "label": "Stationery"
+    }
+  },
+  {
+    "model": "thankyougorgeousapi.category",
+    "pk": 19,
+    "fields": {
+      "label": "Wall Art"
+    }
+  },
+  {
+    "model": "thankyougorgeousapi.category",
+    "pk": 20,
+    "fields": {
+      "label": "Ceramics"
+    }
+  }
+]
