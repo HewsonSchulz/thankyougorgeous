@@ -29,10 +29,10 @@ def update_user_attributes(user, attributes):
 class Profile(ViewSet):
     def list(self, request):
         try:
-            user = request.auth.user
+            req_user = request.auth.user
 
             return Response(
-                UserSerializer(user, many=False, context={'request': request}).data
+                UserSerializer(req_user, many=False, context={'request': request}).data
             )
         except Exception as ex:
             return Response(
@@ -59,10 +59,7 @@ class Profile(ViewSet):
             )
 
         except User.DoesNotExist as ex:
-            return Response(
-                {'message': 'The requested user does not exist', 'error': ex.args[0]},
-                status=status.HTTP_404_NOT_FOUND,
-            )
+            return Response({'error': ex.args[0]}, status=status.HTTP_404_NOT_FOUND)
         except Exception as ex:
             return Response(
                 {'error': ex.args[0]}, status=status.HTTP_500_INTERNAL_SERVER_ERROR
@@ -170,13 +167,12 @@ class Profile(ViewSet):
                 status=status.HTTP_200_OK,
             )
 
-        except User.DoesNotExist:
+        except User.DoesNotExist as ex:
             return Response(
-                {'valid': False, 'message': 'The requested user does not exist'},
-                status=status.HTTP_404_NOT_FOUND,
+                {'valid': False, 'error': ex.args[0]}, status=status.HTTP_404_NOT_FOUND
             )
         except ValidationError as ex:
-            # handle blank password submition
+            # handle blank password submission
             return Response(
                 {'valid': False, 'message': ex.args[0]},
                 status=status.HTTP_400_BAD_REQUEST,
