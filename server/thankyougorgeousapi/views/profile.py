@@ -31,9 +31,7 @@ class Profile(ViewSet):
         try:
             req_user = request.auth.user
 
-            return Response(
-                UserSerializer(req_user, many=False, context={'request': request}).data
-            )
+            return Response(UserSerializer(req_user, context={'request': request}).data)
         except Exception as ex:
             return Response(
                 {'error': ex.args[0]}, status=status.HTTP_500_INTERNAL_SERVER_ERROR
@@ -54,9 +52,7 @@ class Profile(ViewSet):
 
             user = User.objects.get(pk=pk)
 
-            return Response(
-                UserSerializer(user, many=False, context={'request': request}).data
-            )
+            return Response(UserSerializer(user, context={'request': request}).data)
 
         except User.DoesNotExist as ex:
             return Response({'error': ex.args[0]}, status=status.HTTP_404_NOT_FOUND)

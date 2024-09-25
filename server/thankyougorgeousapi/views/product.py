@@ -5,7 +5,7 @@ from rest_framework import serializers, status
 from rest_framework.viewsets import ViewSet
 from rest_framework.response import Response
 from thankyougorgeousapi.models import Product, Category
-from .view_utils import calc_missing_props
+from .view_utils import calc_missing_props, update_object_attributes
 
 
 class Products(ViewSet):
@@ -25,7 +25,7 @@ class Products(ViewSet):
         try:
             return Response(
                 ProductSerializer(
-                    Product.objects.get(pk=pk), many=False, context={'request': request}
+                    Product.objects.get(pk=pk), context={'request': request}
                 ).data
             )
         except Product.DoesNotExist as ex:
@@ -49,6 +49,17 @@ class Products(ViewSet):
             )
 
         try:
+            req_user = request.auth.user
+
+            if not req_user.is_admin:
+                return Response(
+                    {
+                        'valid': False,
+                        'message': '''You don't have permission to do that''',
+                    },
+                    status=status.HTTP_403_FORBIDDEN,
+                )
+
             missing_props_msg = calc_missing_props(
                 req_body, ['label', 'price', 'description']
             )
@@ -79,9 +90,7 @@ class Products(ViewSet):
             return Response(
                 {
                     'valid': True,
-                    **ProductSerializer(
-                        new_product, many=False, context={'request': request}
-                    ).data,
+                    **ProductSerializer(new_product, context={'request': request}).data,
                 },
                 status=status.HTTP_201_CREATED,
             )
@@ -94,7 +103,7 @@ class Products(ViewSet):
                 return Response(
                     {
                         'valid': False,
-                        'message': 'This product already exists.',
+                        'message': 'Another product with that label already exists',
                     },
                     status=status.HTTP_400_BAD_REQUEST,
                 )
@@ -106,6 +115,85 @@ class Products(ViewSet):
         except Exception as ex:
             return Response(
                 {'error': ex.args[0]}, status=status.HTTP_500_INTERNAL_SERVER_ERROR
+            )
+
+    def update(self, request, pk=None):
+        try:
+            req_body = json.loads(request.body)
+        except JSONDecodeError as ex:
+            return Response(
+                {
+                    'valid': False,
+                    'message': 'Your request contains invalid json',
+                    'error': ex.args[0],
+                },
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+
+        try:
+            req_user = request.auth.user
+
+            if not req_user.is_admin:
+                return Response(
+                    {
+                        'valid': False,
+                        'message': '''You don't have permission to do that''',
+                    },
+                    status=status.HTTP_403_FORBIDDEN,
+                )
+
+            product = Product.objects.get(pk=pk)
+
+            # update product
+            writable_fields = [
+                'label',
+                'price',
+                'description',
+                # 'categories'
+            ]
+            update_object_attributes(
+                product,
+                {
+                    field: req_body[field]
+                    for field in writable_fields
+                    if field in req_body
+                },
+            )
+
+            product.save()
+
+            return Response(
+                {
+                    'valid': True,
+                    **ProductSerializer(product, context={'request': request}).data,
+                },
+                status=status.HTTP_200_OK,
+            )
+
+        except (Product.DoesNotExist, Category.DoesNotExist) as ex:
+            return Response(
+                {'valid': False, 'error': ex.args[0]}, status=status.HTTP_404_NOT_FOUND
+            )
+        except IntegrityError as ex:
+            # handle constraint failure
+            if 'UNIQUE constraint failed' in ex.args[0]:
+                # UNIQUE constraint failed
+                return Response(
+                    {
+                        'valid': False,
+                        'message': 'Another product with that label already exists',
+                    },
+                    status=status.HTTP_400_BAD_REQUEST,
+                )
+            else:
+                return Response(
+                    {'valid': False, 'error': ex.args[0]},
+                    status=status.HTTP_400_BAD_REQUEST,
+                )
+        except Exception as ex:
+            return Response(
+                {'valid': False, 'error': ex.args[0]},
+                status=status.HTTP_500_INTERNAL_SERVER_ERROR,
             )
 
 

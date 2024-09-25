@@ -61,3 +61,14 @@ def get_date_info(datetime_str=None):
     }
 
     return date_info
+
+
+def update_object_attributes(obj, attributes):
+    for attr, value in attributes.items():
+        if hasattr(obj, attr):
+            # only update if attribute exists in model
+            if isinstance(value, str):
+                # trim strings
+                setattr(obj, attr, value.strip())
+            else:
+                setattr(obj, attr, value)
