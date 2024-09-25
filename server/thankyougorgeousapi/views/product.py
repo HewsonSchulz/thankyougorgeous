@@ -89,10 +89,20 @@ class Products(ViewSet):
             return Response({'error': ex.args[0]}, status=status.HTTP_404_NOT_FOUND)
         except IntegrityError as ex:
             # handle constraint failure
-            return Response(
-                {'valid': False, 'error': ex.args[0]},
-                status=status.HTTP_400_BAD_REQUEST,
-            )
+            if 'UNIQUE constraint failed' in ex.args[0]:
+                # UNIQUE constraint failed
+                return Response(
+                    {
+                        'valid': False,
+                        'message': 'This product already exists.',
+                    },
+                    status=status.HTTP_400_BAD_REQUEST,
+                )
+            else:
+                return Response(
+                    {'valid': False, 'error': ex.args[0]},
+                    status=status.HTTP_400_BAD_REQUEST,
+                )
         except Exception as ex:
             return Response(
                 {'error': ex.args[0]}, status=status.HTTP_500_INTERNAL_SERVER_ERROR
