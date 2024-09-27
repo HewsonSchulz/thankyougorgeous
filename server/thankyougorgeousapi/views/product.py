@@ -200,6 +200,30 @@ class Products(ViewSet):
                 status=status.HTTP_500_INTERNAL_SERVER_ERROR,
             )
 
+    def destroy(self, request, pk=None):
+        try:
+            req_user = request.auth.user
+
+            if not req_user.is_admin:
+                return Response(
+                    {'message': '''You don't have permission to do that'''},
+                    status=status.HTTP_403_FORBIDDEN,
+                )
+
+            product = Product.objects.get(pk=pk)
+
+            # delete product
+            product.delete()
+
+            return Response(status=status.HTTP_204_NO_CONTENT)
+
+        except Product.DoesNotExist as ex:
+            return Response({'error': ex.args[0]}, status=status.HTTP_404_NOT_FOUND)
+        except Exception as ex:
+            return Response(
+                {'error': ex.args[0]}, status=status.HTTP_500_INTERNAL_SERVER_ERROR
+            )
+
 
 class ProductSerializer(serializers.ModelSerializer):
     categories = serializers.SerializerMethodField()
