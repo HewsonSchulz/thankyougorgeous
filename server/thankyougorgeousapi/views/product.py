@@ -145,20 +145,24 @@ class Products(ViewSet):
             product = Product.objects.get(pk=pk)
 
             # update product
-            writable_fields = [
-                'label',
-                'price',
-                'description',
-                # 'categories'
-            ]
+            writable_fields = ['label', 'price', 'description', 'categories']
             update_object_attributes(
                 product,
                 {
                     field: req_body[field]
                     for field in writable_fields
-                    if field in req_body
+                    # skip categories
+                    if field in req_body and field is not 'categories'
                 },
             )
+
+            # update product's categories
+            categories = []
+            if req_body.get('categories'):
+                for category_label in req_body['categories']:
+                    category = Category.objects.get(label=category_label.strip())
+                    categories.append(category)
+                product.categories.set(categories)
 
             product.save()
 
