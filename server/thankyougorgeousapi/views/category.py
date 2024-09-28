@@ -178,7 +178,35 @@ class Categories(ViewSet):
             )
 
     def destroy(self, request, pk=None):
-        return Response(status=status.HTTP_501_NOT_IMPLEMENTED)  #!
+        try:
+            req_user = request.auth.user
+
+            if not req_user.is_admin:
+                return Response(
+                    {'message': '''You don't have permission to do that'''},
+                    status=status.HTTP_403_FORBIDDEN,
+                )
+
+            try:
+                # category was searched by id
+                req_id = int(pk)
+                category = Category.objects.get(pk=req_id)
+            except ValueError:
+                # category was searched by label
+                req_id = pk
+                category = Category.objects.get(label__iexact=req_id)
+
+            # delete category
+            category.delete()
+
+            return Response(status=status.HTTP_204_NO_CONTENT)
+
+        except Category.DoesNotExist as ex:
+            return Response({'error': ex.args[0]}, status=status.HTTP_404_NOT_FOUND)
+        except Exception as ex:
+            return Response(
+                {'error': ex.args[0]}, status=status.HTTP_500_INTERNAL_SERVER_ERROR
+            )
 
 
 class CategorySerializer(serializers.ModelSerializer):
