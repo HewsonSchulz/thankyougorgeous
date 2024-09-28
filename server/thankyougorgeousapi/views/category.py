@@ -98,7 +98,84 @@ class Categories(ViewSet):
             )
 
     def update(self, request, pk=None):
-        return Response(status=status.HTTP_501_NOT_IMPLEMENTED)  #!
+        try:
+            req_body = json.loads(request.body)
+        except JSONDecodeError as ex:
+            return Response(
+                {
+                    'valid': False,
+                    'message': 'Your request contains invalid json',
+                    'error': ex.args[0],
+                },
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+
+        try:
+            req_user = request.auth.user
+
+            if not req_user.is_admin:
+                return Response(
+                    {
+                        'valid': False,
+                        'message': '''You don't have permission to do that''',
+                    },
+                    status=status.HTTP_403_FORBIDDEN,
+                )
+
+            try:
+                # category was searched by id
+                req_id = int(pk)
+                category = Category.objects.get(pk=req_id)
+            except ValueError:
+                # category was searched by label
+                req_id = pk
+                category = Category.objects.get(label__iexact=req_id)
+
+            if type(req_body) is not str:
+                # object was submitted
+                missing_props_msg = calc_missing_props(req_body, ['label'])
+
+                if missing_props_msg:
+                    return Response(
+                        {'valid': False, 'message': missing_props_msg},
+                        status=status.HTTP_400_BAD_REQUEST,
+                    )
+
+                # update category
+                category.label = req_body['label'].strip()
+
+            else:
+                # string was submitted
+                # update category
+                category.label = req_body.strip()
+
+            category.save()
+
+            return Response(category.label)
+        except Category.DoesNotExist as ex:
+            return Response(
+                {'valid': False, 'error': ex.args[0]}, status=status.HTTP_404_NOT_FOUND
+            )
+        except IntegrityError as ex:
+            # handle constraint failure
+            if 'UNIQUE constraint failed' in ex.args[0]:
+                # UNIQUE constraint failed
+                return Response(
+                    {
+                        'valid': False,
+                        'message': 'Another category with that label already exists',
+                    },
+                    status=status.HTTP_400_BAD_REQUEST,
+                )
+            else:
+                return Response(
+                    {'valid': False, 'error': ex.args[0]},
+                    status=status.HTTP_400_BAD_REQUEST,
+                )
+        except Exception as ex:
+            return Response(
+                {'error': ex.args[0]}, status=status.HTTP_500_INTERNAL_SERVER_ERROR
+            )
 
     def destroy(self, request, pk=None):
         return Response(status=status.HTTP_501_NOT_IMPLEMENTED)  #!

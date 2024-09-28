@@ -159,8 +159,7 @@ class Profile(ViewSet):
                 {
                     'valid': True,
                     **UserSerializer(user, context={'request': request}).data,
-                },
-                status=status.HTTP_200_OK,
+                }
             )
 
         except User.DoesNotExist as ex:

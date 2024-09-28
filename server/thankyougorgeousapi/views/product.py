@@ -170,8 +170,7 @@ class Products(ViewSet):
                 {
                     'valid': True,
                     **ProductSerializer(product, context={'request': request}).data,
-                },
-                status=status.HTTP_200_OK,
+                }
             )
 
         except (Product.DoesNotExist, Category.DoesNotExist) as ex:
