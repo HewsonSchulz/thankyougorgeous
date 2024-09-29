@@ -7,12 +7,14 @@ from thankyougorgeousapi.views import (
     Profile,
     Products,
     Categories,
+    Interests,
 )
 
 router = routers.DefaultRouter(trailing_slash=False)
 router.register(r'profile', Profile, 'profile')
 router.register(r'products', Products, 'product')
 router.register(r'categories', Categories, 'category')
+router.register(r'interests', Interests, 'interest')
 
 urlpatterns = [
     path('', include(router.urls)),

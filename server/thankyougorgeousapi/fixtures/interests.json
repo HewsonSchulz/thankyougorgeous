@@ -1,0 +1,56 @@
+[
+  {
+    "model": "thankyougorgeousapi.interest",
+    "pk": 1,
+    "fields": {
+      "created": "2024-09-29T12:00:00Z",
+      "user": 1,
+      "product": 1
+    }
+  },
+  {
+    "model": "thankyougorgeousapi.interest",
+    "pk": 2,
+    "fields": {
+      "created": "2024-09-29T12:00:00Z",
+      "user": 1,
+      "product": 2
+    }
+  },
+  {
+    "model": "thankyougorgeousapi.interest",
+    "pk": 3,
+    "fields": {
+      "created": "2024-09-29T12:00:00Z",
+      "user": 1,
+      "product": 3
+    }
+  },
+  {
+    "model": "thankyougorgeousapi.interest",
+    "pk": 4,
+    "fields": {
+      "created": "2024-09-29T12:00:00Z",
+      "user": 2,
+      "product": 3
+    }
+  },
+  {
+    "model": "thankyougorgeousapi.interest",
+    "pk": 5,
+    "fields": {
+      "created": "2024-09-29T12:00:00Z",
+      "user": 2,
+      "product": 4
+    }
+  },
+  {
+    "model": "thankyougorgeousapi.interest",
+    "pk": 6,
+    "fields": {
+      "created": "2024-09-29T12:00:00Z",
+      "user": 2,
+      "product": 5
+    }
+  }
+]
