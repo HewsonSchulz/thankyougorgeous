@@ -1,7 +1,10 @@
+import json
+from json.decoder import JSONDecodeError
+from django.db import IntegrityError
 from rest_framework import serializers, status
 from rest_framework.viewsets import ViewSet
 from rest_framework.response import Response
-from thankyougorgeousapi.models import Interest, User
+from thankyougorgeousapi.models import Interest, User, Product
 from collections import defaultdict
 from .profile import UserSerializer
 
@@ -65,13 +68,62 @@ class Interests(ViewSet):
             )
 
     def create(self, request):
-        return Response(status=status.HTTP_501_NOT_IMPLEMENTED)  #!
+        req_user = request.auth.user
+        req_product = request.query_params.get('product')
 
-    def update(self, request, pk=None):
-        return Response(status=status.HTTP_501_NOT_IMPLEMENTED)  #!
+        if req_product is None:
+            return Response(
+                {
+                    'valid': False,
+                    'message': 'Missing property: product',
+                },
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+
+        try:
+            try:
+                # product was searched by id
+                req_id = int(req_product)
+                product = Product.objects.get(pk=req_id)
+            except ValueError:
+                # product was searched by label
+                product = Product.objects.get(label__iexact=req_product)
+
+            interest = Interest.objects.create(user=req_user, product=product)
+
+            interest.save()
+
+            return Response(status=status.HTTP_204_NO_CONTENT)
+        except Product.DoesNotExist as ex:
+            return Response(
+                {'valid': False, 'error': ex.args[0]}, status=status.HTTP_404_NOT_FOUND
+            )
+        except IntegrityError as ex:
+            # handle constraint failure
+            if 'UNIQUE constraint failed' in ex.args[0]:
+                # UNIQUE constraint failed
+                return Response(
+                    {
+                        'valid': False,
+                        'message': 'You are already interested in this product',
+                    },
+                    status=status.HTTP_400_BAD_REQUEST,
+                )
+            else:
+                return Response(
+                    {'valid': False, 'error': ex.args[0]},
+                    status=status.HTTP_400_BAD_REQUEST,
+                )
+        except Exception as ex:
+            return Response(
+                {'error': ex.args[0]}, status=status.HTTP_500_INTERNAL_SERVER_ERROR
+            )
 
     def destroy(self, request, pk=None):
         return Response(status=status.HTTP_501_NOT_IMPLEMENTED)  #!
+
+    def update(self, request, pk=None):
+        return Response(status=status.HTTP_405_METHOD_NOT_ALLOWED)
 
 
 class InterestSerializer(serializers.ModelSerializer):

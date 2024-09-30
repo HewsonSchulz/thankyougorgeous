@@ -10,3 +10,10 @@ class Interest(models.Model):
     product = models.ForeignKey(
         'Product', on_delete=models.CASCADE, related_name='interested_users'
     )
+
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(
+                fields=['user', 'product'], name='unique_user_product_interest'
+            )
+        ]

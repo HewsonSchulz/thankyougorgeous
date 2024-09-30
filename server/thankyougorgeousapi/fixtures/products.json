@@ -59,9 +59,9 @@
     "pk": 6,
     "fields": {
       "created": "2024-09-24T12:00:00Z",
-      "label": "Macramé Plant Hanger",
+      "label": "Plant Hanger",
       "price": 18.99,
-      "description": "A macramé plant hanger made from durable cotton cord. Perfect for indoor plant decor.",
+      "description": "A plant hanger made from durable cotton cord. Perfect for indoor plant decor.",
       "categories": [6, 13]
     }
   },

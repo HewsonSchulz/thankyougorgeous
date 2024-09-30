@@ -128,8 +128,7 @@ class Categories(ViewSet):
                 category = Category.objects.get(pk=req_id)
             except ValueError:
                 # category was searched by label
-                req_id = pk
-                category = Category.objects.get(label__iexact=req_id)
+                category = Category.objects.get(label__iexact=pk)
 
             if type(req_body) is not str:
                 # object was submitted
