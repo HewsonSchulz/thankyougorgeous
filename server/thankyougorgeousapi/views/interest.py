@@ -1,7 +1,7 @@
 from rest_framework import serializers, status
 from rest_framework.viewsets import ViewSet
 from rest_framework.response import Response
-from thankyougorgeousapi.models import Interest
+from thankyougorgeousapi.models import Interest, User
 from collections import defaultdict
 from .profile import UserSerializer
 
@@ -12,6 +12,7 @@ class Interests(ViewSet):
             req_user = request.auth.user
 
             if not req_user.is_admin:
+                # get only user's interests
                 interests = Interest.objects.filter(user=req_user)
 
                 user_interests = []
@@ -20,6 +21,7 @@ class Interests(ViewSet):
 
                 return Response(user_interests)
 
+            # get all interests
             interests = Interest.objects.all().select_related('user', 'product')
 
             # organize interests by user, keeping only product labels
@@ -35,7 +37,32 @@ class Interests(ViewSet):
             )
 
     def retrieve(self, request, pk=None):
-        return Response(status=status.HTTP_501_NOT_IMPLEMENTED)  #!
+        try:
+            req_user = request.auth.user
+
+            if not (req_user.is_admin or req_user.id == int(pk)):
+                # user has invalid permission
+                return Response(
+                    {
+                        'message': '''You don't have permission to view that information'''
+                    },
+                    status=status.HTTP_403_FORBIDDEN,
+                )
+
+            user = User.objects.get(pk=pk)
+            interests = Interest.objects.filter(user=user)
+
+            user_interests = []
+            for interest in interests:
+                user_interests.append(interest.product.label)
+
+            return Response(user_interests)
+        except User.DoesNotExist as ex:
+            return Response({'error': ex.args[0]}, status=status.HTTP_404_NOT_FOUND)
+        except Exception as ex:
+            return Response(
+                {'error': ex.args[0]}, status=status.HTTP_500_INTERNAL_SERVER_ERROR
+            )
 
     def create(self, request):
         return Response(status=status.HTTP_501_NOT_IMPLEMENTED)  #!
