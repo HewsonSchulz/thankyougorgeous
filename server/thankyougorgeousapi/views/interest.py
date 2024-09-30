@@ -120,7 +120,39 @@ class Interests(ViewSet):
             )
 
     def destroy(self, request, pk=None):
-        return Response(status=status.HTTP_501_NOT_IMPLEMENTED)  #!
+        req_user = request.auth.user
+
+        if pk is None:
+            return Response(
+                {
+                    'valid': False,
+                    'message': 'Missing property: product',
+                },
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+
+        try:
+            try:
+                # product was searched by id
+                req_id = int(pk)
+                product = Product.objects.get(pk=req_id)
+            except ValueError:
+                # product was searched by label
+                product = Product.objects.get(label__iexact=pk)
+
+            interest = Interest.objects.get(user=req_user, product=product)
+
+            interest.delete()
+
+            return Response(status=status.HTTP_204_NO_CONTENT)
+        except (Product.DoesNotExist, Interest.DoesNotExist) as ex:
+            return Response(
+                {'valid': False, 'error': ex.args[0]}, status=status.HTTP_404_NOT_FOUND
+            )
+        except Exception as ex:
+            return Response(
+                {'error': ex.args[0]}, status=status.HTTP_500_INTERNAL_SERVER_ERROR
+            )
 
     def update(self, request, pk=None):
         return Response(status=status.HTTP_405_METHOD_NOT_ALLOWED)
