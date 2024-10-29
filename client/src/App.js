@@ -5,7 +5,7 @@ export const App = () => {
   const [loggedInUser, setLoggedInUser] = useState(null)
 
   useEffect(() => {
-    const user = localStorage.getItem('BHB_USER')
+    const user = localStorage.getItem('thankyougorgeous_user')
     if (!!user) {
       setLoggedInUser(JSON.parse(user))
     } else {
@@ -13,9 +13,5 @@ export const App = () => {
     }
   }, [])
 
-  return (
-    <>
-      <ApplicationViews loggedInUser={loggedInUser} setLoggedInUser={setLoggedInUser} />
-    </>
-  )
+  return <ApplicationViews loggedInUser={loggedInUser} setLoggedInUser={setLoggedInUser} />
 }

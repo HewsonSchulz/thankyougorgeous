@@ -1,5 +1,3 @@
-// !!!
-
 import { Navigate, useLocation } from 'react-router-dom'
 
 export const AuthorizedRoute = ({ children, loggedInUser, isPublicOnly = false, isAdminOnly = false }) => {
