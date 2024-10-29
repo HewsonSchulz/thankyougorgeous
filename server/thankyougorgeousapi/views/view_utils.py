@@ -3,16 +3,17 @@ import random
 import datetime
 
 
-def calc_missing_props(req_body, missing_props):
+def calc_missing_props(req_body, required_props):
     '''calculates missing request body properties'''
-    missing = [
+    missing_props = [
         prop
-        for prop in missing_props
+        for prop in required_props
         if prop not in req_body or str(req_body[prop]).strip() == ''
     ]
-    if missing:
-        return f'''Missing propert{'y' if len(missing) == 1 else 'ies'}: {', '.join(missing)}'''
-    return None
+    if missing_props:
+        # message = f'''Missing propert{'y' if len(missing_props) == 1 else 'ies'}: {', '.join(missing_props)}'''
+        return ('Missing property(s)', missing_props)
+    return (None, [])
 
 
 def generate_verification_code(length=6):

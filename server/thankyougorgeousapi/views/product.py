@@ -60,13 +60,17 @@ class Products(ViewSet):
                     status=status.HTTP_403_FORBIDDEN,
                 )
 
-            missing_props_msg = calc_missing_props(
+            missing_props_msg, missing_props = calc_missing_props(
                 req_body, ['label', 'price', 'description']
             )
 
             if missing_props_msg:
                 return Response(
-                    {'valid': False, 'message': missing_props_msg},
+                    {
+                        'valid': False,
+                        'message': missing_props_msg,
+                        'missing_props': missing_props,
+                    },
                     status=status.HTTP_400_BAD_REQUEST,
                 )
 

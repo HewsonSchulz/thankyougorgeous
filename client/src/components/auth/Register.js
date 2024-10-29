@@ -1,54 +1,64 @@
-// !!!
-
 import { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { Form, Button, FormFeedback, FormGroup, Input } from 'reactstrap'
-import { registerGuest } from '../../managers/userManager'
-import { saveUser, updateStateObj } from '../../helper'
-import './auth.css'
+import { updateStateObj } from '../../helper'
+import { registerUser } from '../../managers/userManager'
+//! import './auth.css'
 
 export const Register = ({ setLoggedInUser }) => {
-  const [username, setUsername] = useState('')
+  const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
-  const [isInvalid, setIsInvalid] = useState({ username: false, password: false })
-  const [message, setMessage] = useState({ username: '', password: '' })
+  const [passwordConf, setPasswordConf] = useState('')
+  const [isInvalid, setIsInvalid] = useState({ email: false, password: false, passwordConf: false })
+  const [message, setMessage] = useState({ email: '', password: '', passwordConf: '' })
 
   const navigate = useNavigate()
+
+  const resetValidity = (
+    isInvalidObj = { email: false, password: false, passwordConf: false },
+    messageObj = { email: '', password: '', passwordConf: '' }
+  ) => {
+    setIsInvalid(isInvalidObj)
+    setMessage(messageObj)
+  }
 
   const handleSubmit = (e) => {
     e.preventDefault()
 
-    registerGuest({ username, password }).then((tokenData) => {
+    registerUser({ email, password, password_conf: passwordConf }).then((tokenData) => {
       if (tokenData.valid) {
-        saveUser(tokenData, setLoggedInUser)
-        navigate('/')
+        //TODO handle save user
+        // saveUser(tokenData, setLoggedInUser)
+        // navigate('/')
       } else {
-        updateStateObj(setMessage, 'username', '')
-        updateStateObj(setMessage, 'password', '')
+        resetValidity()
 
         switch (tokenData.message) {
-          case 'That username is already in use':
-            updateStateObj(setMessage, 'username', tokenData.message)
-            updateStateObj(setIsInvalid, 'username', true)
+          case 'Missing property(s)':
+            for (const prop of tokenData.missing_props) {
+              if (prop === 'password_conf') {
+                updateStateObj(setMessage, 'passwordConf', 'Please confirm your password')
+                updateStateObj(setIsInvalid, 'passwordConf', true)
+              } else {
+                updateStateObj(setMessage, prop, `Please enter your ${prop}`)
+                updateStateObj(setIsInvalid, prop, true)
+              }
+            }
             break
-          case 'Missing properties: username, password':
-            updateStateObj(setMessage, 'username', 'Please enter a username')
-            updateStateObj(setMessage, 'password', 'Please enter a password')
-            updateStateObj(setIsInvalid, 'username', true)
-            updateStateObj(setIsInvalid, 'password', true)
+          case 'Your password confirmation does not match':
+            updateStateObj(setMessage, 'passwordConf', tokenData.message)
+            updateStateObj(setIsInvalid, 'passwordConf', true)
             break
-          case 'Missing property: username':
-            updateStateObj(setMessage, 'username', 'Please enter a username')
-            updateStateObj(setIsInvalid, 'username', true)
+          case 'That email is already in use':
+            updateStateObj(setMessage, 'email', tokenData.message)
+            updateStateObj(setIsInvalid, 'email', true)
             break
-          case 'Missing property: password':
-            updateStateObj(setMessage, 'password', 'Please enter a password')
-            updateStateObj(setIsInvalid, 'password', true)
-            break
+          //TODO case 'That verification code is expired or incorrect':
           default:
-            updateStateObj(setMessage, 'password', tokenData.message)
-            updateStateObj(setIsInvalid, 'username', true)
-            updateStateObj(setIsInvalid, 'password', true)
+            resetValidity(
+              { email: true, password: true, passwordConf: true },
+              { email: tokenData.message, password: '', passwordConf: '' }
+            )
         }
       }
     })
@@ -63,25 +73,21 @@ export const Register = ({ setLoggedInUser }) => {
             handleSubmit(e)
           }
         }}>
-        <div className='login__header'>
-          <img className='login__header__icon' src='/Turtle/assets/turtle-icon.png' alt='turtle custard flavor' />
-          <img className='login__header__text' src='/Turtle/assets/turtle-title.png' alt='turtle logo' />
-        </div>
         <h1 className='login__title'>Register</h1>
-        <FormGroup id='login__username'>
+        <FormGroup id='login__email'>
           <Input
-            id='login__username-input'
-            type='text'
-            value={username}
-            placeholder='Username'
-            invalid={isInvalid.username}
+            id='login__email-input'
+            type='email'
+            value={email}
+            placeholder='Email'
+            invalid={isInvalid.email}
             autoFocus
             onChange={(e) => {
-              updateStateObj(setIsInvalid, 'username', false)
-              setUsername(e.target.value.replace(/\s+/g, '').toLowerCase())
+              updateStateObj(setIsInvalid, 'email', false)
+              setEmail(e.target.value.replace(/\s+/g, '').toLowerCase())
             }}
           />
-          <FormFeedback>{message.username}</FormFeedback>
+          <FormFeedback>{message.email}</FormFeedback>
         </FormGroup>
 
         <FormGroup id='login__password'>
@@ -97,6 +103,21 @@ export const Register = ({ setLoggedInUser }) => {
             }}
           />
           <FormFeedback>{message.password}</FormFeedback>
+        </FormGroup>
+
+        <FormGroup id='login__password-conf'>
+          <Input
+            id='login__password-conf-input'
+            type='password'
+            value={passwordConf}
+            placeholder='Confirm Password'
+            invalid={isInvalid.passwordConf}
+            onChange={(e) => {
+              updateStateObj(setIsInvalid, 'passwordConf', false)
+              setPasswordConf(e.target.value)
+            }}
+          />
+          <FormFeedback>{message.passwordConf}</FormFeedback>
         </FormGroup>
 
         <Button color='primary' onClick={handleSubmit}>

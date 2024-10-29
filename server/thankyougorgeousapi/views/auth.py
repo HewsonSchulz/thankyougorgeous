@@ -29,12 +29,16 @@ def register_user(request):
                 status=status.HTTP_400_BAD_REQUEST,
             )
 
-        missing_props_msg = calc_missing_props(
+        missing_props_msg, missing_props = calc_missing_props(
             req_body, ['email', 'password', 'password_conf']
         )
         if missing_props_msg:
             return JsonResponse(
-                {'valid': False, 'message': missing_props_msg},
+                {
+                    'valid': False,
+                    'message': missing_props_msg,
+                    'missing_props': missing_props,
+                },
                 status=status.HTTP_400_BAD_REQUEST,
             )
 
@@ -144,10 +148,16 @@ def login_user(request):
                 status=status.HTTP_400_BAD_REQUEST,
             )
 
-        missing_props_msg = calc_missing_props(req_body, ['email', 'password'])
+        missing_props_msg, missing_props = calc_missing_props(
+            req_body, ['email', 'password']
+        )
         if missing_props_msg:
             return JsonResponse(
-                {'valid': False, 'message': missing_props_msg},
+                {
+                    'valid': False,
+                    'message': missing_props_msg,
+                    'missing_props': missing_props,
+                },
                 status=status.HTTP_400_BAD_REQUEST,
             )
 

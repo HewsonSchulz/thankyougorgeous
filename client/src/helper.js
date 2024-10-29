@@ -40,16 +40,18 @@ export const updateStateObj = (setter, key, value) => {
 }
 
 // updates the value of a key within an object stored in local storage
-export const updateLocalObj = (dataObj, setState, storageItem = 'turtle_user') => {
-  const localUser = JSON.parse(localStorage.getItem(storageItem)) || {}
+export const updateLocalObj = (dataObj, setState = null, storageItem = 'thankyougorgeous_user') => {
+  const localObject = JSON.parse(localStorage.getItem(storageItem)) || {}
 
   for (const key in dataObj) {
     if (dataObj.hasOwnProperty(key)) {
-      localUser[key] = dataObj[key]
+      localObject[key] = dataObj[key]
     }
   }
-  localStorage.setItem(storageItem, JSON.stringify(localUser))
-  setState(localUser)
+  localStorage.setItem(storageItem, JSON.stringify(localObject))
+  if (!!setState) {
+    setState(localObject)
+  }
 }
 
 // scroll to top of page

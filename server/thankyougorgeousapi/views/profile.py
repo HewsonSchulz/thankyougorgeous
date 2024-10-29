@@ -105,12 +105,16 @@ class Profile(ViewSet):
                         status=status.HTTP_400_BAD_REQUEST,
                     )
 
-                missing_props_msg = calc_missing_props(
+                missing_props_msg, missing_props = calc_missing_props(
                     req_body, ['password_conf', 'old_password']
                 )
                 if missing_props_msg:
                     return Response(
-                        {'valid': False, 'message': missing_props_msg},
+                        {
+                            'valid': False,
+                            'message': missing_props_msg,
+                            'missing_props': missing_props,
+                        },
                         status=status.HTTP_400_BAD_REQUEST,
                     )
 

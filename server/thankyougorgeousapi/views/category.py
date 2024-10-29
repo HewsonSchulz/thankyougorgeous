@@ -59,11 +59,17 @@ class Categories(ViewSet):
 
             if type(req_body) is not str:
                 # object was submitted
-                missing_props_msg = calc_missing_props(req_body, ['label'])
+                missing_props_msg, missing_props = calc_missing_props(
+                    req_body, ['label']
+                )
 
                 if missing_props_msg:
                     return Response(
-                        {'valid': False, 'message': missing_props_msg},
+                        {
+                            'valid': False,
+                            'message': missing_props_msg,
+                            'missing_props': missing_props,
+                        },
                         status=status.HTTP_400_BAD_REQUEST,
                     )
 
@@ -132,11 +138,17 @@ class Categories(ViewSet):
 
             if type(req_body) is not str:
                 # object was submitted
-                missing_props_msg = calc_missing_props(req_body, ['label'])
+                missing_props_msg, missing_props = calc_missing_props(
+                    req_body, ['label']
+                )
 
                 if missing_props_msg:
                     return Response(
-                        {'valid': False, 'message': missing_props_msg},
+                        {
+                            'valid': False,
+                            'message': missing_props_msg,
+                            'missing_props': missing_props,
+                        },
                         status=status.HTTP_400_BAD_REQUEST,
                     )
 
