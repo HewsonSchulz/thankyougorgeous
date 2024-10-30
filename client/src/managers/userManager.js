@@ -1,10 +1,13 @@
 import { apiUrl, fetchOptions } from '../helper'
 
-export const registerUser = async (user, ver_code = null) => {
-  if (!!ver_code) {
-    return await fetch(`${apiUrl}/register?verification_code=${ver_code}`, fetchOptions('POST', user)).then((res) =>
-      res.json()
-    )
+export const registerUser = async (user, verCode = null) => {
+  const url = verCode ? `${apiUrl}/register?verification_code=${verCode}` : `${apiUrl}/register`
+
+  const res = await fetch(url, fetchOptions('POST', user))
+  const data = await res.json()
+
+  return {
+    ...data,
+    status: res.status,
   }
-  return await fetch(`${apiUrl}/register`, fetchOptions('POST', user)).then((res) => res.json())
 }
