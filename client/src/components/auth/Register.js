@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { Form, Button, FormFeedback, FormGroup, Input } from 'reactstrap'
-import { updateStateObj } from '../../helper'
+import { updateLocalObj, updateStateObj } from '../../helper'
 import { registerUser } from '../../managers/userManager'
 //! import './auth.css'
 
@@ -31,7 +31,9 @@ export const Register = ({ setLoggedInUser }) => {
       if (data.valid) {
         setVerCodeSent(true)
         if (data.status === 201) {
-          //TODO handle create user
+          const { status, valid, ...newUserData } = data
+          updateLocalObj(newUserData, setLoggedInUser)
+          navigate('/')
         }
       } else {
         resetValidity()
@@ -56,7 +58,10 @@ export const Register = ({ setLoggedInUser }) => {
             updateStateObj(setMessage, 'email', data.message)
             updateStateObj(setIsInvalid, 'email', true)
             break
-          //TODO case 'That verification code is expired or incorrect':
+          case 'That verification code is expired or incorrect':
+            updateStateObj(setMessage, 'verCode', data.message)
+            updateStateObj(setIsInvalid, 'verCode', true)
+            break
           default:
             resetValidity(
               { email: true, password: true, passwordConf: true, verCode: true },
@@ -72,7 +77,7 @@ export const Register = ({ setLoggedInUser }) => {
       <Form
         className='login__card'
         onKeyDown={(e) => {
-          if (e.key === 'Enter') {
+          if (e.key === 'Enter' && (!verCodeSent || !!verCode.replace(/\s+/g, ''))) {
             handleSubmit(e)
           }
         }}>
@@ -140,15 +145,21 @@ export const Register = ({ setLoggedInUser }) => {
                 invalid={isInvalid.verCode}
                 onChange={(e) => {
                   updateStateObj(setIsInvalid, 'verCode', false)
-                  setVerCode(e.target.value)
+                  setVerCode(e.target.value.replace(/\s+/g, '').toUpperCase())
                 }}
               />
               <FormFeedback>{message.verCode}</FormFeedback>
             </FormGroup>
 
-            <Button color='primary' onClick={handleSubmit}>
-              Register
-            </Button>
+            {!!verCode.replace(/\s+/g, '') ? (
+              <Button color='primary' onClick={handleSubmit}>
+                Register
+              </Button>
+            ) : (
+              <Button color='primary' disabled>
+                Register
+              </Button>
+            )}
           </>
         )}
       </Form>

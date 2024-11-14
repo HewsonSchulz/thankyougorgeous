@@ -2,9 +2,11 @@
 export const apiUrl = process.env.REACT_APP_API_URL
 
 // generates options for fetch calls
-export const fetchOptions = (method, body) => {
-  const token = JSON.parse(localStorage.getItem('turtle_user'))?.token
-
+export const fetchOptions = (
+  method,
+  body,
+  token = JSON.parse(localStorage.getItem('thankyougorgeous_user'))?.token
+) => {
   const options = {
     method,
   }

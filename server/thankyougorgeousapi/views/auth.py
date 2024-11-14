@@ -10,6 +10,7 @@ from rest_framework import status
 from rest_framework.authtoken.models import Token
 from .view_utils import calc_missing_props, generate_verification_code
 from thankyougorgeousapi.models import User, EmailCode
+from .profile import UserSerializer
 
 
 @csrf_exempt
@@ -113,10 +114,17 @@ This code will expire in 10 minutes.'''
                 # create new token
                 token = Token.objects.create(user=new_user)
 
+                # login user
+                new_user.last_login = timezone.now()
+                new_user.save()
+
                 # TODO: if `new_user.id` is `1`, set `is_admin` to `True` by default
 
+                # serialize user data
+                user_data = UserSerializer(new_user, context={'request': request}).data
+
                 return JsonResponse(
-                    {'valid': True, 'token': token.key, 'id': new_user.id},
+                    {'valid': True, 'token': token.key, **user_data},
                     status=status.HTTP_201_CREATED,
                 )
             else:
@@ -169,7 +177,11 @@ def login_user(request):
             auth_user.save()
 
             token = Token.objects.get(user=auth_user)
-            return JsonResponse({'valid': True, 'token': token.key, 'id': auth_user.id})
+
+            # serialize user data
+            user_data = UserSerializer(auth_user, context={'request': request}).data
+
+            return JsonResponse({'valid': True, 'token': token.key, **user_data})
         else:
             # user does not exist
             return JsonResponse(
