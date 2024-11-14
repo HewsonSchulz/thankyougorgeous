@@ -11,3 +11,7 @@ export const registerUser = async (user, verCode = null) => {
     status: res.status,
   }
 }
+
+export const logInUser = async (user) => {
+  return await fetch(`${apiUrl}/login`, fetchOptions('POST', user)).then((res) => res.json())
+}

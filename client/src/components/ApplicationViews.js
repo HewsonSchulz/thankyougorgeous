@@ -30,14 +30,14 @@ export const ApplicationViews = ({ loggedInUser, setLoggedInUser }) => {
         }
       />
 
-      {/* <Route
-          path='/login'
-          element={
-            <AuthorizedRoute loggedInUser={loggedInUser} isPublicOnly={true}>
-              <Login setLoggedInUser={setLoggedInUser} />
-            </AuthorizedRoute>
-          }
-        /> */}
+      <Route
+        path='/login'
+        element={
+          <AuthorizedRoute loggedInUser={loggedInUser} isPublicOnly={true}>
+            <Login setLoggedInUser={setLoggedInUser} />
+          </AuthorizedRoute>
+        }
+      />
     </Routes>
   )
 }

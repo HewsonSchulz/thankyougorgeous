@@ -2,7 +2,7 @@ import { Link, useLocation } from 'react-router-dom'
 import { useNavigate } from 'react-router-dom'
 import './NavBar.css'
 
-export const NavBar = ({ loggedInUser }) => {
+export const NavBar = ({ loggedInUser, setLoggedInUser }) => {
   const navigate = useNavigate()
   const url = useLocation().pathname
 
@@ -31,9 +31,11 @@ export const NavBar = ({ loggedInUser }) => {
             <Link
               to=''
               onClick={() => {
-                //TODO confirm logout
-                localStorage.removeItem('thankyougorgeous_user')
-                navigate('/', { replace: true })
+                if (window.confirm('Logout now?')) {
+                  localStorage.removeItem('thankyougorgeous_user')
+                  setLoggedInUser(null)
+                  navigate('/', { replace: true })
+                }
               }}
               className='navbar-link'>
               Logout
