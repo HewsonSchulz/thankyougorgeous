@@ -3,6 +3,7 @@ import { AuthorizedRoute } from './auth/AuthorizedRoute'
 import { NavBar } from './nav/NavBar'
 import { Register } from './auth/Register'
 import { Login } from './auth/Login'
+import { ProductList } from './products/ProductList'
 export const ApplicationViews = ({ loggedInUser, setLoggedInUser }) => {
   return (
     <Routes>
@@ -16,7 +17,7 @@ export const ApplicationViews = ({ loggedInUser, setLoggedInUser }) => {
             </div>
           </>
         }>
-        <Route index element={<>!AppViews</>} />
+        <Route index element={<ProductList loggedInUser={loggedInUser} />} />
       </Route>
 
       <Route path='*' element={<Navigate to={'/'} replace />} />
