@@ -4,11 +4,23 @@ from django.db import IntegrityError
 from rest_framework import serializers, status
 from rest_framework.viewsets import ViewSet
 from rest_framework.response import Response
+from rest_framework.authentication import TokenAuthentication
+from rest_framework.permissions import IsAuthenticated, AllowAny
 from thankyougorgeousapi.models import Product, Category
 from .view_utils import calc_missing_props, update_object_attributes
 
 
 class Products(ViewSet):
+    authentication_classes = [TokenAuthentication]
+
+    def get_permissions(self):
+        # allows certain views (`list` and `retrieve`) to be accessed by anyone
+        if self.action in ['list', 'retrieve']:
+            permission_classes = [AllowAny]
+        else:
+            permission_classes = [IsAuthenticated]
+        return [permission() for permission in permission_classes]
+
     def list(self, request):
         try:
             return Response(
