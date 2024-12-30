@@ -7,7 +7,8 @@
       "label": "Wooden Watch",
       "price": 120.5,
       "description": "A handcrafted wooden watch with eco-friendly materials. Unique design with a leather strap.",
-      "categories": [1, 12]
+      "categories": [1, 12],
+      "quantity": 10
     }
   },
   {
@@ -18,7 +19,8 @@
       "label": "Printed T-Shirt",
       "price": 25.99,
       "description": "A cotton t-shirt with custom designs printed in eco-friendly ink. Available in multiple sizes and colors.",
-      "categories": [2]
+      "categories": [2],
+      "quantity": 1
     }
   },
   {
@@ -29,7 +31,8 @@
       "label": "Leather Purse",
       "price": 75.0,
       "description": "A stylish, handmade leather purse with intricate stitching and premium materials.",
-      "categories": [3, 12, 14]
+      "categories": [3, 12, 14],
+      "quantity": 0
     }
   },
   {
@@ -40,7 +43,8 @@
       "label": "Wool Scarf",
       "price": 30.0,
       "description": "A cozy, handwoven scarf made from 100% wool. Perfect for cold weather, available in various colors.",
-      "categories": [4]
+      "categories": [4],
+      "quantity": 4
     }
   },
   {
@@ -51,7 +55,8 @@
       "label": "Ceramic Mug",
       "price": 15.5,
       "description": "A handmade ceramic mug with personalized engraving. Available in various colors and sizes.",
-      "categories": [5, 20]
+      "categories": [5, 20],
+      "quantity": 1
     }
   },
   {
@@ -62,7 +67,8 @@
       "label": "Plant Hanger",
       "price": 18.99,
       "description": "A plant hanger made from durable cotton cord. Perfect for indoor plant decor.",
-      "categories": [6, 13]
+      "categories": [6, 13],
+      "quantity": 0
     }
   },
   {
@@ -73,7 +79,8 @@
       "label": "Wooden Earrings",
       "price": 22.75,
       "description": "Lightweight wooden earrings made by hand. A perfect accessory for any occasion.",
-      "categories": [7, 11, 12]
+      "categories": [7, 11, 12],
+      "quantity": 0
     }
   },
   {
@@ -84,7 +91,8 @@
       "label": "Embroidered Tote Bag",
       "price": 40.0,
       "description": "A durable canvas tote bag with intricate hand-embroidery. Eco-friendly and stylish.",
-      "categories": [8, 15, 17]
+      "categories": [8, 15, 17],
+      "quantity": 23
     }
   },
   {
@@ -95,7 +103,8 @@
       "label": "Painted Wooden Box",
       "price": 28.0,
       "description": "A small wooden box hand-painted with colorful designs. Great for storing jewelry or keepsakes.",
-      "categories": [9, 15]
+      "categories": [9, 15],
+      "quantity": 2
     }
   },
   {
@@ -106,7 +115,8 @@
       "label": "Beaded Bracelet",
       "price": 19.99,
       "description": "A delicate bracelet made with carefully selected beads. Handcrafted with precision and care.",
-      "categories": [10, 11, 12]
+      "categories": [10, 11, 12],
+      "quantity": 9
     }
   }
 ]

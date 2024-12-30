@@ -9,6 +9,7 @@ class Product(models.Model):
     price = models.FloatField()
     description = models.TextField()
     categories = models.ManyToManyField('Category', related_name='products')
+    quantity = models.IntegerField()
     # TODO: image = models.ImageField()
 
     class Meta:

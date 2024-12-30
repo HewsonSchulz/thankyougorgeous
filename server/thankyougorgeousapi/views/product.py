@@ -61,7 +61,7 @@ class Products(ViewSet):
                 )
 
             missing_props_msg, missing_props = calc_missing_props(
-                req_body, ['label', 'price', 'description']
+                req_body, ['label', 'price', 'description', 'quantity']
             )
 
             if missing_props_msg:
@@ -85,6 +85,7 @@ class Products(ViewSet):
             new_product = Product.objects.create(
                 label=req_body['label'].strip(),
                 price=req_body['price'],
+                quantity=req_body['quantity'],
                 description=req_body['description'].strip(),
             )
 
@@ -149,7 +150,13 @@ class Products(ViewSet):
             product = Product.objects.get(pk=pk)
 
             # update product
-            writable_fields = ['label', 'price', 'description', 'categories']
+            writable_fields = [
+                'label',
+                'price',
+                'description',
+                'quantity',
+                'categories',
+            ]
             update_object_attributes(
                 product,
                 {
@@ -233,7 +240,15 @@ class ProductSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Product
-        fields = ['id', 'created', 'label', 'price', 'description', 'categories']
+        fields = [
+            'id',
+            'created',
+            'label',
+            'price',
+            'description',
+            'quantity',
+            'categories',
+        ]
 
     def get_categories(self, obj):
         return [category.label for category in obj.categories.all()]
