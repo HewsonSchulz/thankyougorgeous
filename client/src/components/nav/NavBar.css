@@ -1,11 +1,8 @@
 .navbar {
   display: flex;
   flex-wrap: nowrap;
-  /* margin: 0; */
   width: 100%;
-  /* padding: 0.5rem; */
   position: fixed;
-  /* top: 0; */
 }
 
 .navbar-item {

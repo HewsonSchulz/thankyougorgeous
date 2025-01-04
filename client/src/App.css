@@ -62,3 +62,8 @@ input:focus {
   font-style: normal;
   font-size: 200%;
 }
+
+.title {
+  text-align: center;
+  font-size: 350%;
+}

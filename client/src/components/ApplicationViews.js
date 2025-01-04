@@ -20,7 +20,15 @@ export const ApplicationViews = ({ loggedInUser, setLoggedInUser }) => {
             </div>
           </>
         }>
-        <Route index element={<ProductList loggedInUser={loggedInUser} />} />
+        <Route
+          index
+          element={
+            <>
+              <div className='title tang-b'>ThankyouGorgeous</div>
+              <ProductList loggedInUser={loggedInUser} />
+            </>
+          }
+        />
 
         {/* <Route path='details'>
           <Route
