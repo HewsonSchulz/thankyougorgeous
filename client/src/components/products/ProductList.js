@@ -24,15 +24,9 @@ export const ProductList = ({ loggedInUser }) => {
   }, [])
 
   useEffect(() => {
-    // trigger refetch when user logs in
-    if (loggedInUser) {
-      refetch()
-    }
+    // trigger refetch when user logs in/out
+    refetch()
   }, [loggedInUser, refetch])
-
-  if (!loggedInUser) {
-    return
-  }
 
   if (isLoading) {
     return <div className='loading'>Loading...</div>
@@ -44,6 +38,7 @@ export const ProductList = ({ loggedInUser }) => {
         <ul key={product.id} className={'product'}>
           <div>{product.label}</div>
           <div>${product.price}</div>
+          <div>{product.quantity}</div>
           <div>{product.description}</div>
         </ul>
       ))}
