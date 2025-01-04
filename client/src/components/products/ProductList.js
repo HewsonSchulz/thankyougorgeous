@@ -33,13 +33,17 @@ export const ProductList = ({ loggedInUser }) => {
   }
 
   return (
-    <div className='products-list'>
+    <div className='product-list'>
       {products?.map((product) => (
-        <ul key={product.id} className={'product'}>
-          <div>{product.label}</div>
-          <div>${product.price}</div>
-          <div>{product.quantity}</div>
-          <div>{product.description}</div>
+        <ul key={product.id} className='product'>
+          <img className='product__image' src={`/assets/placeholder.jpg`} alt={'product'} />
+          {/*//TODO <div>{product.image}</div> */}
+          <div className='product-info'>
+            <div className='product__item product__label tang-b'>{product.label}</div>
+            <div className='product__item product__price'>${product.price}</div>
+            {/* <div className='product__item product__quantity'>{product.quantity}</div> */}
+            <div className='product__item product__desc'>{product.description}</div>
+          </div>
         </ul>
       ))}
     </div>

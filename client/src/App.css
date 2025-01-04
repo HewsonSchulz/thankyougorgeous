@@ -23,6 +23,7 @@
 body {
   font-family: sans-serif;
   background-color: var(--appBackground);
+  overflow-x: hidden;
 }
 
 /* .app-container {
@@ -44,4 +45,20 @@ a:visited {
 /* prevents all the inputs in the app from having that blue outline when in focus */
 input:focus {
   outline: none;
+}
+
+.tangerine-regular,
+.tang {
+  font-family: 'Tangerine', serif;
+  font-weight: 400;
+  font-style: normal;
+  font-size: 200%;
+}
+
+.tangerine-bold,
+.tang-b {
+  font-family: 'Tangerine', serif;
+  font-weight: 700;
+  font-style: normal;
+  font-size: 200%;
 }
