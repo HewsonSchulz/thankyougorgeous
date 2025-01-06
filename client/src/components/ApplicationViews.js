@@ -24,7 +24,7 @@ export const ApplicationViews = ({ loggedInUser, setLoggedInUser }) => {
           index
           element={
             <>
-              <div className='title tang-b'>ThankyouGorgeous</div>
+              <div className='title tang-b gold2'>ThankyouGorgeous</div>
               <ProductList loggedInUser={loggedInUser} />
             </>
           }

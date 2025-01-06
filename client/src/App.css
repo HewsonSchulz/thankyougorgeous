@@ -1,6 +1,6 @@
 /** COLOR PALETTE **/
 :root {
-  --primary: #132e74;
+  /* --primary: #132e74;
   --primary-dark: #0e193b;
   --primary-hover: #0f204f;
   --primary-light: #183d9b;
@@ -15,15 +15,18 @@
   --gray: lightgray;
   --dark-gray: rgb(80, 80, 80);
 
-  --outline: lightgray;
+  --outline: lightgray; */
 
-  --appBackground: white;
+  --pink: #ead1d0;
 }
 
 body {
   font-family: sans-serif;
   background-color: var(--appBackground);
   overflow-x: hidden;
+  background-color: var(--pink);
+  margin-top: 90px;
+  /* color: #cdac83; */
 }
 
 /* .app-container {
@@ -61,6 +64,26 @@ input:focus {
   font-weight: 700;
   font-style: normal;
   font-size: 200%;
+}
+
+.gold,
+.gold1 {
+  text-align: center;
+  font-weight: 700;
+  background: url(assets/gold1.jpg) center center / cover;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  filter: drop-shadow(1px 1px 0px rgba(0, 0, 0, 0.8));
+}
+.gold2 {
+  text-align: center;
+  font-weight: 700;
+  background: url(assets/gold2.jpg) center center / cover;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  filter: drop-shadow(1px 1px 0px rgba(0, 0, 0, 0.8));
 }
 
 .title {

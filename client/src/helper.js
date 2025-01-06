@@ -56,7 +56,12 @@ export const updateLocalObj = (dataObj, setState = null, storageItem = 'thankyou
   }
 }
 
-// scroll to top of page
+// scrolls to top of page
 export const scrollToTop = () => {
   window.scrollTo(0, 0)
+}
+
+// generates random number from low to high
+export const getRandom = (low, high, dec = 0) => {
+  return parseFloat((low + Math.random() * (high - low)).toFixed(dec))
 }

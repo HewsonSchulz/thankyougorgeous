@@ -1,14 +1,28 @@
+.navbar,
+.navbar-img {
+  width: 100%;
+  position: fixed !important;
+  top: 0;
+  z-index: 1000;
+}
+
 .navbar {
   display: flex;
   flex-wrap: nowrap;
-  width: 100%;
-  position: fixed;
+  color: white;
+}
+
+.navbar-img {
+  margin-left: calc((-1) * 8vw);
+  margin-top: calc((-1) * 3vh);
+  width: 120%;
 }
 
 .navbar-item {
   flex-basis: 20%;
   list-style-type: none;
   text-align: center;
+  text-shadow: 2px 2px 3px rgba(0, 0, 0, 1);
 }
 
 .navbar-link {
