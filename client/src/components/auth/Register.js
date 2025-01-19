@@ -3,6 +3,7 @@ import { Link, useNavigate } from 'react-router-dom'
 import { Form, Button, FormFeedback, FormGroup, Input } from 'reactstrap'
 import { updateLocalObj, updateStateObj } from '../../helper'
 import { registerUser } from '../../managers/userManager'
+import { SubmitButton } from './SubmitButton'
 //! import './auth.css'
 
 export const Register = ({ setLoggedInUser }) => {
@@ -81,7 +82,7 @@ export const Register = ({ setLoggedInUser }) => {
             handleSubmit(e)
           }
         }}>
-        <h1 className='login__title'>Register</h1>
+        <h1 className='login__title'>Please register to continue</h1>
         <FormGroup id='login__email'>
           <Input
             id='login__email-input'
@@ -129,12 +130,12 @@ export const Register = ({ setLoggedInUser }) => {
         </FormGroup>
 
         {!verCodeSent ? (
-          <Button color='primary' onClick={handleSubmit}>
-            Verify Email
-          </Button>
+          <SubmitButton text='Verify Email' onClick={handleSubmit} />
         ) : (
           <>
-            <p>Your email verification code has been sent! Please check your inbox, and enter your 6-digit code.</p>
+            <p className='login__email-ver-p'>
+              Your email verification code has been sent! Please check your inbox, and enter your 6-digit code.
+            </p>
 
             <FormGroup id='login__email-ver'>
               <Input
@@ -152,23 +153,17 @@ export const Register = ({ setLoggedInUser }) => {
             </FormGroup>
 
             {!!verCode.replace(/\s+/g, '') ? (
-              <Button color='primary' onClick={handleSubmit}>
-                Register
-              </Button>
+              <SubmitButton text='Register' onClick={handleSubmit} />
             ) : (
-              <Button color='primary' disabled>
-                Register
-              </Button>
+              <SubmitButton text='Register' />
             )}
           </>
         )}
       </Form>
       <p className='login__register-link'>
-        Already signed up? Log in{' '}
         <Link to='/login' id='auth-link'>
-          here
+          Already signed up? Click here to log in.
         </Link>
-        .
       </p>
     </div>
   )

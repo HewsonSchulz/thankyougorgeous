@@ -58,6 +58,7 @@ export const ApplicationViews = ({ loggedInUser, setLoggedInUser }) => {
         path='/register'
         element={
           <AuthorizedRoute loggedInUser={loggedInUser} isPublicOnly={true}>
+            <div className='title tang-b gold2'>ThankyouGorgeous</div>
             <Register setLoggedInUser={setLoggedInUser} />
           </AuthorizedRoute>
         }
@@ -67,6 +68,7 @@ export const ApplicationViews = ({ loggedInUser, setLoggedInUser }) => {
         path='/login'
         element={
           <AuthorizedRoute loggedInUser={loggedInUser} isPublicOnly={true}>
+            <div className='title tang-b gold2'>ThankyouGorgeous</div>
             <Login setLoggedInUser={setLoggedInUser} />
           </AuthorizedRoute>
         }

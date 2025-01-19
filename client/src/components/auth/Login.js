@@ -3,7 +3,8 @@ import { Link, useNavigate } from 'react-router-dom'
 import { Form, Button, FormFeedback, FormGroup, Input } from 'reactstrap'
 import { updateLocalObj, updateStateObj } from '../../helper'
 import { logInUser } from '../../managers/userManager'
-//! import './auth.css'
+import { SubmitButton } from './SubmitButton'
+import './auth.css'
 
 export const Login = ({ setLoggedInUser }) => {
   const [email, setEmail] = useState('')
@@ -47,15 +48,15 @@ export const Login = ({ setLoggedInUser }) => {
   }
 
   return (
-    <div className='login__container'>
+    <>
       <Form
-        className='login__card'
+        className='login__container'
         onKeyDown={(e) => {
           if (e.key === 'Enter') {
             handleSubmit(e)
           }
         }}>
-        <h1 className='login__title'>Login</h1>
+        <h1 className='login__title'>Please sign in to continue</h1>
         <FormGroup id='login__email'>
           <Input
             id='login__email-input'
@@ -87,17 +88,13 @@ export const Login = ({ setLoggedInUser }) => {
           <FormFeedback>{message.password}</FormFeedback>
         </FormGroup>
 
-        <Button color='primary' onClick={handleSubmit}>
-          Login
-        </Button>
+        <SubmitButton text='Log in' onClick={handleSubmit} />
       </Form>
-      <p className='login__register-link'>
-        Not signed up? Register{' '}
+      <div className='login__register-link'>
         <Link to='/register' id='auth-link'>
-          here
+          Not signed up? Click here to register.
         </Link>
-        .
-      </p>
-    </div>
+      </div>
+    </>
   )
 }
