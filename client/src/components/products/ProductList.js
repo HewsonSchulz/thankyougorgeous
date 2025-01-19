@@ -2,7 +2,7 @@ import { useQuery, useQueryClient } from '@tanstack/react-query'
 import { listProducts } from '../../managers/productManager'
 import { useNavigate } from 'react-router-dom'
 import { useEffect } from 'react'
-import { currency, scrollToTop } from '../../helper'
+import { currency, scrollToTop, truncateText } from '../../helper'
 import './ProductList.css'
 
 export const ProductList = ({ loggedInUser }) => {
@@ -48,7 +48,7 @@ export const ProductList = ({ loggedInUser }) => {
             <div className={`product__item product__label tang-b gold${2 - (product.id % 2)}`}>{product.label}</div>
             <div className='product__item product__price'>{currency(product.price)}</div>
             {/* <div className='product__item product__quantity'>{product.quantity}</div> */}
-            <div className='product__item product__desc'>{product.description}</div>
+            <div className='product__item product__desc'>{truncateText(product.description, 130)}</div>
           </div>
         </ul>
       ))}

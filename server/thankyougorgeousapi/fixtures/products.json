@@ -6,7 +6,7 @@
       "created": "2024-09-24T12:00:00Z",
       "label": "Wooden Watch",
       "price": 120.5,
-      "description": "A handcrafted wooden watch with eco-friendly materials. Unique design with a leather strap.",
+      "description": "Immerse yourself in the perfect fusion of nature and craftsmanship with our signature wooden timepiece. Each watch is meticulously handcrafted from sustainably sourced zebra wood, featuring unique grain patterns that make every piece truly one-of-a-kind. The premium leather strap, aged to perfection using traditional techniques, develops a rich patina over time that tells your personal story. The Japanese quartz movement ensures precise timekeeping, while the scratch-resistant mineral glass face protects your investment for years to come. The watch face, measuring 42mm, strikes the perfect balance between elegance and readability, with luminescent hands that glow softly in low light conditions. Water-resistant up to 3ATM and featuring a butterfly clasp for secure wearing, this masterpiece comes in a handcrafted wooden gift box made from the same wood as your watch.",
       "categories": [1, 12],
       "quantity": 10
     }
@@ -18,7 +18,7 @@
       "created": "2024-09-24T12:00:00Z",
       "label": "Printed T-Shirt",
       "price": 25.99,
-      "description": "A cotton t-shirt with custom designs printed in eco-friendly ink. Available in multiple sizes and colors.",
+      "description": "Express your unique style with our premium cotton t-shirts, where comfort meets creativity. Made from 100% organic cotton with a 180 GSM weight for the perfect balance of durability and breathability. Each design is printed using water-based, OEKO-TEX certified inks that remain vibrant wash after wash while being gentle on both your skin and the environment.",
       "categories": [2],
       "quantity": 1
     }
@@ -30,7 +30,7 @@
       "created": "2024-09-24T12:00:00Z",
       "label": "Leather Purse",
       "price": 75.0,
-      "description": "A stylish, handmade leather purse with intricate stitching and premium materials.",
+      "description": "Elevate your everyday elegance with our artisanal leather purse, a testament to traditional craftsmanship and modern design. Crafted from full-grain Italian leather, each purse undergoes a meticulous 36-step manufacturing process, including hand-stitching with waxed linen thread for unparalleled durability. The interior features our signature burgundy suede lining with three organized compartments, including a padded sleeve for tablets up to 10 inches. The adjustable shoulder strap extends to 52 inches, while the antique brass hardware adds a subtle vintage charm. Each purse comes with a unique serial number and a lifetime warranty against defects in craftsmanship. The leather is sourced from environmentally certified tanneries and will develop a beautiful patina over time, making each piece as unique as its owner. Available in Tuscan Tan, Midnight Black, and Heritage Brown, with custom monogramming options.",
       "categories": [3, 12, 14],
       "quantity": 0
     }
@@ -42,7 +42,7 @@
       "created": "2024-09-24T12:00:00Z",
       "label": "Wool Scarf",
       "price": 30.0,
-      "description": "A cozy, handwoven scarf made from 100% wool. Perfect for cold weather, available in various colors.",
+      "description": "Wrap yourself in luxury with our handwoven wool scarf. Made from premium merino wool sourced from New Zealand farms that prioritize ethical animal treatment. The natural fiber construction provides excellent temperature regulation while remaining incredibly soft against your skin.",
       "categories": [4],
       "quantity": 4
     }
@@ -54,7 +54,7 @@
       "created": "2024-09-24T12:00:00Z",
       "label": "Ceramic Mug",
       "price": 15.5,
-      "description": "A handmade ceramic mug with personalized engraving. Available in various colors and sizes.",
+      "description": "Transform your daily coffee ritual with our handcrafted ceramic mug, where artistry meets functionality. Each piece is wheel-thrown by master potters using locally sourced clay, fired at precise temperatures to achieve the perfect balance of durability and delicate beauty. The ergonomic handle is designed for comfortable grip, while the specially formulated glaze is not only food-safe but also microwave and dishwasher friendly. Choose from our curated palette of six nature-inspired colors, each featuring subtle variations that make every mug unique. The generous 12oz capacity is perfect for your favorite beverages, while the slightly tapered design helps maintain optimal drinking temperature. Available with optional personalized engraving using our vintage letterpress technique.",
       "categories": [5, 20],
       "quantity": 1
     }
@@ -66,7 +66,7 @@
       "created": "2024-09-24T12:00:00Z",
       "label": "Plant Hanger",
       "price": 18.99,
-      "description": "A plant hanger made from durable cotton cord. Perfect for indoor plant decor.",
+      "description": "Add a bohemian touch to your indoor jungle with our macramé plant hanger. Handcrafted from high-quality cotton cord, each piece showcases intricate knotwork patterns that create a stunning interplay of light and shadow. Suitable for pots up to 8 inches in diameter.",
       "categories": [6, 13],
       "quantity": 0
     }
@@ -78,7 +78,7 @@
       "created": "2024-09-24T12:00:00Z",
       "label": "Wooden Earrings",
       "price": 22.75,
-      "description": "Lightweight wooden earrings made by hand. A perfect accessory for any occasion.",
+      "description": "Experience the natural beauty of our wooden earrings, where sustainable fashion meets artistic expression. Each pair is carefully carved from reclaimed exotic hardwoods, featuring stunning grain patterns and natural color variations. The lightweight design ensures comfortable all-day wear, while our special finishing process protects the wood while maintaining its natural warmth and character. These hypoallergenic earrings come with sterling silver findings and are perfect for those with sensitive ears. Every purchase includes a handwoven cotton storage pouch and detailed care instructions to keep your earrings beautiful for years to come.",
       "categories": [7, 11, 12],
       "quantity": 0
     }
@@ -90,7 +90,7 @@
       "created": "2024-09-24T12:00:00Z",
       "label": "Embroidered Tote Bag",
       "price": 40.0,
-      "description": "A durable canvas tote bag with intricate hand-embroidery. Eco-friendly and stylish.",
+      "description": "Carry your essentials in style with our robust canvas tote. Features reinforced handles and a water-resistant finish.",
       "categories": [8, 15, 17],
       "quantity": 23
     }
@@ -102,7 +102,7 @@
       "created": "2024-09-24T12:00:00Z",
       "label": "Painted Wooden Box",
       "price": 28.0,
-      "description": "A small wooden box hand-painted with colorful designs. Great for storing jewelry or keepsakes.",
+      "description": "A masterpiece of artisanal woodworking and decorative painting, each box tells a unique story through its handpainted motifs inspired by global folk art traditions. Crafted from sustainable pine wood and finished with non-toxic paints and sealants, these boxes feature smooth-action brass hinges and a soft velvet lining. The interior includes a removable organizer tray with adjustable compartments, perfect for jewelry, keepsakes, or small treasures. Each box undergoes a thorough seven-step finishing process to ensure lasting beauty and durability, while the hand-painted designs are sealed with multiple layers of clear coat for protection. Dimensions: 8\" x 6\" x 4\", available in three distinctive design collections: Mediterranean Dreams, Nordic Folklore, and Japanese Garden.",
       "categories": [9, 15],
       "quantity": 2
     }
@@ -114,7 +114,7 @@
       "created": "2024-09-24T12:00:00Z",
       "label": "Beaded Bracelet",
       "price": 19.99,
-      "description": "A delicate bracelet made with carefully selected beads. Handcrafted with precision and care.",
+      "description": "Adorn your wrist with our carefully crafted beaded bracelet. Each piece combines semi-precious stones and Czech glass beads, creating a versatile accessory that transitions effortlessly from day to night wear.",
       "categories": [10, 11, 12],
       "quantity": 9
     }

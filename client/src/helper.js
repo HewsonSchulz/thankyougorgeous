@@ -70,3 +70,12 @@ export const getRandom = (low, high, dec = 0) => {
 export const currency = (n) => {
   return n.toLocaleString('en-US', { style: 'currency', currency: 'USD' })
 }
+
+// truncates given text based on length
+export const truncateText = (text, maxLength = 100) => {
+  if (text.length > maxLength) {
+    return text.substring(0, text.lastIndexOf(' ', maxLength)) + '...'
+  }
+
+  return text
+}
