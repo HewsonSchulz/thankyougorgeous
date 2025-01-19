@@ -8,7 +8,7 @@ export const NavBar = ({ loggedInUser, setLoggedInUser }) => {
 
   return (
     <>
-      <img className='navbar-img' src='/assets/navbar3.png' alt='navigation bar'></img>
+      <img className='navbar-img' src='/assets/navbar5.png' alt='navigation bar'></img>
       <ul className='navbar'>
         <li className='navbar-item'>
           <Link to='/' className='navbar-link' id={url === '/' ? 'selected' : ''}>

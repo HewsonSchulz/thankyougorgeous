@@ -65,3 +65,8 @@ export const scrollToTop = () => {
 export const getRandom = (low, high, dec = 0) => {
   return parseFloat((low + Math.random() * (high - low)).toFixed(dec))
 }
+
+// converts given number into currency format
+export const currency = (n) => {
+  return n.toLocaleString('en-US', { style: 'currency', currency: 'USD' })
+}

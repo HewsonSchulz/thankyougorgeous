@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import { ApplicationViews } from './components/ApplicationViews'
 
 export const App = () => {
-  const [loggedInUser, setLoggedInUser] = useState(null)
+  const [loggedInUser, setLoggedInUser] = useState('loading')
 
   useEffect(() => {
     const user = localStorage.getItem('thankyougorgeous_user')

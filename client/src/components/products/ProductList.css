@@ -15,11 +15,18 @@
   gap: 1rem;
 }
 
+.product:hover {
+  background-color: var(--pink-dark);
+}
+
 .product__image {
   width: 100%;
-  /* aspect-ratio: 1; */
+  /* !!! */
+  aspect-ratio: 1;
+  /* !!! */
   object-fit: cover;
   border-radius: 0.5rem;
+  align-self: center;
 }
 
 .product__price {

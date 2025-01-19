@@ -4,6 +4,7 @@ import { NavBar } from './nav/NavBar'
 import { Register } from './auth/Register'
 import { Login } from './auth/Login'
 import { ProductList } from './products/ProductList'
+import { ProductDetails } from './products/ProductsDetails'
 
 export const ApplicationViews = ({ loggedInUser, setLoggedInUser }) => {
   const location = useLocation()
@@ -30,7 +31,7 @@ export const ApplicationViews = ({ loggedInUser, setLoggedInUser }) => {
           }
         />
 
-        {/* <Route path='details'>
+        <Route path='products'>
           <Route
             index
             element={
@@ -48,7 +49,7 @@ export const ApplicationViews = ({ loggedInUser, setLoggedInUser }) => {
               </AuthorizedRoute>
             }
           />
-        </Route> */}
+        </Route>
       </Route>
 
       <Route path='*' element={<Navigate to={'/'} replace />} />
