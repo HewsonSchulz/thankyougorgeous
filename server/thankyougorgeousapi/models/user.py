@@ -19,7 +19,7 @@ class User(AbstractUser):
     # remove unique constraint from username field
     username = models.CharField(max_length=150, unique=False)
 
-    # add relationship to interested products
-    interested_products = models.ManyToManyField(
-        'Product', through='Interest', related_name='interested_by'
-    )
+    #! add relationship to interested products
+    # interested_products = models.ManyToManyField(
+    #     'Product', through='Interest', related_name='interested_by'
+    # )
