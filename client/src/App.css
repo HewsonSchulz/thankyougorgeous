@@ -98,6 +98,16 @@ input:focus {
   cursor: default;
 }
 
+.center-txt {
+  text-align: center;
+}
+.right-txt {
+  text-align: right;
+}
+.bold-txt {
+  font-weight: bold;
+}
+
 @media (max-width: 640px) {
   .title {
     font-size: calc(40vw - 25vw);

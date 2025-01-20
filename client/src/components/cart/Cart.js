@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom'
 import { useEffect, useState } from 'react'
 import { currency, removeFromLocalCart, scrollToTop, truncateText } from '../../helper'
 import { RemoveFromCartButton } from './RemoveFromCartButton'
+import { CheckoutButton } from './CheckoutButton'
 
 export const Cart = ({ loggedInUser }) => {
   const navigate = useNavigate()
@@ -22,6 +23,14 @@ export const Cart = ({ loggedInUser }) => {
     queryKey: ['cartProducts'],
     queryFn: () => listProducts([cart.products]),
   })
+
+  const calcSubtotal = (products) => {
+    let out = 0
+    for (const product of products) {
+      out += product.price
+    }
+    return out
+  }
 
   useEffect(() => {
     const handleResize = () => {
@@ -42,46 +51,70 @@ export const Cart = ({ loggedInUser }) => {
   }, [loggedInUser, refetch])
 
   if (isLoading) {
-    return <div className='loading'>Loading...</div>
+    return <div className='loading center-txt'>Loading...</div>
   }
 
   if (!!products && products.length < 1) {
-    return <p className='loading'>Your cart is currently empty.</p>
+    return <p className='center-txt'>Your cart is currently empty.</p>
   }
 
   return (
-    <div className='product-list'>
-      {products?.map((product) => (
-        // <i key={product.id}>
-        <>
-          <ul
-            key={product.id}
-            className='product'
-            onClick={(e) => {
-              e.preventDefault()
-              navigate(`/products/${product.id}`)
-            }}>
-            <img className='product__image' src={`/assets/placeholder.jpg`} alt={'product'} />
-            {/*//TODO! <div>{product.image}</div> */}
-            <div className='product-info'>
-              <div className={'product__item product__label'}>
-                {product.quantity}x <i className={`tang-b gold${2 - (product.id % 2)}`}>{product.label}</i>
+    <>
+      <div className='cart__txt'>
+        <div>
+          <p>Items:</p>
+          <p>{currency(calcSubtotal(products))}</p>
+        </div>
+        <div>
+          <p>Shipping:</p>
+          <p>{currency(14.99)}</p>
+        </div>
+        <div className='order-total'>
+          <p className='bold-txt'>Order Total:</p>
+          <p className='bold-txt'>{currency(calcSubtotal(products) + 14.99)}</p>
+        </div>
+      </div>
+      {/*//TODO <p className='center-txt'>All orders are shipped US priority mail.</p> */}
+      <div className='checkout-btn-container'>
+        <CheckoutButton
+          onClick={() => {
+            navigate('/order')
+          }}
+        />
+      </div>
+      <div className='product-list'>
+        {products?.map((product) => (
+          // <i key={product.id}>
+          <>
+            <ul
+              key={product.id}
+              className='product'
+              onClick={(e) => {
+                e.preventDefault()
+                navigate(`/products/${product.id}`)
+              }}>
+              <img className='product__image' src={`/assets/placeholder.jpg`} alt={'product'} />
+              {/*//TODO! <div>{product.image}</div> */}
+              <div className='product-info'>
+                <div className={'product__item product__label'}>
+                  {product.quantity}x <i className={`tang-b gold${2 - (product.id % 2)}`}>{product.label}</i>
+                </div>
+                <div className='product__item product__price'>{currency(product.price)}</div>
+                <div className='product__item product__desc'>{truncateText(product.description, truncateLength)}</div>
               </div>
-              <div className='product__item product__price'>{currency(product.price)}</div>
-              <div className='product__item product__desc'>{truncateText(product.description, truncateLength)}</div>
-            </div>
-          </ul>
-          <RemoveFromCartButton
-            onClick={() => {
-              if (window.confirm(`Remove ${product.label} from your cart?`)) {
-                removeFromLocalCart(product.id)
-                refetch()
-                window.location.reload()
-              }
-            }}
-          />
-        </>
-      ))}
-    </div>
+            </ul>
+            <RemoveFromCartButton
+              onClick={() => {
+                if (window.confirm(`Remove ${product.label} from your cart?`)) {
+                  removeFromLocalCart(product.id)
+                  refetch()
+                  window.location.reload()
+                }
+              }}
+            />
+          </>
+        ))}
+      </div>
+    </>
   )
 }
