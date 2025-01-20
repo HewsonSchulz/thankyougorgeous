@@ -28,7 +28,7 @@
   }
 }
 .login__submit-btn:hover {
-  cursor: grab;
+  cursor: pointer;
 }
 
 .login__submit-img {

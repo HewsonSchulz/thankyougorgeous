@@ -1,13 +1,17 @@
-import { useQuery, useQueryClient } from '@tanstack/react-query'
+import { useQuery } from '@tanstack/react-query'
 import { listProducts } from '../../managers/productManager'
 import { useNavigate } from 'react-router-dom'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { currency, scrollToTop, truncateText } from '../../helper'
 import './ProductList.css'
 
 export const ProductList = ({ loggedInUser }) => {
   const navigate = useNavigate()
-  const queryClient = useQueryClient()
+  const getTruncateLength = () => {
+    const vw = Math.max(document.documentElement.clientWidth || 0, window.innerWidth || 0)
+    return vw / 4
+  }
+  const [truncateLength, setTruncateLength] = useState(getTruncateLength())
 
   const {
     data: products,
@@ -16,8 +20,16 @@ export const ProductList = ({ loggedInUser }) => {
   } = useQuery({
     queryKey: ['products'],
     queryFn: listProducts,
-    enabled: false, // disable automatic fetching
   })
+
+  useEffect(() => {
+    const handleResize = () => {
+      setTruncateLength(getTruncateLength())
+    }
+
+    window.addEventListener('resize', handleResize)
+    return () => window.removeEventListener('resize', handleResize)
+  }, [])
 
   useEffect(() => {
     scrollToTop()
@@ -43,12 +55,11 @@ export const ProductList = ({ loggedInUser }) => {
             navigate(`/products/${product.id}`)
           }}>
           <img className='product__image' src={`/assets/placeholder.jpg`} alt={'product'} />
-          {/*//TODO <div>{product.image}</div> */}
+          {/*//TODO! <div>{product.image}</div> */}
           <div className='product-info'>
             <div className={`product__item product__label tang-b gold${2 - (product.id % 2)}`}>{product.label}</div>
             <div className='product__item product__price'>{currency(product.price)}</div>
-            {/* <div className='product__item product__quantity'>{product.quantity}</div> */}
-            <div className='product__item product__desc'>{truncateText(product.description, 130)}</div>
+            <div className='product__item product__desc'>{truncateText(product.description, truncateLength)}</div>
           </div>
         </ul>
       ))}

@@ -89,5 +89,17 @@ input:focus {
 
 .title {
   text-align: center;
-  font-size: 350%;
+  /* font-size: 350%; */
+  font-size: calc(40vw - 30vw);
+}
+
+.title-link:hover,
+.title:hover {
+  cursor: default;
+}
+
+@media (max-width: 640px) {
+  .title {
+    font-size: calc(40vw - 25vw);
+  }
 }

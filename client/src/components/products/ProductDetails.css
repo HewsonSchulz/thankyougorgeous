@@ -39,3 +39,45 @@
   margin: 15px 50px 5px 50px;
   font-size: 120%;
 }
+
+.trash-btn {
+  width: calc(30vw - 15vw);
+  background-color: var(--pink-dark);
+  padding: 5px;
+  border-radius: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 100%;
+  color: white;
+
+  margin-bottom: 10px;
+
+  .spacer {
+    width: 20%;
+  }
+}
+
+.trash-btn:hover {
+  cursor: pointer;
+  color: black;
+  img {
+    filter: invert(0%);
+  }
+}
+
+.trash-btn__img {
+  width: 20%;
+  object-fit: contain;
+  filter: grayscale(100%) invert(100%);
+}
+
+@media (max-width: 640px) {
+  .trash-btn {
+    width: calc(50vw - 10vw);
+  }
+}
+
+.loading {
+  text-align: center;
+}

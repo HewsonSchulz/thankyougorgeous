@@ -62,6 +62,17 @@ export const updateLocalCart = (products) => {
   localStorage.setItem('thankyougorgeous_cart', JSON.stringify({ products: [...localCartObj.products, ...products] }))
 }
 
+// updates product within cart in local storage
+export const removeFromLocalCart = (productId, refetch) => {
+  const localCartObj = JSON.parse(localStorage.getItem('thankyougorgeous_cart')) || { products: [] }
+
+  // filter out all products with given id
+  const updatedProducts = localCartObj.products.filter((id) => id !== productId)
+
+  // update cart
+  localStorage.setItem('thankyougorgeous_cart', JSON.stringify({ products: updatedProducts }))
+}
+
 // scrolls to top of page
 export const scrollToTop = () => {
   window.scrollTo(0, 0)

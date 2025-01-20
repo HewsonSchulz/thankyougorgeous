@@ -8,6 +8,7 @@ from rest_framework.authentication import TokenAuthentication
 from rest_framework.permissions import IsAuthenticated, AllowAny
 from thankyougorgeousapi.models import Product, Category
 from .view_utils import calc_missing_props, update_object_attributes
+from collections import Counter
 
 
 class Products(ViewSet):
@@ -23,6 +24,39 @@ class Products(ViewSet):
 
     def list(self, request):
         try:
+            products_param = request.query_params.get('products', None)
+
+            if products_param:
+                # parse the products parameter
+                try:
+                    product_ids = json.loads(products_param)
+                    if not isinstance(product_ids, list):
+                        raise ValueError('''The 'products' parameter must be a list.''')
+                except (JSONDecodeError, ValueError) as ex:
+                    return Response(
+                        {'error': f'''Invalid 'products' parameter: {ex.args[0]}'''},
+                        status=status.HTTP_400_BAD_REQUEST,
+                    )
+
+                # count occurrences of each product id
+                product_counts = Counter(product_ids)
+
+                # fetch products and include count
+                products = Product.objects.filter(id__in=product_counts.keys())
+                serialized_products = []
+                for product in products:
+                    serialized_data = ProductSerializer(
+                        product, context={'request': request}
+                    ).data
+                    serialized_data['quantity'] = product_counts[product.id]
+                    serialized_data['price'] = (
+                        serialized_data['price'] * product_counts[product.id]
+                    )
+                    serialized_products.append(serialized_data)
+
+                return Response(serialized_products)
+
+            # return all products
             return Response(
                 ProductSerializer(
                     Product.objects.all(), many=True, context={'request': request}
@@ -256,6 +290,7 @@ class ProductSerializer(serializers.ModelSerializer):
             'id',
             'created',
             'label',
+            'quantity',
             'price',
             'description',
             'quantity',

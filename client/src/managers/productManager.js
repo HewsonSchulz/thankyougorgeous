@@ -4,7 +4,10 @@ export const retrieveProduct = async (pk) => {
   return await fetch(`${apiUrl}/products/${pk}`, fetchOptions('GET')).then((res) => res.json())
 }
 
-export const listProducts = async () => {
+export const listProducts = async (products = []) => {
+  if (products.length > 0) {
+    return await fetch(`${apiUrl}/products?products=[${products}]`, fetchOptions('GET')).then((res) => res.json())
+  }
   return await fetch(`${apiUrl}/products`, fetchOptions('GET')).then((res) => res.json())
 }
 

@@ -19,6 +19,7 @@
 
 .product:hover {
   background-color: var(--pink-dark);
+  cursor: pointer;
 }
 
 .product__image {
@@ -46,4 +47,9 @@
 
 .product__desc {
   text-align: justify;
+}
+
+.product__label {
+  text-align: center;
+  font-weight: bold;
 }
