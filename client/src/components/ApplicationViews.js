@@ -7,6 +7,7 @@ import { ProductList } from './products/ProductList'
 import { ProductDetails } from './products/ProductsDetails'
 import { Title } from './Title'
 import { Cart } from './cart/Cart'
+import { Order } from './cart/Order'
 
 export const ApplicationViews = ({ loggedInUser, setLoggedInUser }) => {
   const location = useLocation()
@@ -74,6 +75,14 @@ export const ApplicationViews = ({ loggedInUser, setLoggedInUser }) => {
           element={
             <AuthorizedRoute loggedInUser={loggedInUser}>
               <Cart loggedInUser={loggedInUser} />
+            </AuthorizedRoute>
+          }
+        />
+        <Route
+          path='order'
+          element={
+            <AuthorizedRoute loggedInUser={loggedInUser}>
+              <Order />
             </AuthorizedRoute>
           }
         />

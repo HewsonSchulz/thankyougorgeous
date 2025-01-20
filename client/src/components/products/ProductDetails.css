@@ -118,3 +118,9 @@
   display: flex;
   justify-content: center;
 }
+
+.place-order-btn {
+  /* !!! */
+  font-size: 90%;
+  margin-top: 100px;
+}
