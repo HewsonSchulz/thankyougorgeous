@@ -5,6 +5,7 @@ import { Register } from './auth/Register'
 import { Login } from './auth/Login'
 import { ProductList } from './products/ProductList'
 import { ProductDetails } from './products/ProductsDetails'
+import { Title } from './Title'
 
 export const ApplicationViews = ({ loggedInUser, setLoggedInUser }) => {
   const location = useLocation()
@@ -25,7 +26,7 @@ export const ApplicationViews = ({ loggedInUser, setLoggedInUser }) => {
           index
           element={
             <>
-              <div className='title tang-b gold2'>ThankyouGorgeous</div>
+              <Title />
               <ProductList loggedInUser={loggedInUser} />
             </>
           }
@@ -50,6 +51,24 @@ export const ApplicationViews = ({ loggedInUser, setLoggedInUser }) => {
             }
           />
         </Route>
+
+        <Route path='profile'>
+          <Route
+            index
+            element={
+              <AuthorizedRoute loggedInUser={loggedInUser}>
+                <Navigate to={`/profile/${loggedInUser?.id}`} state={{ from: location }} replace />
+              </AuthorizedRoute>
+            }
+          />
+
+          <Route
+            path=':loggedInUserId'
+            element={<AuthorizedRoute loggedInUser={loggedInUser}>!Profile</AuthorizedRoute>}
+          />
+        </Route>
+
+        <Route path='cart' element={<AuthorizedRoute loggedInUser={loggedInUser}>!Cart</AuthorizedRoute>} />
       </Route>
 
       <Route path='*' element={<Navigate to={'/'} replace />} />
@@ -58,7 +77,7 @@ export const ApplicationViews = ({ loggedInUser, setLoggedInUser }) => {
         path='/register'
         element={
           <AuthorizedRoute loggedInUser={loggedInUser} isPublicOnly={true}>
-            <div className='title tang-b gold2'>ThankyouGorgeous</div>
+            <Title />
             <Register setLoggedInUser={setLoggedInUser} />
           </AuthorizedRoute>
         }
@@ -68,7 +87,7 @@ export const ApplicationViews = ({ loggedInUser, setLoggedInUser }) => {
         path='/login'
         element={
           <AuthorizedRoute loggedInUser={loggedInUser} isPublicOnly={true}>
-            <div className='title tang-b gold2'>ThankyouGorgeous</div>
+            <Title />
             <Login setLoggedInUser={setLoggedInUser} />
           </AuthorizedRoute>
         }
