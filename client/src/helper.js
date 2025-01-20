@@ -41,7 +41,7 @@ export const updateStateObj = (setter, key, value) => {
   }))
 }
 
-// updates the value of a key within an object stored in local storage
+// updates value of a key within an object stored in local storage
 export const updateLocalObj = (dataObj, setState = null, storageItem = 'thankyougorgeous_user') => {
   const localObject = JSON.parse(localStorage.getItem(storageItem)) || {}
 
@@ -54,6 +54,12 @@ export const updateLocalObj = (dataObj, setState = null, storageItem = 'thankyou
   if (!!setState) {
     setState(localObject)
   }
+}
+
+// updates products within cart in local storage
+export const updateLocalCart = (products) => {
+  const localCartObj = JSON.parse(localStorage.getItem('thankyougorgeous_cart')) || { products: [] }
+  localStorage.setItem('thankyougorgeous_cart', JSON.stringify({ products: [...localCartObj.products, ...products] }))
 }
 
 // scrolls to top of page

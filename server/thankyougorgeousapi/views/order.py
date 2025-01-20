@@ -94,7 +94,7 @@ class Orders(ViewSet):
                         return Response(
                             {
                                 'valid': False,
-                                'message': f'''Product '{product.label}' is out of stock''',
+                                'message': f''''{product.label}' is no longer in stock.''',
                             },
                             status=status.HTTP_400_BAD_REQUEST,
                         )

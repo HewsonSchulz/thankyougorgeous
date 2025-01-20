@@ -2,8 +2,9 @@ import { useNavigate, useParams } from 'react-router-dom'
 import { useQuery } from '@tanstack/react-query'
 import { retrieveProduct } from '../../managers/productManager'
 import { useEffect } from 'react'
-import { currency, scrollToTop } from '../../helper'
+import { currency, scrollToTop, updateLocalCart } from '../../helper'
 import './ProductDetails.css'
+import { AddToCartButton } from './AddToCartButton'
 
 export const ProductDetails = ({ loggedInUser }) => {
   const navigate = useNavigate()
@@ -18,6 +19,10 @@ export const ProductDetails = ({ loggedInUser }) => {
     queryFn: () => retrieveProduct(productId),
     enabled: !!productId,
   })
+
+  const addToCart = (product) => {
+    if (window.confirm(`Add ${product.label} to your cart?`)) updateLocalCart([product.id])
+  }
 
   useEffect(() => {
     scrollToTop()
@@ -43,9 +48,15 @@ export const ProductDetails = ({ loggedInUser }) => {
         <div className='product-details__item product-details__price'>{currency(product.price)}</div>
       </div>
       {product.quantity > 0 ? (
-        <div className='product-details__item product-details__quantity'>{product.quantity} left in stock</div>
+        <>
+          <div className='product-details__item product-details__quantity'>{product.quantity} left in stock</div>
+          <AddToCartButton onClick={() => addToCart(product)} />
+        </>
       ) : (
-        <div className='product-details__item product-details__quantity'>OUT OF STOCK</div>
+        <>
+          <div className='product-details__item product-details__quantity'>OUT OF STOCK</div>
+          <AddToCartButton onClick={() => window.alert(`${product.label} is currently out of stock.`)} />
+        </>
       )}
       <div className='product-details__item product-details__desc'>{product.description}</div>
     </ul>
