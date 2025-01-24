@@ -86,6 +86,24 @@ class Orders(ViewSet):
                     status=status.HTTP_400_BAD_REQUEST,
                 )
 
+            # validate payment info has been filled out
+            if not (
+                (
+                    bool(req_user.venmo)
+                    or bool(req_user.cashapp)
+                    or bool(req_user.paypal)
+                )
+                and bool(req_user.address)
+                and bool(req_user.phone_num)
+            ):
+                return Response(
+                    {
+                        'valid': False,
+                        'message': 'User profile is missing property(ies)',
+                    },
+                    status=status.HTTP_400_BAD_REQUEST,
+                )
+
             # check if all products exist and have sufficient quantity
             for product_id in req_body['products']:
                 try:

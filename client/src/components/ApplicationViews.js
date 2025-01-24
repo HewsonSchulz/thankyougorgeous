@@ -87,7 +87,7 @@ export const ApplicationViews = ({ loggedInUser, setLoggedInUser }) => {
           path='order'
           element={
             <AuthorizedRoute loggedInUser={loggedInUser}>
-              <Order />
+              <Order loggedInUser={loggedInUser} />
             </AuthorizedRoute>
           }
         />
