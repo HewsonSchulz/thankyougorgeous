@@ -1,6 +1,6 @@
 import { useQuery } from '@tanstack/react-query'
 import { useParams } from 'react-router-dom'
-import { Button, Form, FormGroup, Input } from 'reactstrap'
+import { Form, FormGroup, Input } from 'reactstrap'
 import { retrieveProfile, updateProfile } from '../../managers/userManager'
 import { useEffect, useState } from 'react'
 import { updateLocalObj, updateStateObj } from '../../helper'

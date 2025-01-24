@@ -5,6 +5,7 @@ import { useEffect, useState } from 'react'
 import { currency, removeFromLocalCart, scrollToTop, truncateText } from '../../helper'
 import { RemoveFromCartButton } from './RemoveFromCartButton'
 import { CheckoutButton } from './CheckoutButton'
+import { retrieveProfile } from '../../managers/userManager'
 
 export const Cart = ({ loggedInUser }) => {
   const navigate = useNavigate()
@@ -22,6 +23,12 @@ export const Cart = ({ loggedInUser }) => {
   } = useQuery({
     queryKey: ['cartProducts'],
     queryFn: () => listProducts([cart.products]),
+  })
+
+  const { data: profile, isLoadingProfile } = useQuery({
+    queryKey: [`profile${loggedInUser.id}`, loggedInUser.id],
+    queryFn: () => retrieveProfile(loggedInUser.id),
+    enabled: !!loggedInUser && loggedInUser !== 'loading',
   })
 
   const calcSubtotal = (products) => {
@@ -78,7 +85,18 @@ export const Cart = ({ loggedInUser }) => {
       <div className='checkout-btn-container'>
         <CheckoutButton
           onClick={() => {
-            navigate('/order')
+            if (!isLoadingProfile) {
+              if (
+                (!!profile.venmo || !!profile.cashapp || !!profile.paypal) &&
+                !!profile.address &&
+                !!profile.phone_num
+              ) {
+                navigate('/order')
+              } else {
+                window.alert('Please finish setting up your profile.')
+                navigate('/profile')
+              }
+            }
           }}
         />
       </div>
