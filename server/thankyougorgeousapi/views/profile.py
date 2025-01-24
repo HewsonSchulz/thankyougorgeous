@@ -145,6 +145,8 @@ class Profile(ViewSet):
                 'last_name',
                 'phone_num',
                 'venmo',
+                'cashapp',
+                'paypal',
                 'address',
                 'password',
             ]
@@ -197,11 +199,15 @@ class UserSerializer(serializers.ModelSerializer):
         fields = [
             'id',
             'email',
+            'first_name',
+            'last_name',
             'full_name',
             'date_joined',
             'last_login',
             'phone_num',
             'venmo',
+            'cashapp',
+            'paypal',
             'address',
         ]
 

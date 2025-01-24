@@ -15,3 +15,14 @@ export const registerUser = async (user, verCode = null) => {
 export const logInUser = async (user) => {
   return await fetch(`${apiUrl}/login`, fetchOptions('POST', user)).then((res) => res.json())
 }
+
+export const retrieveProfile = async (pk = null) => {
+  if (!pk) {
+    return await fetch(`${apiUrl}/profile`, fetchOptions('GET')).then((res) => res.json())
+  }
+  return await fetch(`${apiUrl}/profile/${pk}`, fetchOptions('GET')).then((res) => res.json())
+}
+
+export const updateProfile = async (profile, pk) => {
+  return await fetch(`${apiUrl}/profile/${pk}`, fetchOptions('PUT', profile)).then((res) => res.json())
+}

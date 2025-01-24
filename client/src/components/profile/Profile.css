@@ -1,0 +1,13 @@
+.profile-form {
+  width: 80vw;
+  align-self: center;
+  margin-left: 10vw;
+  margin-top: 100px;
+}
+
+.profile__save-btn {
+  border: none;
+  background-color: var(--pink-dark);
+  padding: 15px;
+  border-radius: 8px;
+}

@@ -7,6 +7,8 @@ class User(AbstractUser):
     is_admin = models.BooleanField(default=False)
     phone_num = models.IntegerField(null=True, blank=True)
     venmo = models.CharField(max_length=255, null=True, blank=True)
+    cashapp = models.CharField(max_length=255, null=True, blank=True)
+    paypal = models.CharField(max_length=255, null=True, blank=True)
     address = models.TextField(null=True, blank=True)
 
     # set email field as unique identifier for authentication
@@ -18,8 +20,3 @@ class User(AbstractUser):
 
     # remove unique constraint from username field
     username = models.CharField(max_length=150, unique=False)
-
-    #! add relationship to interested products
-    # interested_products = models.ManyToManyField(
-    #     'Product', through='Interest', related_name='interested_by'
-    # )
