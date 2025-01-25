@@ -10,7 +10,7 @@ class Product(models.Model):
     description = models.TextField()
     categories = models.ManyToManyField('Category', related_name='products')
     quantity = models.IntegerField()
-    # TODO: image = models.ImageField()
+    image = models.ImageField(upload_to='product_images', null=True, blank=True)
 
     class Meta:
         constraints = [

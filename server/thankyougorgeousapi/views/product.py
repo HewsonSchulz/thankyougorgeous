@@ -1,6 +1,7 @@
 import json
 from json.decoder import JSONDecodeError
 from django.db import IntegrityError
+from django.core.exceptions import RequestDataTooBig
 from rest_framework import serializers, status
 from rest_framework.viewsets import ViewSet
 from rest_framework.response import Response
@@ -84,11 +85,26 @@ class Products(ViewSet):
     def create(self, request):
         try:
             req_body = json.loads(request.body)
-        except JSONDecodeError as ex:
+        except (JSONDecodeError, UnicodeDecodeError):
+            if request.POST:
+
+                # if request is using form-data
+                req_body = request.POST
+                # categories = req_body.getlist('categories[]', None)
+            else:
+                return Response(
+                    {
+                        'valid': False,
+                        'message': 'Your request contains invalid json',
+                        'error': ex.args[0],
+                    },
+                    status=status.HTTP_400_BAD_REQUEST,
+                )
+        except RequestDataTooBig:
             return Response(
                 {
                     'valid': False,
-                    'message': 'Your request contains invalid json',
+                    'message': 'That file is too big, please use a smaller image',
                     'error': ex.args[0],
                 },
                 status=status.HTTP_400_BAD_REQUEST,
@@ -121,6 +137,7 @@ class Products(ViewSet):
                 )
 
             # ensure all specified categories exist
+            #! not implemented for form-data
             categories = []
             if req_body.get('categories'):
                 for category_label in req_body['categories']:
@@ -137,6 +154,11 @@ class Products(ViewSet):
 
             # add categories to product
             new_product.categories.add(*categories)
+
+            # add image
+            if request.FILES.get('image'):
+                new_product.image = request.FILES['image']
+                new_product.save()
 
             return Response(
                 {
