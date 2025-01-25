@@ -60,7 +60,9 @@ class Products(ViewSet):
             # return all products
             return Response(
                 ProductSerializer(
-                    Product.objects.all(), many=True, context={'request': request}
+                    Product.objects.all().order_by('label'),
+                    many=True,
+                    context={'request': request},
                 ).data
             )
         except Exception as ex:
