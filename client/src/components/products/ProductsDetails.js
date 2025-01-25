@@ -43,8 +43,8 @@ export const ProductDetails = ({ loggedInUser }) => {
 
   return (
     <ul key={product.id} className='product-details'>
-      <img className='product-details__image' src={`/assets/placeholder.jpg`} alt={'product'} />
-      {/*//TODO <div>{product.image}</div> */}
+      <img className='product-details__image' src={product.image || '/assets/placeholder.jpg'} alt={'product'} />
+
       {!!loggedInUser && loggedInUser !== 'loading' && loggedInUser.is_admin && (
         <button className='edit-product-btn' onClick={() => navigate(`/products/edit/${productId}`)}>
           Edit Product

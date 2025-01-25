@@ -61,8 +61,7 @@ export const ProductList = ({ loggedInUser }) => {
               e.preventDefault()
               navigate(`/products/${product.id}`)
             }}>
-            <img className='product__image' src={`/assets/placeholder.jpg`} alt={'product'} />
-            {/*//TODO! <div>{product.image}</div> */}
+            <img className='product__image' src={product.image || '/assets/placeholder.jpg'} alt={'product'} />
             <div className='product-info'>
               <div className={`product__item product__label tang-b gold${2 - (product.id % 2)}`}>{product.label}</div>
               <div className='product__item product__price'>{currency(product.price)}</div>

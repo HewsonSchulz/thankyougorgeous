@@ -85,7 +85,7 @@ class Products(ViewSet):
     def create(self, request):
         try:
             req_body = json.loads(request.body)
-        except (JSONDecodeError, UnicodeDecodeError):
+        except (JSONDecodeError, UnicodeDecodeError) as ex:
             if request.POST:
 
                 # if request is using form-data
@@ -100,7 +100,7 @@ class Products(ViewSet):
                     },
                     status=status.HTTP_400_BAD_REQUEST,
                 )
-        except RequestDataTooBig:
+        except RequestDataTooBig as ex:
             return Response(
                 {
                     'valid': False,
@@ -193,11 +193,26 @@ class Products(ViewSet):
     def update(self, request, pk=None):
         try:
             req_body = json.loads(request.body)
-        except JSONDecodeError as ex:
+        except (JSONDecodeError, UnicodeDecodeError) as ex:
+            if request.POST:
+
+                # if request is using form-data
+                req_body = request.POST
+                # categories = req_body.getlist('categories[]', None)
+            else:
+                return Response(
+                    {
+                        'valid': False,
+                        'message': 'Your request contains invalid json',
+                        'error': ex.args[0],
+                    },
+                    status=status.HTTP_400_BAD_REQUEST,
+                )
+        except RequestDataTooBig as ex:
             return Response(
                 {
                     'valid': False,
-                    'message': 'Your request contains invalid json',
+                    'message': 'That file is too big, please use a smaller image',
                     'error': ex.args[0],
                 },
                 status=status.HTTP_400_BAD_REQUEST,
@@ -231,17 +246,22 @@ class Products(ViewSet):
                     field: req_body[field]
                     for field in writable_fields
                     # skip categories
-                    if field in req_body and field is not 'categories'
+                    if field in req_body and field != 'categories'
                 },
             )
 
             # update product's categories
+            #! not implemented for form-data
             categories = []
             if req_body.get('categories'):
                 for category_label in req_body['categories']:
                     category = Category.objects.get(label=category_label.strip())
                     categories.append(category)
                 product.categories.set(categories)
+
+            # handle image upload
+            if request.FILES.get('image'):
+                product.image = request.FILES['image']
 
             product.save()
 
@@ -316,6 +336,7 @@ class ProductSerializer(serializers.ModelSerializer):
             'price',
             'description',
             'quantity',
+            'image',
             'categories',
         ]
 

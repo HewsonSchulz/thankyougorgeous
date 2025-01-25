@@ -6,7 +6,7 @@
   margin-top: 100px;
 
   textarea {
-    height: 30vh;
+    height: 15vh;
   }
 }
 
@@ -15,4 +15,5 @@
   background-color: var(--pink-dark);
   padding: 15px;
   border-radius: 8px;
+  margin-bottom: 20vh;
 }
