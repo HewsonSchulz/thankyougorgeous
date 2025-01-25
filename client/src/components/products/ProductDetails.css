@@ -125,3 +125,11 @@
   font-size: 90%;
   margin-top: 100px;
 }
+
+.edit-product-btn {
+  margin: 20px 10px 10px 10px;
+  border: none;
+  background-color: var(--pink-dark);
+  padding: 15px;
+  border-radius: 8px;
+}

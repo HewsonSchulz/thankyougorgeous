@@ -1,4 +1,4 @@
-import { useNavigate, useParams } from 'react-router-dom'
+import { Navigate, useNavigate, useParams } from 'react-router-dom'
 import { useQuery } from '@tanstack/react-query'
 import { retrieveProduct } from '../../managers/productManager'
 import { useEffect } from 'react'
@@ -7,8 +7,8 @@ import './ProductDetails.css'
 import { AddToCartButton } from './AddToCartButton'
 
 export const ProductDetails = ({ loggedInUser }) => {
-  const navigate = useNavigate()
   const { productId } = useParams()
+  const navigate = useNavigate()
 
   const {
     data: product,
@@ -37,10 +37,19 @@ export const ProductDetails = ({ loggedInUser }) => {
     return <div className='loading'>Loading...</div>
   }
 
+  if (!!product.error || !!product.message) {
+    return <Navigate to='/' replace />
+  }
+
   return (
     <ul key={product.id} className='product-details'>
       <img className='product-details__image' src={`/assets/placeholder.jpg`} alt={'product'} />
       {/*//TODO <div>{product.image}</div> */}
+      {!!loggedInUser && loggedInUser !== 'loading' && loggedInUser.is_admin && (
+        <button className='edit-product-btn' onClick={() => navigate(`/products/edit/${productId}`)}>
+          Edit Product
+        </button>
+      )}
       <div className='product-details-info'>
         <div className={`product-details__item product-details__label tang-b gold${2 - (product.id % 2)}`}>
           {product.label}

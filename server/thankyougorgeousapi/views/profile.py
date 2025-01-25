@@ -209,6 +209,7 @@ class UserSerializer(serializers.ModelSerializer):
             'cashapp',
             'paypal',
             'address',
+            'is_admin',
         ]
 
     def get_full_name(self, user):

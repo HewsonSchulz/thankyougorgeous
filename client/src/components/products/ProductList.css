@@ -53,3 +53,11 @@
   text-align: center;
   font-weight: bold;
 }
+
+.create-product-btn {
+  margin: 20px 0px 10px 15px;
+  border: none;
+  background-color: var(--pink-dark);
+  padding: 15px;
+  border-radius: 8px;
+}

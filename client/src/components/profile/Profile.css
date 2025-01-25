@@ -1,8 +1,13 @@
-.profile-form {
+.profile-form,
+.product-form {
   width: 80vw;
   align-self: center;
   margin-left: 10vw;
   margin-top: 100px;
+
+  textarea {
+    height: 30vh;
+  }
 }
 
 .profile__save-btn {

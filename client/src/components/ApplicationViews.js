@@ -9,6 +9,8 @@ import { Title } from './Title'
 import { Cart } from './cart/Cart'
 import { Order } from './cart/Order'
 import { Profile } from './profile/Profile'
+import { EditProduct } from './products/EditProduct'
+import { NewProduct } from './products/NewProduct'
 
 export const ApplicationViews = ({ loggedInUser, setLoggedInUser }) => {
   const location = useLocation()
@@ -53,7 +55,35 @@ export const ApplicationViews = ({ loggedInUser, setLoggedInUser }) => {
               </AuthorizedRoute>
             }
           />
+
+          <Route path='edit'>
+            <Route
+              index
+              element={
+                <AuthorizedRoute loggedInUser={loggedInUser} isAdminOnly={true}>
+                  <Navigate to={'/newproduct'} state={{ from: location }} replace />
+                </AuthorizedRoute>
+              }
+            />
+            <Route
+              path=':productId'
+              element={
+                <AuthorizedRoute loggedInUser={loggedInUser} isAdminOnly={true}>
+                  <EditProduct loggedInUser={loggedInUser} />
+                </AuthorizedRoute>
+              }
+            />
+          </Route>
         </Route>
+
+        <Route
+          path='newproduct'
+          element={
+            <AuthorizedRoute loggedInUser={loggedInUser} isAdminOnly={true}>
+              <NewProduct loggedInUser={loggedInUser} />
+            </AuthorizedRoute>
+          }
+        />
 
         <Route path='profile'>
           <Route

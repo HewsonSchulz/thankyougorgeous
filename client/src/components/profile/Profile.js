@@ -1,12 +1,16 @@
 import { useQuery } from '@tanstack/react-query'
-import { useParams } from 'react-router-dom'
+import { Navigate, useParams } from 'react-router-dom'
 import { Form, FormGroup, Input } from 'reactstrap'
 import { retrieveProfile, updateProfile } from '../../managers/userManager'
 import { useEffect, useState } from 'react'
 import { updateLocalObj, updateStateObj } from '../../helper'
 import './Profile.css'
 
-const ProfileItem = (profile, setProfile, item, placeholder = item, type = 'text', disabled = false) => {
+const ProfileItem = (loggedInUser, profile, setProfile, item, placeholder = item, type = 'text', disabled = false) => {
+  if (profile.id !== loggedInUser.id) {
+    disabled = true
+  }
+
   if (disabled) {
     return (
       <FormGroup>
@@ -86,16 +90,20 @@ export const Profile = ({ loggedInUser, setLoggedInUser }) => {
     return <div className='loading center-txt'>Loading...</div>
   }
 
+  if (!!profile.error || !!profile.message) {
+    return <Navigate to='/' replace />
+  }
+
   return (
     <Form className='profile-form'>
-      {ProfileItem(profile, null, 'email', 'Email', 'text', true)}
-      {ProfileItem(profile, setProfile, 'first_name', 'First Name')}
-      {ProfileItem(profile, setProfile, 'last_name', 'Last Name')}
-      {ProfileItem(profile, setProfile, 'phone_num', 'Phone Number', 'number')}
-      {ProfileItem(profile, setProfile, 'venmo', 'Venmo')}
-      {ProfileItem(profile, setProfile, 'cashapp', 'Cashapp')}
-      {ProfileItem(profile, setProfile, 'paypal', 'PayPal')}
-      {ProfileItem(profile, setProfile, 'address', 'Address')}
+      {ProfileItem(loggedInUser, profile, null, 'email', 'Email', 'text', true)}
+      {ProfileItem(loggedInUser, profile, setProfile, 'first_name', 'First Name')}
+      {ProfileItem(loggedInUser, profile, setProfile, 'last_name', 'Last Name')}
+      {ProfileItem(loggedInUser, profile, setProfile, 'phone_num', 'Phone Number', 'number')}
+      {ProfileItem(loggedInUser, profile, setProfile, 'venmo', 'Venmo')}
+      {ProfileItem(loggedInUser, profile, setProfile, 'cashapp', 'Cashapp')}
+      {ProfileItem(loggedInUser, profile, setProfile, 'paypal', 'PayPal')}
+      {ProfileItem(loggedInUser, profile, setProfile, 'address', 'Address')}
 
       {isModified ? (
         <button className='profile__save-btn profile__save-btn__enabled' onClick={(e) => handleSaveChanges(e)}>
