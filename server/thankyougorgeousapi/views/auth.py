@@ -76,7 +76,7 @@ def register_user(request):
             # remove outdated verification codes
             EmailCode.objects.clean_up_old_codes()
 
-            subject = 'Verify your email | Thank You Gorgeous'
+            subject = 'Verify your email | ThankyouGorgeous.com'
             message = f'''Your email verification code is {ver_code}.
 
 This code will expire in 10 minutes.'''

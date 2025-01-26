@@ -1,13 +1,18 @@
+import os
 import json
 from json.decoder import JSONDecodeError
+from django.core.mail import send_mail
 from rest_framework import serializers, status
 from rest_framework.viewsets import ViewSet
 from rest_framework.response import Response
 from rest_framework.authentication import TokenAuthentication
 from rest_framework.permissions import IsAuthenticated
 from thankyougorgeousapi.models import Order, Product, OrderProduct
+from collections import Counter
+from decimal import Decimal
 from .product import ProductSerializer
 from .view_utils import calc_missing_props
+from .profile import UserSerializer
 
 
 class Orders(ViewSet):
@@ -127,6 +132,79 @@ class Orders(ViewSet):
 
             # create order
             order = Order.objects.create(user=req_user)
+
+            # generate aggregated product list with quantities and prices
+            product_ids = req_body['products']
+            product_counts = Counter(product_ids)
+
+            # calculate product details and totals
+            subtotal = Decimal(0)
+            product_lines = []
+            for pid, count in product_counts.items():
+                product = Product.objects.get(pk=pid)
+                product_price = Decimal(
+                    str(product.price)
+                )  # convert product price to decimal
+                total_price = product_price * count
+                subtotal += total_price
+                product_lines.append(f'{product.label} x{count} - ${total_price:.2f}')
+
+            # shipping cost
+            shipping_cost = Decimal('14.99')
+            order_total = subtotal + shipping_cost
+
+            # generate email content
+            order_summary = (
+                'Thank you for your order from ThankyouGorgeous.com.\n'
+                f'Your order ID is {order.id}.\n\n'
+                + '\n'.join(product_lines)
+                + f'\n\nSubtotal: ${subtotal:.2f}\n'
+                f'Shipping: ${shipping_cost:.2f}\n\n'
+                f'Order total: ${order_total:.2f}'
+            )
+
+            # send email to applicant
+            send_mail(
+                subject='Order Receipt | ThankyouGorgeous.com',
+                message=order_summary,
+                from_email=os.getenv('EMAIL_HOST_USER'),
+                recipient_list=[req_user.email],
+                fail_silently=False,
+            )
+
+            # generate email content
+            user_data = UserSerializer(req_user, context={'request': request}).data
+
+            order_summary = (
+                f'''{user_data['full_name']} just placed an order.\n\n'''
+                f'Order ID: {order.id}\n'
+                f'''Email: {user_data['email']}\n'''
+                f'''Phone number: {user_data['phone_num']}\n'''
+                f'''Address: {user_data['address']}\n'''
+            )
+            if bool(user_data['venmo']):
+                order_summary += f'''Venmo: {user_data['venmo']}\n'''
+            if bool(user_data['cashapp']):
+                order_summary += f'''Cashapp: {user_data['cashapp']}\n'''
+            if bool(user_data['paypal']):
+                order_summary += f'''PayPal: {user_data['paypal']}\n'''
+
+            order_summary += (
+                f'\nOrder info:\n'
+                + '\n'.join(product_lines)
+                + f'\n\nSubtotal: ${subtotal:.2f}\n'
+                f'Shipping: ${shipping_cost:.2f}\n\n'
+                f'Order total: ${order_total:.2f}'
+            )
+
+            # send email to host
+            send_mail(
+                subject='A new order was placed',
+                message=order_summary,
+                from_email=os.getenv('EMAIL_HOST_USER'),
+                recipient_list=[os.getenv('EMAIL_HOST_USER')],
+                fail_silently=False,
+            )
 
             # add products to order and decrease quantities
             for product_id in req_body['products']:

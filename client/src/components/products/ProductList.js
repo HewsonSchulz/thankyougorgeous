@@ -5,6 +5,8 @@ import { useEffect, useState } from 'react'
 import { currency, scrollToTop, truncateText } from '../../helper'
 import './ProductList.css'
 
+//TODO! make search bar
+
 export const ProductList = ({ loggedInUser }) => {
   const navigate = useNavigate()
   const getTruncateLength = () => {
