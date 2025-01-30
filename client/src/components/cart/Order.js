@@ -1,11 +1,12 @@
 import { Navigate, useNavigate } from 'react-router-dom'
 import { createOrder } from '../../managers/orderManager'
 import { CheckoutButton } from './CheckoutButton'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 
 export const Order = ({ loggedInUser }) => {
   const navigate = useNavigate()
   const cart = JSON.parse(localStorage.getItem('thankyougorgeous_cart')) || { products: [] }
+  const [isDisabled, setIsDisabled] = useState(false)
 
   useEffect(() => {
     if (!!loggedInUser && loggedInUser !== 'loading') {
@@ -30,6 +31,7 @@ export const Order = ({ loggedInUser }) => {
         <CheckoutButton
           text='Place Order'
           onClick={() => {
+            setIsDisabled(true)
             createOrder(cart).then((createdOrder) => {
               if (createdOrder.valid) {
                 localStorage.setItem('thankyougorgeous_cart', JSON.stringify({ products: [] }))
@@ -41,6 +43,7 @@ export const Order = ({ loggedInUser }) => {
               }
             })
           }}
+          disabled={isDisabled}
         />
       </div>
     </>

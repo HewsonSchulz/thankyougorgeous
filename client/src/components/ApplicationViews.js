@@ -5,7 +5,7 @@ import { Register } from './auth/Register'
 import { Login } from './auth/Login'
 import { ProductList } from './products/ProductList'
 import { ProductDetails } from './products/ProductsDetails'
-import { Title } from './Title'
+import { Title, TitleBackdrop } from './Title'
 import { Cart } from './cart/Cart'
 import { Order } from './cart/Order'
 import { Profile } from './profile/Profile'
@@ -20,20 +20,20 @@ export const ApplicationViews = ({ loggedInUser, setLoggedInUser }) => {
       <Route
         path='/'
         element={
-          <>
-            <NavBar loggedInUser={loggedInUser} setLoggedInUser={setLoggedInUser} />
-            <div className='app-container'>
-              <Outlet />
-            </div>
-          </>
+          <div className='app-container'>
+            {/* <NavBar loggedInUser={loggedInUser} setLoggedInUser={setLoggedInUser} /> */}
+            <Outlet />
+          </div>
         }>
         <Route
           index
           element={
-            <>
+            <div className='title-container'>
+              <div className='shipping'>📦 FREE SHIPPING ON ORDERS OVER $75 ✨</div>
               <Title />
-              <ProductList loggedInUser={loggedInUser} />
-            </>
+              <NavBar loggedInUser={loggedInUser} setLoggedInUser={setLoggedInUser} isTitle={true} />
+              <TitleBackdrop />
+            </div>
           }
         />
 
@@ -42,7 +42,8 @@ export const ApplicationViews = ({ loggedInUser, setLoggedInUser }) => {
             index
             element={
               <AuthorizedRoute loggedInUser={loggedInUser}>
-                <Navigate to={'/'} state={{ from: location }} replace />
+                <NavBar loggedInUser={loggedInUser} setLoggedInUser={setLoggedInUser} />
+                <ProductList loggedInUser={loggedInUser} />
               </AuthorizedRoute>
             }
           />
@@ -51,6 +52,7 @@ export const ApplicationViews = ({ loggedInUser, setLoggedInUser }) => {
             path=':productId'
             element={
               <AuthorizedRoute loggedInUser={loggedInUser}>
+                <NavBar loggedInUser={loggedInUser} setLoggedInUser={setLoggedInUser} />
                 <ProductDetails loggedInUser={loggedInUser} />
               </AuthorizedRoute>
             }
@@ -69,6 +71,7 @@ export const ApplicationViews = ({ loggedInUser, setLoggedInUser }) => {
               path=':productId'
               element={
                 <AuthorizedRoute loggedInUser={loggedInUser} isAdminOnly={true}>
+                  <NavBar loggedInUser={loggedInUser} setLoggedInUser={setLoggedInUser} />
                   <EditProduct loggedInUser={loggedInUser} />
                 </AuthorizedRoute>
               }
@@ -80,6 +83,7 @@ export const ApplicationViews = ({ loggedInUser, setLoggedInUser }) => {
           path='newproduct'
           element={
             <AuthorizedRoute loggedInUser={loggedInUser} isAdminOnly={true}>
+              <NavBar loggedInUser={loggedInUser} setLoggedInUser={setLoggedInUser} />
               <NewProduct loggedInUser={loggedInUser} />
             </AuthorizedRoute>
           }
@@ -99,6 +103,7 @@ export const ApplicationViews = ({ loggedInUser, setLoggedInUser }) => {
             path=':loggedInUserId'
             element={
               <AuthorizedRoute loggedInUser={loggedInUser}>
+                <NavBar loggedInUser={loggedInUser} setLoggedInUser={setLoggedInUser} />
                 <Profile loggedInUser={loggedInUser} setLoggedInUser={setLoggedInUser} />
               </AuthorizedRoute>
             }
@@ -109,6 +114,7 @@ export const ApplicationViews = ({ loggedInUser, setLoggedInUser }) => {
           path='cart'
           element={
             <AuthorizedRoute loggedInUser={loggedInUser}>
+              <NavBar loggedInUser={loggedInUser} setLoggedInUser={setLoggedInUser} />
               <Cart loggedInUser={loggedInUser} />
             </AuthorizedRoute>
           }
@@ -117,6 +123,7 @@ export const ApplicationViews = ({ loggedInUser, setLoggedInUser }) => {
           path='order'
           element={
             <AuthorizedRoute loggedInUser={loggedInUser}>
+              <NavBar loggedInUser={loggedInUser} setLoggedInUser={setLoggedInUser} />
               <Order loggedInUser={loggedInUser} />
             </AuthorizedRoute>
           }
