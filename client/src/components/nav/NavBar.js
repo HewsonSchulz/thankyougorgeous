@@ -11,33 +11,41 @@ export const NavBar = ({ loggedInUser, setLoggedInUser, isTitle = false }) => {
       : [
           {
             id: 'home',
-            imgSrc: '/assets/iconHome.png',
-            label: 'Home',
+            label: 'HOME',
             selected: url === '/',
             click: () => navigate('/'),
           },
         ]),
     {
+      id: 'products',
+      label: 'SHOP',
+      selected: url === '/products',
+      click: () => navigate('/products'),
+    },
+    {
       id: 'profile',
-      imgSrc: '/assets/iconProfile.png',
-      label: 'Profile',
+      label: 'PROFILE',
       selected: /^\/profile(\/\d+)?$/.test(url),
       click: () => navigate(`/profile/${loggedInUser?.id}`),
     },
     {
       id: 'cart',
-      imgSrc: '/assets/iconCart.png',
-      label: 'Cart',
+      label: 'CART',
       selected: url === '/cart',
       click: () => navigate('/cart'),
+    },
+    {
+      id: 'about',
+      label: 'ABOUT',
+      selected: url === '/about',
+      click: () => navigate('/about'),
     },
   ]
 
   if (!!loggedInUser) {
     navItems.push({
       id: 'logout',
-      imgSrc: '/assets/iconLogout.png',
-      label: 'Logout',
+      label: 'LOGOUT',
       selected: false,
       click: () => {
         if (window.confirm('Logout now?')) {
@@ -50,8 +58,7 @@ export const NavBar = ({ loggedInUser, setLoggedInUser, isTitle = false }) => {
   } else {
     navItems.push({
       id: 'login',
-      imgSrc: '/assets/iconLogin.png',
-      label: 'Login',
+      label: 'LOGIN',
       selected: url === '/login' || url === '/register',
       click: () => navigate('/login'),
     })
@@ -61,7 +68,7 @@ export const NavBar = ({ loggedInUser, setLoggedInUser, isTitle = false }) => {
     <nav className={`navibar ${isTitle ? '' : 'immovable'}`}>
       {navItems.map(({ id, imgSrc, label, selected, click }) => (
         <div key={id} className={`nav-item ${selected ? 'selected' : ''}`} onClick={() => click()}>
-          <img className={`navibar-${id}`} src={imgSrc} alt={label} />
+          {/* <img className={`navibar-${id}`} src={imgSrc} alt={label} /> */}
           <span className='nav-label'>{label}</span>
         </div>
       ))}

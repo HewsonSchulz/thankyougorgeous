@@ -10,8 +10,7 @@ import './ProductList.css'
 export const ProductList = ({ loggedInUser }) => {
   const navigate = useNavigate()
   const getTruncateLength = () => {
-    const vw = Math.max(document.documentElement.clientWidth || 0, window.innerWidth || 0)
-    return vw / 4
+    return Math.max(document.documentElement.clientWidth || 0, window.innerWidth || 0) / 10 + 30
   }
   const [truncateLength, setTruncateLength] = useState(getTruncateLength())
 
@@ -48,6 +47,7 @@ export const ProductList = ({ loggedInUser }) => {
 
   return (
     <>
+      <div className='product-list-background' />
       {!!loggedInUser && loggedInUser !== 'loading' && loggedInUser.is_admin && (
         <button className='create-product-btn' onClick={() => navigate('/newproduct')}>
           Add Product

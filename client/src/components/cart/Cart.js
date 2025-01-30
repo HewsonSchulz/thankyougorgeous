@@ -3,15 +3,13 @@ import { listProducts } from '../../managers/productManager'
 import { useNavigate } from 'react-router-dom'
 import { useEffect, useState } from 'react'
 import { currency, removeFromLocalCart, scrollToTop, truncateText } from '../../helper'
-import { RemoveFromCartButton } from './RemoveFromCartButton'
 import { CheckoutButton } from './CheckoutButton'
 import { retrieveProfile } from '../../managers/userManager'
 
 export const Cart = ({ loggedInUser }) => {
   const navigate = useNavigate()
   const getTruncateLength = () => {
-    const vw = Math.max(document.documentElement.clientWidth || 0, window.innerWidth || 0)
-    return vw / 4
+    return Math.max(document.documentElement.clientWidth || 0, window.innerWidth || 0) / 10 + 30
   }
   const [truncateLength, setTruncateLength] = useState(getTruncateLength())
   const cart = JSON.parse(localStorage.getItem('thankyougorgeous_cart')) || { products: [] }
@@ -31,12 +29,15 @@ export const Cart = ({ loggedInUser }) => {
     enabled: !!loggedInUser && loggedInUser !== 'loading',
   })
 
-  const calcSubtotal = (products) => {
+  const calcSubtotal = (products, shipping = 12.99) => {
     let out = 0
     for (const product of products) {
       out += product.price
     }
-    return out
+    if (out >= 75.0) {
+      return out
+    }
+    return out + shipping
   }
 
   useEffect(() => {
@@ -62,23 +63,29 @@ export const Cart = ({ loggedInUser }) => {
   }
 
   if (!!products && products.length < 1) {
-    return <p className='center-txt'>Your cart is currently empty.</p>
+    return (
+      <>
+        <div className='cart-background' />
+        <p className='center-txt'>Your cart is currently empty.</p>
+      </>
+    )
   }
 
   return (
     <>
+      <div className='cart-background' />
       <div className='cart__txt'>
         <div>
           <p>Items:</p>
-          <p>{currency(calcSubtotal(products))}</p>
+          <p>{currency(calcSubtotal(products, 0))}</p>
         </div>
         <div>
           <p>Shipping:</p>
-          <p>{currency(14.99)}</p>
+          {calcSubtotal(products, 0) < 75 ? <p>{currency(12.99)}</p> : <p>FREE</p>}
         </div>
         <div className='order-total'>
           <p className='bold-txt'>Order Total:</p>
-          <p className='bold-txt'>{currency(calcSubtotal(products) + 14.99)}</p>
+          <p className='bold-txt'>{currency(calcSubtotal(products))}</p>
         </div>
       </div>
       {/*//TODO <p className='center-txt'>All orders are shipped US priority mail.</p> */}
@@ -107,9 +114,12 @@ export const Cart = ({ loggedInUser }) => {
             <ul
               key={product.id}
               className='product'
-              onClick={(e) => {
-                e.preventDefault()
-                navigate(`/products/${product.id}`)
+              onClick={() => {
+                if (window.confirm(`Remove ${product.label} from your cart?`)) {
+                  removeFromLocalCart(product.id)
+                  refetch()
+                  window.location.reload()
+                }
               }}>
               <img className='product__image' src={product.image || '/assets/placeholder.jpg'} alt={'product'} />
 
@@ -121,15 +131,6 @@ export const Cart = ({ loggedInUser }) => {
                 <div className='product__item product__desc'>{truncateText(product.description, truncateLength)}</div>
               </div>
             </ul>
-            <RemoveFromCartButton
-              onClick={() => {
-                if (window.confirm(`Remove ${product.label} from your cart?`)) {
-                  removeFromLocalCart(product.id)
-                  refetch()
-                  window.location.reload()
-                }
-              }}
-            />
           </>
         ))}
       </div>
