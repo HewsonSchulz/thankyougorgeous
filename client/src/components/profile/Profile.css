@@ -10,10 +10,15 @@
   }
 }
 
-.profile__save-btn {
-  border: none;
-  background-color: var(--pink-dark);
+.profile__save-btn,
+.product__save-btn {
+  background-color: var(--pink);
   padding: 15px;
   border-radius: 8px;
   margin-bottom: 20vh;
+  border: white solid 3px;
+}
+
+.product__save-btn {
+  margin: 20px 10px 20vh 10px;
 }

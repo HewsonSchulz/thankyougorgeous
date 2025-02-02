@@ -15,7 +15,7 @@ const ProfileItem = (loggedInUser, profile, setProfile, item, placeholder = item
     return (
       <FormGroup>
         <Input
-          className='profile-form__item profile-form__first-name'
+          className={`profile-form__item profile-form__${item}`}
           type={type}
           value={profile[item]}
           placeholder={placeholder}
@@ -27,7 +27,7 @@ const ProfileItem = (loggedInUser, profile, setProfile, item, placeholder = item
   return (
     <FormGroup>
       <Input
-        className='profile-form__item profile-form__first-name'
+        className={`profile-form__item profile-form__${item}`}
         type={type}
         value={profile[item]}
         placeholder={placeholder}

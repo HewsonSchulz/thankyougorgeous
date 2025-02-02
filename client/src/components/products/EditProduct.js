@@ -9,7 +9,7 @@ const FormItem = (product, setProduct, item, placeholder = item, type = 'text') 
   return (
     <FormGroup>
       <Input
-        className='profile-form__item profile-form__first-name'
+        className={`product-form__item product-form__${item}`}
         type={type}
         value={product[item]}
         placeholder={placeholder}
@@ -109,39 +109,44 @@ export const EditProduct = ({ loggedInUser, setLoggedInUser }) => {
   }
 
   return (
-    <Form className='product-form'>
-      {selectedImageUrl || product.image ? (
-        <img className='product-form__image' src={selectedImageUrl || product.image} alt={'product'} />
-      ) : (
-        <img className='product-form__image' src={'/assets/placeholder.jpg'} alt={'product'} />
-      )}
+    <>
+      <Form className='product-details'>
+        <div className='product-list-background' />
+        {selectedImageUrl || product.image ? (
+          <img className='product-details__image' src={selectedImageUrl || product.image} alt={'product'} />
+        ) : (
+          <img className='product-details__image' src={'/assets/placeholder.jpg'} alt={'product'} />
+        )}
+        <div className='product-form__content'>
+          {FormItem(product, setProduct, 'label', 'Title')}
+          {FormItem(product, setProduct, 'price', 'Price', 'number')}
 
-      {FormItem(product, setProduct, 'label', 'Title')}
-      {FormItem(product, setProduct, 'price', 'Price', 'number')}
+          <FormGroup>
+            <Input
+              type='file'
+              key={imageKey}
+              id='image'
+              accept='image/*'
+              onChange={(e) => setSelectedImage(e.target.files[0])}
+              className='product-form__file-input'
+            />
+          </FormGroup>
 
-      <FormGroup>
-        <Input
-          type='file'
-          key={imageKey}
-          id='image'
-          accept='image/*'
-          onChange={(e) => setSelectedImage(e.target.files[0])}
-          className='product-form__file-input'
-        />
-      </FormGroup>
-
-      {FormItem(product, setProduct, 'description', 'Description', 'textarea')}
-      {FormItem(product, setProduct, 'quantity', 'Quantity', 'number')}
-
-      {isModified ? (
-        <button className='profile__save-btn profile__save-btn__enabled' onClick={(e) => handleSaveChanges(e)}>
-          Save Changes
-        </button>
-      ) : (
-        <button className='profile__save-btn' disabled>
-          Save Changes
-        </button>
-      )}
-    </Form>
+          {FormItem(product, setProduct, 'description', 'Description', 'textarea')}
+          {FormItem(product, setProduct, 'quantity', 'Quantity', 'number')}
+        </div>
+      </Form>
+      <div className='checkout-btn-container'>
+        {isModified ? (
+          <button className='product__save-btn product__save-btn__enabled' onClick={(e) => handleSaveChanges(e)}>
+            Save Changes
+          </button>
+        ) : (
+          <button className='product__save-btn' disabled>
+            Save Changes
+          </button>
+        )}
+      </div>
+    </>
   )
 }

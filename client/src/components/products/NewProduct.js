@@ -3,14 +3,12 @@ import { Form, FormGroup, Input } from 'reactstrap'
 import { useState, useEffect } from 'react'
 import { updateStateObj } from '../../helper'
 import { createProduct } from '../../managers/productManager'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faCircleXmark } from '@fortawesome/free-solid-svg-icons'
 
 const FormItem = (product, setProduct, item, placeholder = item, type = 'text') => {
   return (
     <FormGroup>
       <Input
-        className='profile-form__item profile-form__first-name'
+        className={`product-form__item product-form__${item}`}
         type={type}
         value={product[item]}
         placeholder={placeholder}
@@ -84,33 +82,38 @@ export const NewProduct = ({ loggedInUser, setLoggedInUser }) => {
   }, [selectedImage])
 
   return (
-    <Form className='product-form'>
-      {selectedImageUrl || product.image ? (
-        <img className='product-form__image' src={selectedImageUrl || product.image} alt={'product'} />
-      ) : (
-        <img className='product-form__image' src={'/assets/placeholder.jpg'} alt={'product'} />
-      )}
+    <>
+      <Form className='product-details'>
+        <div className='product-list-background' />
+        {selectedImageUrl || product.image ? (
+          <img className='product-details__image' src={selectedImageUrl || product.image} alt={'product'} />
+        ) : (
+          <img className='product-details__image' src={'/assets/placeholder.jpg'} alt={'product'} />
+        )}
 
-      {FormItem(product, setProduct, 'label', 'Title')}
-      {FormItem(product, setProduct, 'price', 'Price', 'number')}
+        <div className='product-form__content'>
+          {FormItem(product, setProduct, 'label', 'Title')}
+          {FormItem(product, setProduct, 'price', 'Price', 'number')}
 
-      <FormGroup>
-        <Input
-          type='file'
-          key={imageKey}
-          id='image'
-          accept='image/*'
-          onChange={(e) => setSelectedImage(e.target.files[0])}
-          className='product-form__file-input'
-        />
-      </FormGroup>
-
-      {FormItem(product, setProduct, 'description', 'Description', 'textarea')}
-      {FormItem(product, setProduct, 'quantity', 'Quantity', 'number')}
-
-      <button className='profile__save-btn profile__save-btn__enabled' onClick={(e) => handleCreateProduct(e)}>
-        Create Product
-      </button>
-    </Form>
+          <FormGroup>
+            <Input
+              type='file'
+              key={imageKey}
+              id='image'
+              accept='image/*'
+              onChange={(e) => setSelectedImage(e.target.files[0])}
+              className='product-form__file-input'
+            />
+          </FormGroup>
+          {FormItem(product, setProduct, 'description', 'Description', 'textarea')}
+          {FormItem(product, setProduct, 'quantity', 'Quantity', 'number')}
+        </div>
+      </Form>
+      <div className='checkout-btn-container'>
+        <button className='product__save-btn product__save-btn__enabled' onClick={(e) => handleCreateProduct(e)}>
+          Create Product
+        </button>
+      </div>
+    </>
   )
 }
