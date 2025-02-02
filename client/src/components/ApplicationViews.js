@@ -10,6 +10,7 @@ import { Cart } from './cart/Cart'
 import { Profile } from './profile/Profile'
 import { EditProduct } from './products/EditProduct'
 import { NewProduct } from './products/NewProduct'
+import { About } from './about/About'
 
 export const ApplicationViews = ({ loggedInUser, setLoggedInUser }) => {
   const location = useLocation()
@@ -20,7 +21,6 @@ export const ApplicationViews = ({ loggedInUser, setLoggedInUser }) => {
         path='/'
         element={
           <div className='app-container'>
-            {/* <NavBar loggedInUser={loggedInUser} setLoggedInUser={setLoggedInUser} /> */}
             <Outlet />
           </div>
         }>
@@ -118,12 +118,23 @@ export const ApplicationViews = ({ loggedInUser, setLoggedInUser }) => {
             </AuthorizedRoute>
           }
         />
+
         <Route
           path='order'
           element={
             <AuthorizedRoute loggedInUser={loggedInUser}>
               <NavBar loggedInUser={loggedInUser} setLoggedInUser={setLoggedInUser} />
               <Cart loggedInUser={loggedInUser} isOrder={true} />
+            </AuthorizedRoute>
+          }
+        />
+
+        <Route
+          path='about'
+          element={
+            <AuthorizedRoute loggedInUser={loggedInUser}>
+              <NavBar loggedInUser={loggedInUser} setLoggedInUser={setLoggedInUser} />
+              <About />
             </AuthorizedRoute>
           }
         />
