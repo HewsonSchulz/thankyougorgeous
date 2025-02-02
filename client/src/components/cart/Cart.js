@@ -5,8 +5,9 @@ import { useEffect, useState } from 'react'
 import { currency, removeFromLocalCart, scrollToTop, truncateText } from '../../helper'
 import { CheckoutButton } from './CheckoutButton'
 import { retrieveProfile } from '../../managers/userManager'
+import { Order } from './Order'
 
-export const Cart = ({ loggedInUser }) => {
+export const Cart = ({ loggedInUser, isOrder = false }) => {
   const navigate = useNavigate()
   const getTruncateLength = () => {
     return Math.max(document.documentElement.clientWidth || 0, window.innerWidth || 0) / 10 + 30
@@ -61,12 +62,22 @@ export const Cart = ({ loggedInUser }) => {
   if (isLoading) {
     return <div className='loading center-txt'>Loading...</div>
   }
+  if (isOrder) {
+    return (
+      <Order
+        loggedInUser={loggedInUser}
+        itemPrice={calcSubtotal(products, 0)}
+        shipping={calcSubtotal(products, 0) < 75 ? currency(12.99) : <p>FREE</p>}
+        total={calcSubtotal(products)}
+      />
+    )
+  }
 
   if (!!products && products.length < 1) {
     return (
       <>
         <div className='cart-background' />
-        <p className='center-txt'>Your cart is currently empty.</p>
+        <p className='center-txt empty-cart-txt'>Your cart is currently empty.</p>
       </>
     )
   }

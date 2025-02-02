@@ -73,6 +73,10 @@
   z-index: -1;
 }
 
+.order-background {
+  top: 60px;
+}
+
 /* .trash-btn {
   width: calc(30vw - 15vw);
   background-color: var(--pink-dark);
@@ -164,6 +168,12 @@
   font-size: 90%;
   margin-top: 100px;
 }
+.place-order-btn > * {
+  background-color: white;
+}
+.place-order-btn > *:hover {
+  background-color: var(--pink);
+}
 
 .edit-product-btn {
   margin: 20px 10px 20vh 10px;
@@ -171,6 +181,69 @@
   padding: 15px;
   border-radius: 8px;
   border: white solid 3px;
+}
+
+.order__content {
+  display: flex;
+  width: 100%;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+}
+
+.order__content > * {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 50px;
+
+  p {
+    margin-top: 10px;
+    filter: drop-shadow(0px 0px 10px white) drop-shadow(0px 0px 10px white) drop-shadow(0px 0px 5px white);
+  }
+}
+
+.order__qr {
+  width: 300px;
+  height: 300px;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  margin: 0px 70px;
+}
+.order__qr1 {
+  background-image: url('../../assets/QR-Venmo.png');
+}
+.order__qr2 {
+  background-image: url('../../assets/QR-PayPal.png');
+}
+.order__qr3 {
+  background-image: url('../../assets/QR-Cashapp.png');
+}
+
+.order__p {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+
+  p {
+    margin-bottom: 50px;
+    background: white;
+    border-radius: 5px;
+    padding: 20px;
+  }
+}
+
+.order__p > * {
+  display: flex;
+  align-items: center;
+  span {
+    margin-left: 10px;
+  }
+}
+
+.empty-cart-txt {
+  filter: drop-shadow(0px 0px 10px white) drop-shadow(0px 0px 10px white) drop-shadow(0px 0px 5px white);
 }
 
 @media (min-width: 700px) {

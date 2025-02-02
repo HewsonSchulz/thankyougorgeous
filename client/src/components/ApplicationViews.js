@@ -7,7 +7,6 @@ import { ProductList } from './products/ProductList'
 import { ProductDetails } from './products/ProductsDetails'
 import { Title, TitleBackdrop } from './Title'
 import { Cart } from './cart/Cart'
-import { Order } from './cart/Order'
 import { Profile } from './profile/Profile'
 import { EditProduct } from './products/EditProduct'
 import { NewProduct } from './products/NewProduct'
@@ -124,7 +123,7 @@ export const ApplicationViews = ({ loggedInUser, setLoggedInUser }) => {
           element={
             <AuthorizedRoute loggedInUser={loggedInUser}>
               <NavBar loggedInUser={loggedInUser} setLoggedInUser={setLoggedInUser} />
-              <Order loggedInUser={loggedInUser} />
+              <Cart loggedInUser={loggedInUser} isOrder={true} />
             </AuthorizedRoute>
           }
         />
