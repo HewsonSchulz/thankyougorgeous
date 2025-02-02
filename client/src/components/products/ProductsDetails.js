@@ -43,6 +43,7 @@ export const ProductDetails = ({ loggedInUser }) => {
 
   return (
     <ul key={product.id} className='product-details'>
+      <div className='product-list-background' />
       <img className='product-details__image' src={product.image || '/assets/placeholder.jpg'} alt={'product'} />
 
       {!!loggedInUser && loggedInUser !== 'loading' && loggedInUser.is_admin && (
@@ -50,24 +51,26 @@ export const ProductDetails = ({ loggedInUser }) => {
           Edit Product
         </button>
       )}
-      <div className='product-details-info'>
-        <div className={`product-details__item product-details__label tang-b gold${2 - (product.id % 2)}`}>
-          {product.label}
+      <div className='product-details__content'>
+        <div className='product-details-info'>
+          <div className={`product-details__item product-details__label tang-b gold${2 - (product.id % 2)}`}>
+            {product.label}
+          </div>
+          <div className='product-details__item product-details__price'>{currency(product.price)}</div>
         </div>
-        <div className='product-details__item product-details__price'>{currency(product.price)}</div>
+        {product.quantity > 0 ? (
+          <>
+            <div className='product-details__item product-details__quantity'>{product.quantity} left in stock</div>
+            <AddToCartButton onClick={() => addToCart(product)} />
+          </>
+        ) : (
+          <>
+            <div className='product-details__item product-details__quantity'>OUT OF STOCK</div>
+            <AddToCartButton onClick={() => window.alert(`${product.label} is currently out of stock.`)} />
+          </>
+        )}
+        <div className='product-details__item product-details__desc'>{product.description}</div>
       </div>
-      {product.quantity > 0 ? (
-        <>
-          <div className='product-details__item product-details__quantity'>{product.quantity} left in stock</div>
-          <AddToCartButton onClick={() => addToCart(product)} />
-        </>
-      ) : (
-        <>
-          <div className='product-details__item product-details__quantity'>OUT OF STOCK</div>
-          <AddToCartButton onClick={() => window.alert(`${product.label} is currently out of stock.`)} />
-        </>
-      )}
-      <div className='product-details__item product-details__desc'>{product.description}</div>
     </ul>
   )
 }

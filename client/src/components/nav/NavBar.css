@@ -6,7 +6,7 @@
   display: flex;
   align-items: center;
   background-color: var(--pink-light);
-  padding: 0.7rem;
+  padding: 0.7rem 0px;
   justify-content: space-evenly;
   color: var(--rose);
   user-select: none;
@@ -19,7 +19,7 @@
 .nav-item {
   display: flex;
   align-items: center;
-  padding: 0.7rem 1rem;
+  padding: 0.7rem 2px;
   cursor: pointer;
   border-radius: 0.3rem;
   transition: background-color 0.2s ease;

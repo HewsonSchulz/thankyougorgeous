@@ -41,10 +41,10 @@ export const ApplicationViews = ({ loggedInUser, setLoggedInUser }) => {
           <Route
             index
             element={
-              <AuthorizedRoute loggedInUser={loggedInUser}>
+              <>
                 <NavBar loggedInUser={loggedInUser} setLoggedInUser={setLoggedInUser} />
                 <ProductList loggedInUser={loggedInUser} />
-              </AuthorizedRoute>
+              </>
             }
           />
 

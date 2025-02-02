@@ -15,13 +15,14 @@
 }
 
 .login__submit-btn {
-  background-color: var(--pink-dark);
+  background-color: var(--pink);
   padding: 5px;
   border-radius: 10px;
   display: flex;
   justify-content: space-between;
   align-items: center;
   font-size: 160%;
+  max-width: 400px;
 
   .spacer {
     width: 20%;

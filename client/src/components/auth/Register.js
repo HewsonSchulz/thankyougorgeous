@@ -74,9 +74,9 @@ export const Register = ({ setLoggedInUser }) => {
   }
 
   return (
-    <div className='login__container'>
+    <>
       <Form
-        className='login__card'
+        className='login__container'
         onKeyDown={(e) => {
           if (e.key === 'Enter' && (!verCodeSent || !!verCode.replace(/\s+/g, ''))) {
             handleSubmit(e)
@@ -165,6 +165,6 @@ export const Register = ({ setLoggedInUser }) => {
           Already signed up? Click here to log in.
         </Link>
       </p>
-    </div>
+    </>
   )
 }
