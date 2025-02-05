@@ -116,9 +116,12 @@ This code will expire in 10 minutes.'''
 
                 # login user
                 new_user.last_login = timezone.now()
-                new_user.save()
 
-                # TODO: if `new_user.id` is `1`, set `is_admin` to `True` by default
+                # if user is host, add as admin
+                if new_user.email == os.getenv('EMAIL_HOST_USER'):
+                    new_user.is_admin = True
+
+                new_user.save()
 
                 # serialize user data
                 user_data = UserSerializer(new_user, context={'request': request}).data
