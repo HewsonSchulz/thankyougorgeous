@@ -1,5 +1,5 @@
 // URL of the hosted API
-export const apiUrl = 'https://thankyougorgeous-api-4das6.ondigitalocean.app/'
+export const apiUrl = 'https://thankyougorgeous-api-4das6.ondigitalocean.app'
 
 // generates options for fetch calls
 export const fetchOptions = (
