@@ -95,25 +95,28 @@ export const Profile = ({ loggedInUser, setLoggedInUser }) => {
   }
 
   return (
-    <Form className='profile-form'>
-      {ProfileItem(loggedInUser, profile, null, 'email', 'Email', 'text', true)}
-      {ProfileItem(loggedInUser, profile, setProfile, 'first_name', 'First Name')}
-      {ProfileItem(loggedInUser, profile, setProfile, 'last_name', 'Last Name')}
-      {ProfileItem(loggedInUser, profile, setProfile, 'phone_num', 'Phone Number', 'number')}
-      {ProfileItem(loggedInUser, profile, setProfile, 'venmo', 'Venmo')}
-      {ProfileItem(loggedInUser, profile, setProfile, 'cashapp', 'Cashapp')}
-      {ProfileItem(loggedInUser, profile, setProfile, 'paypal', 'PayPal')}
-      {ProfileItem(loggedInUser, profile, setProfile, 'address', 'Address')}
+    <>
+      <div className='cart-background auth-background' />
+      <Form className='profile-form'>
+        {ProfileItem(loggedInUser, profile, null, 'email', 'Email', 'text', true)}
+        {ProfileItem(loggedInUser, profile, setProfile, 'first_name', 'First Name')}
+        {ProfileItem(loggedInUser, profile, setProfile, 'last_name', 'Last Name')}
+        {ProfileItem(loggedInUser, profile, setProfile, 'phone_num', 'Phone Number', 'number')}
+        {ProfileItem(loggedInUser, profile, setProfile, 'venmo', 'Venmo')}
+        {ProfileItem(loggedInUser, profile, setProfile, 'cashapp', 'Cashapp')}
+        {ProfileItem(loggedInUser, profile, setProfile, 'paypal', 'PayPal')}
+        {ProfileItem(loggedInUser, profile, setProfile, 'address', 'Address')}
 
-      {isModified ? (
-        <button className='profile__save-btn profile__save-btn__enabled' onClick={(e) => handleSaveChanges(e)}>
-          Save Changes
-        </button>
-      ) : (
-        <button className='profile__save-btn' disabled>
-          Save Changes
-        </button>
-      )}
-    </Form>
+        {isModified ? (
+          <button className='profile__save-btn profile__save-btn__enabled' onClick={(e) => handleSaveChanges(e)}>
+            Save Changes
+          </button>
+        ) : (
+          <button className='profile__save-btn' disabled>
+            Save Changes
+          </button>
+        )}
+      </Form>
+    </>
   )
 }

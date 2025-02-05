@@ -99,6 +99,7 @@ input:focus {
   text-align: center;
   color: var(--rose);
   font-weight: bold;
+  filter: drop-shadow(0px 0px 5px white) drop-shadow(0px 10px 5px white);
 }
 .subtitle {
   margin-top: 10px;
@@ -169,11 +170,25 @@ input:focus {
   font-weight: bold;
 }
 
+.title__handbag,
+.title__jewelry {
+  height: 206px;
+}
+.title__container {
+  display: flex;
+  width: 100%;
+  justify-content: space-evenly;
+}
+
 @media (max-width: 840px) {
   .title {
     font-size: calc(40vw - 28vw);
   }
   .title-img3 {
     margin-top: 420px;
+  }
+  .title__handbag,
+  .title__jewelry {
+    display: none;
   }
 }

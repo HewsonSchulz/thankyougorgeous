@@ -28,8 +28,12 @@ export const ApplicationViews = ({ loggedInUser, setLoggedInUser }) => {
           index
           element={
             <div className='title-container'>
-              <div className='shipping'>📦 FREE SHIPPING ON ORDERS OVER $75 ✨</div>
-              <Title />
+              <div className='shipping'>📦 FREE SHIPPING ON ORDERS OVER $125 ✨</div>
+              <div className='title__container'>
+                <img className='title__handbag' src='/assets/handbag2.png' alt='handbag' />
+                <Title />
+                <img className='title__jewelry' src='/assets/jewelry.png' alt='jewely' />
+              </div>
               <NavBar loggedInUser={loggedInUser} setLoggedInUser={setLoggedInUser} isTitle={true} />
               <TitleBackdrop />
             </div>

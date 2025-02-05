@@ -35,7 +35,7 @@ export const Cart = ({ loggedInUser, isOrder = false }) => {
     for (const product of products) {
       out += product.price
     }
-    if (out >= 75.0) {
+    if (out >= 125.0) {
       return out
     }
     return out + shipping
@@ -67,7 +67,7 @@ export const Cart = ({ loggedInUser, isOrder = false }) => {
       <Order
         loggedInUser={loggedInUser}
         itemPrice={calcSubtotal(products, 0)}
-        shipping={calcSubtotal(products, 0) < 75 ? currency(12.99) : <p>FREE</p>}
+        shipping={calcSubtotal(products, 0) < 125 ? currency(12.99) : <p>FREE</p>}
         total={calcSubtotal(products)}
       />
     )
@@ -92,7 +92,7 @@ export const Cart = ({ loggedInUser, isOrder = false }) => {
         </div>
         <div>
           <p>Shipping:</p>
-          {calcSubtotal(products, 0) < 75 ? <p>{currency(12.99)}</p> : <p>FREE</p>}
+          {calcSubtotal(products, 0) < 125 ? <p>{currency(12.99)}</p> : <p>FREE</p>}
         </div>
         <div className='order-total'>
           <p className='bold-txt'>Order Total:</p>

@@ -75,6 +75,7 @@ export const Register = ({ setLoggedInUser }) => {
 
   return (
     <>
+      <div className='cart-background auth-background' />
       <Form
         className='login__container'
         onKeyDown={(e) => {
