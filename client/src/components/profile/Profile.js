@@ -117,6 +117,13 @@ export const Profile = ({ loggedInUser, setLoggedInUser }) => {
           </button>
         )}
       </Form>
+      {loggedInUser.is_admin && !!profile && (
+        <div className='user-count-container'>
+          <p className='user-count'>
+            Total users: <i>{profile.user_count}</i>
+          </p>
+        </div>
+      )}
     </>
   )
 }

@@ -31,7 +31,14 @@ class Profile(ViewSet):
         try:
             req_user = request.auth.user
 
-            return Response(UserSerializer(req_user, context={'request': request}).data)
+            user_data = UserSerializer(req_user, context={'request': request}).data
+
+            # if admin, add user count
+            if req_user.is_admin:
+                user_data['user_count'] = User.objects.count()
+
+            return Response(user_data)
+
         except Exception as ex:
             return Response(
                 {'error': ex.args[0]}, status=status.HTTP_500_INTERNAL_SERVER_ERROR
@@ -50,9 +57,15 @@ class Profile(ViewSet):
                     status=status.HTTP_403_FORBIDDEN,
                 )
 
-            user = User.objects.get(pk=pk)
+            user_data = UserSerializer(
+                User.objects.get(pk=pk), context={'request': request}
+            ).data
 
-            return Response(UserSerializer(user, context={'request': request}).data)
+            # if admin, add user count
+            if req_user.is_admin:
+                user_data['user_count'] = User.objects.count()
+
+            return Response(user_data)
 
         except User.DoesNotExist as ex:
             return Response({'error': ex.args[0]}, status=status.HTTP_404_NOT_FOUND)
@@ -161,10 +174,16 @@ class Profile(ViewSet):
 
             user.save()
 
+            user_data = UserSerializer(user, context={'request': request}).data
+
+            # if admin, add user count
+            if req_user.is_admin:
+                user_data['user_count'] = User.objects.count()
+
             return Response(
                 {
                     'valid': True,
-                    **UserSerializer(user, context={'request': request}).data,
+                    **user_data,
                 }
             )
 
@@ -215,5 +234,4 @@ class UserSerializer(serializers.ModelSerializer):
     def get_full_name(self, user):
         if user.first_name or user.last_name:
             return f'{user.first_name} {user.last_name}'.strip()
-
         return user.username
