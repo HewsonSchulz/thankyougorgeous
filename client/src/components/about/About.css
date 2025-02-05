@@ -1,3 +1,6 @@
+.about-container {
+  position: fixed;
+}
 .about {
   width: 100vw;
   height: 100vh;
@@ -22,6 +25,22 @@
   filter: drop-shadow(0px 25px 0px white);
 }
 
+.about__txt {
+  font-size: 30px;
+  line-height: 130%;
+  text-align: center;
+  margin-top: -545px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  p {
+    margin-top: 50px;
+  }
+}
+
 @media (max-width: 840px) {
   .about {
     p {
@@ -32,5 +51,13 @@
   .about__header-img {
     height: 15vh;
     background-image: url('../../assets/about-header2.png');
+  }
+  .about__txt {
+    margin-top: -630px;
+    p {
+      font-size: 5vw;
+      line-height: 120%;
+      margin-top: 20px;
+    }
   }
 }
