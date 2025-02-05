@@ -13,7 +13,7 @@ const root = createRoot(container)
 const queryClient = new QueryClient()
 
 root.render(
-  <HashRouter>
+  <HashRouter basename='/'>
     <QueryClientProvider client={queryClient}>
       <App />
       {/* <ReactQueryDevtools /> */}
