@@ -1,5 +1,5 @@
 // URL of the hosted API
-export const apiUrl = process.env.REACT_APP_API_URL || 'https://TODO.ondigitalocean.app'
+export const apiUrl = process.env.REACT_APP_API_URL || 'https://thankyougorgeous-api-4das6.ondigitalocean.app/'
 
 // generates options for fetch calls
 export const fetchOptions = (
