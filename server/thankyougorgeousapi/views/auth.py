@@ -118,7 +118,7 @@ This code will expire in 10 minutes.'''
                 new_user.last_login = timezone.now()
 
                 # if user is host, add as admin
-                if new_user.email == os.getenv('EMAIL_HOST_USER'):
+                if new_user.email.lower() == os.getenv('EMAIL_HOST_USER').lower():
                     new_user.is_admin = True
 
                 new_user.save()
