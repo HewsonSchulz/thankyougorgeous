@@ -65,7 +65,7 @@ export const NavBar = ({ loggedInUser, setLoggedInUser, isTitle = false }) => {
   }
 
   return (
-    <nav className={`navibar ${isTitle ? '' : 'immovable'}`}>
+    <nav className={`navibar ${isTitle ? 'title-navibar' : 'immovable'}`}>
       {navItems.map(({ id, imgSrc, label, selected, click }) => (
         <div key={id} className={`nav-item ${selected ? 'selected' : ''}`} onClick={() => click()}>
           {/* <img className={`navibar-${id}`} src={imgSrc} alt={label} /> */}

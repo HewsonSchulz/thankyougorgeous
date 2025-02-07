@@ -10,13 +10,5 @@ export const Title = () => {
 }
 
 export const TitleBackdrop = () => {
-  return (
-    <>
-      <div className='title-img' />
-      <div className='title-img2-container'>
-        <div className='title-img2' />
-        <Link to='/products' className='title-img3' />
-      </div>
-    </>
-  )
+  return <Link to='/products' className='title-img' />
 }

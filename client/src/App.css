@@ -38,6 +38,9 @@ body {
 
 .title-container {
   margin-top: -60px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 /* prevents all the links in the app from having default underline */
@@ -121,19 +124,19 @@ input:focus {
 .title-img {
   width: 100%;
   height: 71vh;
-  background-image: url('assets/backdrop2.png');
+  background-image: url('assets/backdrop5.png');
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
-  filter: blur(2px);
-  position: fixed;
+  /* filter: blur(2px); */
 }
-.title-img2-container {
+
+/* .title-img2-container {
   width: 100vw;
   display: flex;
   justify-content: center;
-}
-.title-img2 {
+} */
+/* .title-img2 {
   margin-top: 175px;
   width: 43vw;
   min-width: 650px;
@@ -143,8 +146,8 @@ input:focus {
   background-position: center;
   background-repeat: no-repeat;
   position: fixed;
-}
-.title-img3 {
+} */
+/* .title-img3 {
   margin-top: 450px;
   width: 200px;
   height: 7vh;
@@ -154,11 +157,11 @@ input:focus {
   background-repeat: no-repeat;
   position: fixed;
   transition: filter 0.1s ease;
-}
+} */
 
-.title-img3:hover {
+/* .title-img3:hover {
   filter: drop-shadow(0px 0px 10px var(--rose));
-}
+} */
 
 .center-txt {
   text-align: center;
@@ -184,9 +187,12 @@ input:focus {
   .title {
     font-size: calc(40vw - 28vw);
   }
-  .title-img3 {
-    margin-top: 420px;
+  .title-img {
+    max-height: calc(106vw);
   }
+  /* .title-img3 {
+    margin-top: 420px;
+  } */
   .title__handbag,
   .title__jewelry {
     display: none;

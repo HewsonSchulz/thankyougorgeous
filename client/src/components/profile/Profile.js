@@ -105,7 +105,7 @@ export const Profile = ({ loggedInUser, setLoggedInUser }) => {
         {ProfileItem(loggedInUser, profile, setProfile, 'venmo', 'Venmo')}
         {ProfileItem(loggedInUser, profile, setProfile, 'cashapp', 'Cashapp')}
         {ProfileItem(loggedInUser, profile, setProfile, 'paypal', 'PayPal')}
-        {ProfileItem(loggedInUser, profile, setProfile, 'address', 'Address')}
+        {ProfileItem(loggedInUser, profile, setProfile, 'address', 'United States Address')}
 
         {isModified ? (
           <button className='profile__save-btn profile__save-btn__enabled' onClick={(e) => handleSaveChanges(e)}>

@@ -136,10 +136,10 @@ export const ApplicationViews = ({ loggedInUser, setLoggedInUser }) => {
         <Route
           path='about'
           element={
-            <AuthorizedRoute loggedInUser={loggedInUser}>
+            <>
               <NavBar loggedInUser={loggedInUser} setLoggedInUser={setLoggedInUser} />
               <About />
-            </AuthorizedRoute>
+            </>
           }
         />
       </Route>
