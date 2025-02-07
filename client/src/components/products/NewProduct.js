@@ -53,20 +53,29 @@ export const NewProduct = ({ loggedInUser, setLoggedInUser }) => {
     formData.append('quantity', product.quantity)
     if (selectedImage) formData.append('image', selectedImage)
 
-    createProduct(formData).then((createdProduct) => {
-      if (createdProduct.valid) {
-        const { valid, ...productItems } = createdProduct
-        setProduct(productItems)
-        window.alert('Your changes have been saved.')
-        navigate(`/products/${productItems.id}`)
-      } else {
-        if (createdProduct.message === 'Missing property(s)') {
-          window.alert('Please finish choosing the: ' + createdProduct.missing_props.join(', '))
+    createProduct(formData)
+      .then((createdProduct) => {
+        if (createdProduct.valid) {
+          const { valid, ...productItems } = createdProduct
+          setProduct(productItems)
+          window.alert('Your changes have been saved.')
+          navigate(`/products/${productItems.id}`)
         } else {
-          window.alert(createdProduct.message || createdProduct.error)
+          if (createdProduct.message === 'Missing property(s)') {
+            window.alert('Please finish choosing the: ' + createdProduct.missing_props.join(', '))
+          } else {
+            window.alert(createdProduct.message || createdProduct.error)
+          }
         }
-      }
-    })
+      })
+      .catch((error) => {
+        if (error.message === 'Failed to fetch') {
+          window.alert('Unable to upload to server. Please check your internet connection, or use a smaller image.')
+        } else {
+          window.alert('An error occurred while creating this product. Please try again later.')
+        }
+        console.error('Error creating product:', error)
+      })
   }
 
   useEffect(() => {
