@@ -1,23 +1,21 @@
 {
   "files": {
-    "main.css": "/static/css/main.bf4250a3.css",
-    "main.js": "/static/js/main.6805fe8b.js",
+    "main.css": "/static/css/main.5f57b9c7.css",
+    "main.js": "/static/js/main.c57f3450.js",
     "static/media/about-header3.png": "/static/media/about-header3.bb804c1d0b4383d2877e.png",
     "static/media/about-header2.png": "/static/media/about-header2.196954926f3158332f38.png",
-    "static/media/backdrop2.png": "/static/media/backdrop2.0eebf726f571e8cac39c.png",
     "static/media/QR-Venmo.png": "/static/media/QR-Venmo.b7c2f3abd57937789a45.png",
-    "static/media/shopnewitems.png": "/static/media/shopnewitems.c32e9f97dff6c1fc1535.png",
+    "static/media/backdrop5.png": "/static/media/backdrop5.41525887b4a900462e8d.png",
     "static/media/QR-Cashapp.png": "/static/media/QR-Cashapp.1583acb47d513ee4f30e.png",
     "static/media/backdrop3.jpg": "/static/media/backdrop3.8d448478fb9fb4e161c6.jpg",
-    "static/media/shopnow-btn.png": "/static/media/shopnow-btn.ec6bc23215beb1ef9a11.png",
     "static/media/QR-PayPal.png": "/static/media/QR-PayPal.145668be0b279f9cd8cc.png",
     "static/media/backdrop4.avif": "/static/media/backdrop4.3d13340f0b63672e71ed.avif",
     "index.html": "/index.html",
-    "main.bf4250a3.css.map": "/static/css/main.bf4250a3.css.map",
-    "main.6805fe8b.js.map": "/static/js/main.6805fe8b.js.map"
+    "main.5f57b9c7.css.map": "/static/css/main.5f57b9c7.css.map",
+    "main.c57f3450.js.map": "/static/js/main.c57f3450.js.map"
   },
   "entrypoints": [
-    "static/css/main.bf4250a3.css",
-    "static/js/main.6805fe8b.js"
+    "static/css/main.5f57b9c7.css",
+    "static/js/main.c57f3450.js"
   ]
 }
