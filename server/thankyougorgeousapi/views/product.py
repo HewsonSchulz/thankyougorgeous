@@ -160,9 +160,8 @@ class Products(ViewSet):
             # add image
             if request.FILES.get('image'):
                 new_product.image = request.FILES['image']
+                print('new_product.image.storage:', new_product.image.storage)  #!
                 new_product.save()
-
-                print(new_product.image.storage)  #!
 
             return Response(
                 {
