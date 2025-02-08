@@ -155,6 +155,12 @@ if DEVELOPMENT_MODE is not True:
         DEFAULT_FILE_STORAGE,
     )
 
+    #! Debug prints
+    print('CDN Settings loaded:')  #!
+    print('Bucket:', AWS_STORAGE_BUCKET_NAME)  #!
+    print('Endpoint:', AWS_S3_ENDPOINT_URL)  #!
+    print('Storage class:', DEFAULT_FILE_STORAGE)  #!
+
 
 # Custom user model
 AUTH_USER_MODEL = 'thankyougorgeousapi.User'
