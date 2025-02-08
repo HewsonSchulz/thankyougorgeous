@@ -1,6 +1,8 @@
 import os
 from pathlib import Path
 from django.core.management.utils import get_random_secret_key
+import sys
+import dj_database_url
 
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -29,6 +31,7 @@ INSTALLED_APPS = [
     'rest_framework.authtoken',
     'corsheaders',
     'thankyougorgeousapi',
+    'storages',
 ]
 
 REST_FRAMEWORK = {
@@ -85,12 +88,17 @@ WSGI_APPLICATION = 'thankyougorgeousproject.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+if DEVELOPMENT_MODE is True:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        }
     }
-}
+elif len(sys.argv) > 0 and sys.argv[1] != 'collectstatic':
+    if os.getenv('DATABASE_URL', None) is None:
+        raise Exception('DATABASE_URL environment variable has not been defined')
+    DATABASES = {'default': dj_database_url.parse(os.environ.get('DATABASE_URL'))}
 
 
 # Password validation
@@ -137,6 +145,16 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+if DEVELOPMENT_MODE is not True:
+    from .cdn.conf import (
+        AWS_STORAGE_BUCKET_NAME,
+        AWS_S3_ENDPOINT_URL,
+        AWS_LOCATION,
+        STATICFILES_STORAGE,
+        DEFAULT_FILE_STORAGE,
+    )
+
 
 # Custom user model
 AUTH_USER_MODEL = 'thankyougorgeousapi.User'
