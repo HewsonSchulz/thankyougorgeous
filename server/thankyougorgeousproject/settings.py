@@ -147,27 +147,13 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 if DEVELOPMENT_MODE is not True:
-    from .cdn.conf import *  # Import all settings from conf.py
-
-    # Force the storage settings explicitly
-    DEFAULT_FILE_STORAGE = (
-        'thankyougorgeousproject.cdn.backends.MediaRootS3Boto3Storage'
+    from .cdn.conf import (
+        AWS_STORAGE_BUCKET_NAME,
+        AWS_S3_ENDPOINT_URL,
+        AWS_LOCATION,
+        STATICFILES_STORAGE,
+        DEFAULT_FILE_STORAGE,
     )
-    STATICFILES_STORAGE = (
-        'thankyougorgeousproject.cdn.backends.StaticRootS3Boto3Storage'
-    )
-
-    # Force these settings explicitly
-    AWS_S3_OBJECT_PARAMETERS = {'CacheControl': 'max-age=86400'}
-    AWS_DEFAULT_ACL = 'public-read'
-    AWS_S3_REGION_NAME = 'nyc3'
-    AWS_S3_FILE_OVERWRITE = False
-    AWS_QUERYSTRING_AUTH = False
-
-    print('Storage settings:')  #!
-    print(f'DEFAULT_FILE_STORAGE: {DEFAULT_FILE_STORAGE}')  #!
-    print(f'AWS_ACCESS_KEY_ID exists: {bool(AWS_ACCESS_KEY_ID)}')  #!
-    print(f'AWS_STORAGE_BUCKET_NAME: {AWS_STORAGE_BUCKET_NAME}')  #!
 
 
 # Custom user model

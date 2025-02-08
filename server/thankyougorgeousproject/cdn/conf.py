@@ -7,11 +7,5 @@ AWS_STORAGE_BUCKET_NAME = 'thankyougorgeous-bucket'
 AWS_S3_ENDPOINT_URL = 'https://nyc3.digitaloceanspaces.com'
 AWS_LOCATION = 'https://thankyougorgeous-bucket.nyc3.digitaloceanspaces.com'
 
-
-AWS_DEFAULT_ACL = 'public-read'
-AWS_S3_REGION_NAME = 'nyc3'
-AWS_S3_FILE_OVERWRITE = False
-AWS_QUERYSTRING_AUTH = False
-
 STATICFILES_STORAGE = 'thankyougorgeousproject.cdn.backends.StaticRootS3Boto3Storage'
 DEFAULT_FILE_STORAGE = 'thankyougorgeousproject.cdn.backends.MediaRootS3Boto3Storage'

@@ -159,49 +159,10 @@ class Products(ViewSet):
 
             # add image
             if request.FILES.get('image'):
-                # * new_product.image = request.FILES['image']
-                # * new_product.save()
+                new_product.image = request.FILES['image']
+                new_product.save()
 
-                try:
-                    print(
-                        'Got image file:', request.FILES['image'].name
-                    )  #!  # Debug line
-                    print('File size:', request.FILES['image'].size)  #!  # Debug line
-                    print(
-                        'Content type:', request.FILES['image'].content_type
-                    )  # Debug line
-
-                    new_product.image = request.FILES['image']
-                    print('Assigned to model')  #!  # Debug line
-
-                    new_product.save()
-                    print('Saved model')  #!  # Debug line
-
-                    # Try to access the URL
-                    print('Image URL:', new_product.image.url)  #!  # Debug line
-
-                    # Try to access the storage backend
-                    storage = new_product.image.storage
-                    print(
-                        'Storage backend:', storage.__class__.__name__
-                    )  #!  # Debug line
-                    print(
-                        'Storage backend settings:',
-                        {
-                            'bucket_name': storage.bucket_name,
-                            'access_key': storage.access_key[:5]
-                            + '...',  # Only show first 5 chars
-                            'location': storage.location,
-                            'endpoint_url': storage.endpoint_url,
-                        },
-                    )  # Debug line
-
-                except Exception as e:
-                    print('Upload error details:', str(e))  #!  # Debug line
-                    print('Error type:', type(e).__name__)  #!  # Debug line
-                    import traceback
-
-                    print('Traceback:', traceback.format_exc())  #!  # Debug line
+                print(new_product.image.storage)  #!
 
             return Response(
                 {
