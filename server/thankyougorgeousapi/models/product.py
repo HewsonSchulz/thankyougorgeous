@@ -1,6 +1,7 @@
 from django.db import models
 from django.db.models import UniqueConstraint
 from django.db.models.functions import Lower
+from thankyougorgeousproject.cdn.backends import MediaRootS3Boto3Storage
 
 
 class Product(models.Model):
@@ -10,7 +11,12 @@ class Product(models.Model):
     description = models.TextField()
     categories = models.ManyToManyField('Category', related_name='products')
     quantity = models.IntegerField()
-    image = models.ImageField(upload_to='product_images', null=True, blank=True)
+    image = models.ImageField(
+        storage=MediaRootS3Boto3Storage(),  # ensure correct storage class is used
+        upload_to='product_images',
+        null=True,
+        blank=True,
+    )
 
     class Meta:
         constraints = [
