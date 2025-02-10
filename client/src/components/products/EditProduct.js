@@ -3,7 +3,7 @@ import { Navigate, useNavigate, useParams } from 'react-router-dom'
 import { Form, FormGroup, Input } from 'reactstrap'
 import { useEffect, useState } from 'react'
 import { updateStateObj } from '../../helper'
-import { retrieveProduct, updateProduct } from '../../managers/productManager'
+import { destroyProduct, retrieveProduct, updateProduct } from '../../managers/productManager'
 
 const FormItem = (product, setProduct, item, placeholder = item, type = 'text') => {
   return (
@@ -146,6 +146,16 @@ export const EditProduct = ({ loggedInUser, setLoggedInUser }) => {
             Save Changes
           </button>
         )}
+
+        <button
+          className='edit-product-btn'
+          onClick={() => {
+            if (window.confirm(`Are you sure you want to delete ${product.label}?`)) {
+              destroyProduct(productId).then(navigate('/products'))
+            }
+          }}>
+          Delete Product
+        </button>
       </div>
     </>
   )
