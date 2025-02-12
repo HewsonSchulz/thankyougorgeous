@@ -1,5 +1,6 @@
 import json
 from json.decoder import JSONDecodeError
+from collections import Counter
 from django.db import IntegrityError
 from django.core.exceptions import RequestDataTooBig
 from rest_framework import serializers, status
@@ -9,7 +10,6 @@ from rest_framework.authentication import TokenAuthentication
 from rest_framework.permissions import IsAuthenticated, AllowAny
 from thankyougorgeousapi.models import Product, Category
 from .view_utils import calc_missing_props, update_object_attributes
-from collections import Counter
 
 
 class Products(ViewSet):

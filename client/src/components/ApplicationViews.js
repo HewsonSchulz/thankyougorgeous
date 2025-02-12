@@ -11,6 +11,7 @@ import { Profile } from './profile/Profile'
 import { EditProduct } from './products/EditProduct'
 import { NewProduct } from './products/NewProduct'
 import { About } from './about/About'
+import { UserList } from './users/UserList'
 
 export const ApplicationViews = ({ loggedInUser, setLoggedInUser }) => {
   const location = useLocation()
@@ -88,6 +89,16 @@ export const ApplicationViews = ({ loggedInUser, setLoggedInUser }) => {
             <AuthorizedRoute loggedInUser={loggedInUser} isAdminOnly={true}>
               <NavBar loggedInUser={loggedInUser} setLoggedInUser={setLoggedInUser} />
               <NewProduct loggedInUser={loggedInUser} />
+            </AuthorizedRoute>
+          }
+        />
+
+        <Route
+          path='users'
+          element={
+            <AuthorizedRoute loggedInUser={loggedInUser} isAdminOnly={true}>
+              <NavBar loggedInUser={loggedInUser} setLoggedInUser={setLoggedInUser} />
+              <UserList loggedInUser={loggedInUser} />
             </AuthorizedRoute>
           }
         />

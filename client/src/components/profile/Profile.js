@@ -1,5 +1,5 @@
 import { useQuery } from '@tanstack/react-query'
-import { Navigate, useParams } from 'react-router-dom'
+import { Navigate, useNavigate, useParams } from 'react-router-dom'
 import { Form, FormGroup, Input } from 'reactstrap'
 import { retrieveProfile, updateProfile } from '../../managers/userManager'
 import { useEffect, useState } from 'react'
@@ -41,6 +41,7 @@ export const Profile = ({ loggedInUser, setLoggedInUser }) => {
   const [profile, setProfile] = useState({})
   const { loggedInUserId } = useParams()
   const [isModified, setIsModified] = useState(false)
+  const navigate = useNavigate()
 
   const { data: profileData, isLoading } = useQuery({
     queryKey: [`profile${loggedInUserId}`, loggedInUserId],
@@ -108,22 +109,33 @@ export const Profile = ({ loggedInUser, setLoggedInUser }) => {
         {ProfileItem(loggedInUser, profile, setProfile, 'address', 'United States Address')}
 
         {isModified ? (
-          <button className='profile__save-btn profile__save-btn__enabled' onClick={(e) => handleSaveChanges(e)}>
-            Save Changes
-          </button>
+          <>
+            <button className='profile__save-btn profile__save-btn__enabled' onClick={(e) => handleSaveChanges(e)}>
+              Save Changes
+            </button>
+            {loggedInUser.is_admin && !!profile && (
+              <button
+                className='profile__save-btn profile__save-btn__enabled view-user-btn'
+                onClick={(e) => navigate('/users')}>
+                View Users
+              </button>
+            )}
+          </>
         ) : (
-          <button className='profile__save-btn' disabled>
-            Save Changes
-          </button>
+          <>
+            <button className='profile__save-btn' disabled>
+              Save Changes
+            </button>
+            {loggedInUser.is_admin && !!profile && (
+              <button
+                className='profile__save-btn profile__save-btn__enabled view-user-btn'
+                onClick={(e) => navigate('/users')}>
+                View Users
+              </button>
+            )}
+          </>
         )}
       </Form>
-      {loggedInUser.is_admin && !!profile && (
-        <div className='user-count-container'>
-          <p className='user-count'>
-            Total users: <i>{profile.user_count}</i>
-          </p>
-        </div>
-      )}
     </>
   )
 }

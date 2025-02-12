@@ -6,6 +6,7 @@ from rest_framework import serializers, status
 from rest_framework.viewsets import ViewSet
 from rest_framework.response import Response
 from rest_framework.exceptions import ValidationError
+from rest_framework.decorators import action
 from thankyougorgeousapi.models import User
 from .view_utils import calc_missing_props
 
@@ -38,6 +39,31 @@ class Profile(ViewSet):
                 user_data['user_count'] = User.objects.count()
 
             return Response(user_data)
+
+        except Exception as ex:
+            return Response(
+                {'error': ex.args[0]}, status=status.HTTP_500_INTERNAL_SERVER_ERROR
+            )
+
+    @action(detail=False, methods=['get'], url_path='all')
+    def list_all(self, request):
+        try:
+            req_user = request.auth.user
+
+            if not req_user.is_admin:
+                # user has invalid permission
+                return Response(
+                    {
+                        'message': '''You don't have permission to view that information'''
+                    },
+                    status=status.HTTP_403_FORBIDDEN,
+                )
+
+            users = User.objects.all()
+
+            return Response(
+                UserSerializer(users, many=True, context={'request': request}).data
+            )
 
         except Exception as ex:
             return Response(

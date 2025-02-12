@@ -26,3 +26,7 @@ export const retrieveProfile = async (pk = null) => {
 export const updateProfile = async (profile, pk) => {
   return await fetch(`${apiUrl}/profile/${pk}`, fetchOptions('PUT', profile)).then((res) => res.json())
 }
+
+export const listUsers = async () => {
+  return await fetch(`${apiUrl}/profile/all`, fetchOptions('GET')).then((res) => res.json())
+}
