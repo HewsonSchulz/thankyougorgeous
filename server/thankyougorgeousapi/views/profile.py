@@ -59,7 +59,7 @@ class Profile(ViewSet):
                     status=status.HTTP_403_FORBIDDEN,
                 )
 
-            users = User.objects.all()
+            users = User.objects.all().order_by('id')
 
             return Response(
                 UserSerializer(users, many=True, context={'request': request}).data
