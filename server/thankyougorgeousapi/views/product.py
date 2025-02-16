@@ -167,7 +167,6 @@ class Products(ViewSet):
                 price=req_body['price'],
                 quantity=req_body['quantity'],
                 description=req_body['description'].strip(),
-                is_deal=req_body.get('is_deal', False).lower() == 'true',
             )
 
             # add categories to product

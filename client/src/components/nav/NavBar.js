@@ -29,12 +29,12 @@ export const NavBar = ({ loggedInUser, setLoggedInUser, isTitle = false }) => {
             click: () => navigate('/'),
           },
         ]),
-    {
-      id: 'deals',
-      label: isMobile ? 'DEALS' : 'HOT DEALS',
-      selected: url === '/deals',
-      click: () => navigate('/deals'),
-    },
+    // {
+    //   id: 'deals',
+    //   label: isMobile ? 'DEALS' : 'HOT DEALS',
+    //   selected: url === '/deals',
+    //   click: () => navigate('/deals'),
+    // },
     {
       id: 'products',
       label: isMobile ? 'SHOP' : 'SHOP ALL',
