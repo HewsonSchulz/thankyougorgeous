@@ -11,6 +11,10 @@ export const listProducts = async (products = []) => {
   return await fetch(`${apiUrl}/products`, fetchOptions('GET')).then((res) => res.json())
 }
 
+export const listDeals = async () => {
+  return await fetch(`${apiUrl}/products/deals`, fetchOptions('GET')).then((res) => res.json())
+}
+
 export const createProduct = async (product) => {
   return await fetch(`${apiUrl}/products`, fetchOptions('POST', product)).then((res) => res.json())
 }

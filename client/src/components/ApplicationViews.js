@@ -84,11 +84,31 @@ export const ApplicationViews = ({ loggedInUser, setLoggedInUser }) => {
         </Route>
 
         <Route
+          path='deals'
+          element={
+            <>
+              <NavBar loggedInUser={loggedInUser} setLoggedInUser={setLoggedInUser} />
+              <ProductList loggedInUser={loggedInUser} isDeals={true} />
+            </>
+          }
+        />
+
+        <Route
           path='newproduct'
           element={
             <AuthorizedRoute loggedInUser={loggedInUser} isAdminOnly={true}>
               <NavBar loggedInUser={loggedInUser} setLoggedInUser={setLoggedInUser} />
               <NewProduct loggedInUser={loggedInUser} />
+            </AuthorizedRoute>
+          }
+        />
+
+        <Route
+          path='newdeal'
+          element={
+            <AuthorizedRoute loggedInUser={loggedInUser} isAdminOnly={true}>
+              <NavBar loggedInUser={loggedInUser} setLoggedInUser={setLoggedInUser} />
+              <NewProduct loggedInUser={loggedInUser} isDeal={true} />
             </AuthorizedRoute>
           }
         />

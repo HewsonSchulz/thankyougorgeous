@@ -1,5 +1,5 @@
 import { useQuery } from '@tanstack/react-query'
-import { listProducts } from '../../managers/productManager'
+import { listDeals, listProducts } from '../../managers/productManager'
 import { useNavigate } from 'react-router-dom'
 import { useEffect, useState } from 'react'
 import { currency, scrollToTop, truncateText } from '../../helper'
@@ -12,7 +12,7 @@ const calculateMatches = (text, searchTerm) => {
   return matches ? matches.length : 0
 }
 
-export const ProductList = ({ loggedInUser }) => {
+export const ProductList = ({ loggedInUser, isDeals = false }) => {
   const navigate = useNavigate()
   const [searchTerm, setSearchTerm] = useState('')
   const [filteredProducts, setFilteredProducts] = useState([])
@@ -30,6 +30,14 @@ export const ProductList = ({ loggedInUser }) => {
     queryKey: ['products'],
     queryFn: listProducts,
   })
+  const {
+    data: deals,
+    isLoadingDeals,
+    refetch: refetchDeals,
+  } = useQuery({
+    queryKey: ['deals'],
+    queryFn: listDeals,
+  })
 
   useEffect(() => {
     const handleResize = () => {
@@ -46,18 +54,24 @@ export const ProductList = ({ loggedInUser }) => {
 
   useEffect(() => {
     refetch()
-  }, [loggedInUser, refetch])
+    refetchDeals()
+  }, [loggedInUser, refetch, refetchDeals])
 
   useEffect(() => {
-    if (!products) return
+    let items = products
+    if (isDeals) {
+      items = deals
+    }
+
+    if (!items) return
 
     if (searchTerm === '') {
-      setFilteredProducts(products)
+      setFilteredProducts(items)
     } else {
       const searchTermLower = searchTerm.toLowerCase().trim()
 
       // create scored version of products
-      const scoredProducts = products.map((product) => {
+      const scoredProducts = items.map((product) => {
         // title matches - 3 points
         const titleScore = calculateMatches(product.label?.toLowerCase(), searchTermLower) * 3
 
@@ -87,15 +101,15 @@ export const ProductList = ({ loggedInUser }) => {
 
       setFilteredProducts(filteredAndSorted)
     }
-  }, [products, searchTerm])
+  }, [deals, isDeals, products, searchTerm])
 
-  if (isLoading) {
+  if (isLoading || isLoadingDeals) {
     return <div className='loading'>Loading...</div>
   }
 
   return (
     <>
-      <div className='product-list-background' />
+      {isDeals ? <div className='cart-background deals-background' /> : <div className='product-list-background' />}
 
       {/* search bar */}
       <div className='search-container'>
@@ -110,8 +124,16 @@ export const ProductList = ({ loggedInUser }) => {
 
       {!!loggedInUser && loggedInUser !== 'loading' && loggedInUser.is_admin && (
         <div className='create-product-btn-container'>
-          <button className='create-product-btn' onClick={() => navigate('/newproduct')}>
-            Create New Product
+          <button
+            className='create-product-btn'
+            onClick={() => {
+              if (isDeals) {
+                navigate('/newdeal')
+              } else {
+                navigate('/newproduct')
+              }
+            }}>
+            {isDeals ? 'Create New Deal' : 'Create New Product'}
           </button>
         </div>
       )}

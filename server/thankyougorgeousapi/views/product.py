@@ -8,6 +8,7 @@ from rest_framework.viewsets import ViewSet
 from rest_framework.response import Response
 from rest_framework.authentication import TokenAuthentication
 from rest_framework.permissions import IsAuthenticated, AllowAny
+from rest_framework.decorators import action
 from thankyougorgeousapi.models import Product, Category
 from .view_utils import calc_missing_props, update_object_attributes
 
@@ -17,7 +18,7 @@ class Products(ViewSet):
 
     def get_permissions(self):
         # allows certain views (`list` and `retrieve`) to be accessed by anyone
-        if self.action in ['list', 'retrieve']:
+        if self.action in ['list', 'retrieve', 'list_deals']:
             permission_classes = [AllowAny]
         else:
             permission_classes = [IsAuthenticated]
@@ -60,10 +61,24 @@ class Products(ViewSet):
             # return all products
             return Response(
                 ProductSerializer(
-                    Product.objects.all().order_by('label'),
+                    Product.objects.filter(is_deal=False).order_by('label'),
                     many=True,
                     context={'request': request},
                 ).data
+            )
+        except Exception as ex:
+            return Response(
+                {'error': ex.args[0]}, status=status.HTTP_500_INTERNAL_SERVER_ERROR
+            )
+
+    @action(
+        detail=False, methods=['get'], url_path='deals', permission_classes=[AllowAny]
+    )
+    def list_deals(self, request):
+        try:
+            deals = Product.objects.filter(is_deal=True).order_by('label')
+            return Response(
+                ProductSerializer(deals, many=True, context={'request': request}).data
             )
         except Exception as ex:
             return Response(
@@ -152,6 +167,7 @@ class Products(ViewSet):
                 price=req_body['price'],
                 quantity=req_body['quantity'],
                 description=req_body['description'].strip(),
+                is_deal=req_body.get('is_deal', False).lower() == 'true',
             )
 
             # add categories to product
@@ -340,6 +356,7 @@ class ProductSerializer(serializers.ModelSerializer):
             'quantity',
             'image',
             'categories',
+            'is_deal',
         ]
 
     def get_categories(self, obj):

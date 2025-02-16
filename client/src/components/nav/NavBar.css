@@ -69,3 +69,14 @@
   justify-content: space-evenly;
   color: var(--rose);
 }
+
+@media (max-width: 840px) {
+  .nav-label {
+    font-size: 0.95rem;
+  }
+}
+@media (max-width: 540px) {
+  .nav-label {
+    font-size: 0.85rem;
+  }
+}

@@ -1,9 +1,22 @@
 import { useLocation, useNavigate } from 'react-router-dom'
+import { useEffect, useState } from 'react'
 import './NavBar.css'
 
 export const NavBar = ({ loggedInUser, setLoggedInUser, isTitle = false }) => {
   const navigate = useNavigate()
   const url = useLocation().pathname
+  const [windowWidth, setWindowWidth] = useState(window.innerWidth)
+
+  useEffect(() => {
+    const handleResize = () => {
+      setWindowWidth(window.innerWidth)
+    }
+
+    window.addEventListener('resize', handleResize)
+    return () => window.removeEventListener('resize', handleResize)
+  }, [])
+
+  const isMobile = windowWidth <= 840
 
   const navItems = [
     ...(url === '/'
@@ -17,8 +30,14 @@ export const NavBar = ({ loggedInUser, setLoggedInUser, isTitle = false }) => {
           },
         ]),
     {
+      id: 'deals',
+      label: isMobile ? 'DEALS' : 'HOT DEALS',
+      selected: url === '/deals',
+      click: () => navigate('/deals'),
+    },
+    {
       id: 'products',
-      label: 'SHOP',
+      label: isMobile ? 'SHOP' : 'SHOP ALL',
       selected: url === '/products',
       click: () => navigate('/products'),
     },

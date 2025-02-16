@@ -18,7 +18,7 @@ const FormItem = (product, setProduct, item, placeholder = item, type = 'text') 
   )
 }
 
-export const NewProduct = ({ loggedInUser, setLoggedInUser }) => {
+export const NewProduct = ({ loggedInUser, setLoggedInUser, isDeal = false }) => {
   const [product, setProduct] = useState({
     label: '',
     price: '',
@@ -52,6 +52,7 @@ export const NewProduct = ({ loggedInUser, setLoggedInUser }) => {
     formData.append('description', product.description)
     formData.append('quantity', product.quantity)
     if (selectedImage) formData.append('image', selectedImage)
+    formData.append('is_deal', isDeal)
 
     createProduct(formData)
       .then((createdProduct) => {
@@ -120,7 +121,7 @@ export const NewProduct = ({ loggedInUser, setLoggedInUser }) => {
       </Form>
       <div className='checkout-btn-container'>
         <button className='product__save-btn product__save-btn__enabled' onClick={(e) => handleCreateProduct(e)}>
-          Create Product
+          {isDeal ? 'Create Deal' : 'Create Product'}
         </button>
       </div>
     </>
