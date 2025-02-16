@@ -17,8 +17,6 @@ class Products(ViewSet):
     authentication_classes = [TokenAuthentication]
 
     def get_permissions(self):
-        Product.objects.all().update(is_deal=False)  #!TEMP
-
         # allows certain views (`list` and `retrieve`) to be accessed by anyone
         if self.action in ['list', 'retrieve', 'list_deals']:
             permission_classes = [AllowAny]
@@ -27,6 +25,7 @@ class Products(ViewSet):
         return [permission() for permission in permission_classes]
 
     def list(self, request):
+        Product.objects.all().update(is_deal=False)  #!TEMP
         try:
             products_param = request.query_params.get('products', None)
 
