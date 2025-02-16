@@ -17,7 +17,6 @@ class Product(models.Model):
         null=True,
         blank=True,
     )
-    is_deal = models.BooleanField(default=False)
 
     class Meta:
         constraints = [
