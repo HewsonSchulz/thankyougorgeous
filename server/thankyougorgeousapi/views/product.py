@@ -61,7 +61,7 @@ class Products(ViewSet):
             # return all products
             return Response(
                 ProductSerializer(
-                    Product.objects.filter(is_deal=False).order_by('label'),
+                    Product.objects.all().order_by('label'),
                     many=True,
                     context={'request': request},
                 ).data
