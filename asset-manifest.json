@@ -1,7 +1,7 @@
 {
   "files": {
-    "main.css": "/static/css/main.5cece9f4.css",
-    "main.js": "/static/js/main.abdffda2.js",
+    "main.css": "/static/css/main.dc32e11f.css",
+    "main.js": "/static/js/main.1537bc1f.js",
     "static/media/about-header3.png": "/static/media/about-header3.bb804c1d0b4383d2877e.png",
     "static/media/about-header2.png": "/static/media/about-header2.196954926f3158332f38.png",
     "static/media/QR-Venmo.png": "/static/media/QR-Venmo.b7c2f3abd57937789a45.png",
@@ -11,11 +11,11 @@
     "static/media/QR-PayPal.png": "/static/media/QR-PayPal.145668be0b279f9cd8cc.png",
     "static/media/backdrop4.avif": "/static/media/backdrop4.3d13340f0b63672e71ed.avif",
     "index.html": "/index.html",
-    "main.5cece9f4.css.map": "/static/css/main.5cece9f4.css.map",
-    "main.abdffda2.js.map": "/static/js/main.abdffda2.js.map"
+    "main.dc32e11f.css.map": "/static/css/main.dc32e11f.css.map",
+    "main.1537bc1f.js.map": "/static/js/main.1537bc1f.js.map"
   },
   "entrypoints": [
-    "static/css/main.5cece9f4.css",
-    "static/js/main.abdffda2.js"
+    "static/css/main.dc32e11f.css",
+    "static/js/main.1537bc1f.js"
   ]
 }
