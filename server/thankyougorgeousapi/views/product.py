@@ -25,7 +25,6 @@ class Products(ViewSet):
         return [permission() for permission in permission_classes]
 
     def list(self, request):
-        Product.objects.all().update(is_deal=False)  #!TEMP
         try:
             products_param = request.query_params.get('products', None)
 
@@ -62,7 +61,7 @@ class Products(ViewSet):
             # return all products
             return Response(
                 ProductSerializer(
-                    Product.objects.filter(is_deal=False).order_by('label'),
+                    Product.objects.all().order_by('label'),
                     many=True,
                     context={'request': request},
                 ).data
@@ -357,7 +356,7 @@ class ProductSerializer(serializers.ModelSerializer):
             'quantity',
             'image',
             'categories',
-            'is_deal',
+            # 'is_deal',
         ]
 
     def get_categories(self, obj):
