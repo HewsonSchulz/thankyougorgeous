@@ -17,6 +17,8 @@ class Products(ViewSet):
     authentication_classes = [TokenAuthentication]
 
     def get_permissions(self):
+        # Product.objects.all().update(is_deal=False)  #!TEMP
+
         # allows certain views (`list` and `retrieve`) to be accessed by anyone
         if self.action in ['list', 'retrieve', 'list_deals']:
             permission_classes = [AllowAny]
@@ -61,7 +63,7 @@ class Products(ViewSet):
             # return all products
             return Response(
                 ProductSerializer(
-                    Product.objects.all().order_by('label'),
+                    Product.objects.filter(is_deal=False).order_by('label'),
                     many=True,
                     context={'request': request},
                 ).data
