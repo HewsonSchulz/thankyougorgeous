@@ -52,7 +52,7 @@ export const NewProduct = ({ loggedInUser, setLoggedInUser, isDeal = false }) =>
     formData.append('description', product.description)
     formData.append('quantity', product.quantity)
     if (selectedImage) formData.append('image', selectedImage)
-    // formData.append('is_deal', isDeal)
+    formData.append('is_deal', isDeal)
 
     createProduct(formData)
       .then((createdProduct) => {

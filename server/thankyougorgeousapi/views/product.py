@@ -58,10 +58,12 @@ class Products(ViewSet):
 
                 return Response(serialized_products)
 
-            # return all products
+            # return all non-deal products
             return Response(
                 ProductSerializer(
-                    Product.objects.all().order_by('label'),
+                    Product.objects.exclude(label__startswith='!DEAL ').order_by(
+                        'label'
+                    ),
                     many=True,
                     context={'request': request},
                 ).data
@@ -76,7 +78,7 @@ class Products(ViewSet):
     )
     def list_deals(self, request):
         try:
-            deals = Product.objects.filter(is_deal=True).order_by('label')
+            deals = Product.objects.filter(label__startswith='!DEAL ').order_by('label')
             return Response(
                 ProductSerializer(deals, many=True, context={'request': request}).data
             )
@@ -161,13 +163,22 @@ class Products(ViewSet):
                     category = Category.objects.get(label=category_label.strip())
                     categories.append(category)
 
-            # create product
-            new_product = Product.objects.create(
-                label=req_body['label'].strip(),
-                price=req_body['price'],
-                quantity=req_body['quantity'],
-                description=req_body['description'].strip(),
-            )
+            if req_body.get('is_deal', 'false').lower() == 'true':
+                # create deal
+                new_product = Product.objects.create(
+                    label='!DEAL ' + (req_body['label'].strip()),
+                    price=req_body['price'],
+                    quantity=req_body['quantity'],
+                    description=req_body['description'].strip(),
+                )
+            else:
+                # create product
+                new_product = Product.objects.create(
+                    label=req_body['label'].strip(),
+                    price=req_body['price'],
+                    quantity=req_body['quantity'],
+                    description=req_body['description'].strip(),
+                )
 
             # add categories to product
             new_product.categories.add(*categories)
@@ -280,6 +291,10 @@ class Products(ViewSet):
             if request.FILES.get('image'):
                 product.image = request.FILES['image']
 
+            # handle correct deal updating
+            if req_body.get('is_deal', 'false').lower() == 'true':
+                product.label = '!DEAL ' + product.label
+
             product.save()
 
             return Response(
@@ -341,7 +356,9 @@ class Products(ViewSet):
 
 
 class ProductSerializer(serializers.ModelSerializer):
+    label = serializers.SerializerMethodField()
     categories = serializers.SerializerMethodField()
+    is_deal = serializers.SerializerMethodField()
 
     class Meta:
         model = Product
@@ -355,8 +372,16 @@ class ProductSerializer(serializers.ModelSerializer):
             'quantity',
             'image',
             'categories',
-            # 'is_deal',
+            'is_deal',
         ]
+
+    def get_label(self, obj):
+        if obj.label.startswith('!DEAL '):
+            return obj.label[6:]  # strip '!DEAL ' prefix for deals
+        return obj.label
 
     def get_categories(self, obj):
         return [category.label for category in obj.categories.all()]
+
+    def get_is_deal(self, obj):
+        return obj.label.startswith('!DEAL ')

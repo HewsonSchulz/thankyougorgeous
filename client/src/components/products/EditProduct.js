@@ -55,6 +55,7 @@ export const EditProduct = ({ loggedInUser, setLoggedInUser }) => {
     formData.append('description', product.description)
     formData.append('quantity', product.quantity)
     if (selectedImage) formData.append('image', selectedImage)
+    formData.append('is_deal', product.is_deal)
 
     updateProduct(formData, productId).then((updatedProduct) => {
       if (updatedProduct.valid) {
