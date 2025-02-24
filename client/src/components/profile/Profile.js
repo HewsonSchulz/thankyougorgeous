@@ -17,9 +17,25 @@ const ProfileItem = (loggedInUser, profile, setProfile, item, placeholder = item
         <Input
           className={`profile-form__item profile-form__${item}`}
           type={type}
-          value={profile[item]}
+          value={profile[item] || ''}
           placeholder={placeholder}
           disabled
+        />
+      </FormGroup>
+    )
+  }
+  if (item === 'phone_num') {
+    return (
+      <FormGroup>
+        <Input
+          className={`profile-form__item profile-form__${item}`}
+          type={type}
+          value={profile[item] || ''}
+          placeholder={placeholder}
+          onChange={(e) => {
+            const numericValue = e.target.value.replace(/[^0-9]/g, '') // remove non-numeric characters
+            updateStateObj(setProfile, item, numericValue)
+          }}
         />
       </FormGroup>
     )
@@ -29,7 +45,7 @@ const ProfileItem = (loggedInUser, profile, setProfile, item, placeholder = item
       <Input
         className={`profile-form__item profile-form__${item}`}
         type={type}
-        value={profile[item]}
+        value={profile[item] || ''}
         placeholder={placeholder}
         onChange={(e) => updateStateObj(setProfile, item, e.target.value)}
       />
@@ -102,7 +118,7 @@ export const Profile = ({ loggedInUser, setLoggedInUser }) => {
         {ProfileItem(loggedInUser, profile, null, 'email', 'Email', 'text', true)}
         {ProfileItem(loggedInUser, profile, setProfile, 'first_name', 'First Name')}
         {ProfileItem(loggedInUser, profile, setProfile, 'last_name', 'Last Name')}
-        {ProfileItem(loggedInUser, profile, setProfile, 'phone_num', 'Phone Number', 'number')}
+        {ProfileItem(loggedInUser, profile, setProfile, 'phone_num', 'Phone Number')}
         {ProfileItem(loggedInUser, profile, setProfile, 'venmo', 'Venmo')}
         {ProfileItem(loggedInUser, profile, setProfile, 'cashapp', 'Cashapp')}
         {ProfileItem(loggedInUser, profile, setProfile, 'paypal', 'PayPal')}
