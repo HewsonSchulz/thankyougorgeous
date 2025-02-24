@@ -233,6 +233,13 @@
     border-radius: 5px;
     padding: 20px;
   }
+
+  p2 {
+    margin-bottom: 10px;
+    background: white;
+    border-radius: 5px;
+    padding: 20px;
+  }
 }
 
 .order__p > * {
@@ -241,6 +248,16 @@
   span {
     margin-left: 10px;
   }
+}
+
+.payment-method-container {
+  margin-bottom: 40px;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+}
+.payment-method-container > * {
+  margin: 0px 10px;
 }
 
 .empty-cart-txt {

@@ -1,6 +1,8 @@
 import os
 import json
 from json.decoder import JSONDecodeError
+from collections import Counter
+from decimal import Decimal
 from django.core.mail import send_mail
 from rest_framework import serializers, status
 from rest_framework.viewsets import ViewSet
@@ -8,8 +10,6 @@ from rest_framework.response import Response
 from rest_framework.authentication import TokenAuthentication
 from rest_framework.permissions import IsAuthenticated
 from thankyougorgeousapi.models import Order, Product, OrderProduct
-from collections import Counter
-from decimal import Decimal
 from .product import ProductSerializer
 from .view_utils import calc_missing_props
 from .profile import UserSerializer
@@ -78,7 +78,7 @@ class Orders(ViewSet):
 
             # validate products are provided
             missing_props_msg, missing_props = calc_missing_props(
-                req_body, ['products']
+                req_body, ['products', 'payment_method']
             )
 
             if missing_props_msg:
@@ -91,16 +91,10 @@ class Orders(ViewSet):
                     status=status.HTTP_400_BAD_REQUEST,
                 )
 
+            user_payment = getattr(req_user, req_body['payment_method'])
+
             # validate payment info has been filled out
-            if not (
-                (
-                    bool(req_user.venmo)
-                    or bool(req_user.cashapp)
-                    or bool(req_user.paypal)
-                )
-                and bool(req_user.address)
-                and bool(req_user.phone_num)
-            ):
+            if not bool(user_payment):
                 return Response(
                     {
                         'valid': False,
@@ -181,16 +175,11 @@ class Orders(ViewSet):
                 f'''Email: {user_data['email']}\n'''
                 f'''Phone number: {user_data['phone_num']}\n'''
                 f'''Address: {user_data['address']}\n'''
+                f'''This customer paid with {req_body['payment_method'].title()}: {user_payment}'''
             )
-            if bool(user_data['venmo']):
-                order_summary += f'''Venmo: {user_data['venmo']}\n'''
-            if bool(user_data['cashapp']):
-                order_summary += f'''Cashapp: {user_data['cashapp']}\n'''
-            if bool(user_data['paypal']):
-                order_summary += f'''PayPal: {user_data['paypal']}\n'''
 
             order_summary += (
-                f'\nOrder info:\n'
+                '\n\nOrder info:\n'
                 + '\n'.join(product_lines)
                 + f'\n\nSubtotal: ${subtotal:.2f}\n'
                 f'Shipping: ${shipping_cost:.2f}\n\n'

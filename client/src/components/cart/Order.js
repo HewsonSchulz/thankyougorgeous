@@ -10,6 +10,7 @@ export const Order = ({ loggedInUser, itemPrice, shipping, total }) => {
   const cart = JSON.parse(localStorage.getItem('thankyougorgeous_cart')) || { products: [] }
   const [isDisabled, setIsDisabled] = useState(false)
   const [paymentSent, setPaymentSent] = useState(false)
+  const [selectedPaymentMethod, setSelectedPaymentMethod] = useState('')
 
   useEffect(() => {
     if (!!loggedInUser && loggedInUser !== 'loading') {
@@ -50,6 +51,47 @@ export const Order = ({ loggedInUser, itemPrice, shipping, total }) => {
           Please select a payment method, and send your order total of {currency(total)}. Once you have sent your
           payment, press "Place Order" to complete your purchase.
         </p>
+        <div className='payment-method-container'>
+          {!!loggedInUser.venmo && (
+            <p2>
+              <Input
+                type='radio'
+                name='payment-method'
+                className='w-4 h-4'
+                value='venmo'
+                checked={selectedPaymentMethod === 'venmo'}
+                onChange={(e) => setSelectedPaymentMethod(e.target.value)}
+              />
+              <span>Venmo</span>
+            </p2>
+          )}
+          {!!loggedInUser.paypal && (
+            <p2>
+              <Input
+                type='radio'
+                name='payment-method'
+                className='w-4 h-4'
+                value='paypal'
+                checked={selectedPaymentMethod === 'paypal'}
+                onChange={(e) => setSelectedPaymentMethod(e.target.value)}
+              />
+              <span>PayPal</span>
+            </p2>
+          )}
+          {!!loggedInUser.cashapp && (
+            <p2>
+              <Input
+                type='radio'
+                name='payment-method'
+                className='w-4 h-4'
+                value='cashapp'
+                checked={selectedPaymentMethod === 'cashapp'}
+                onChange={(e) => setSelectedPaymentMethod(e.target.value)}
+              />
+              <span>Cashapp</span>
+            </p2>
+          )}
+        </div>
         <p className='payment-checkbox'>
           <Input
             type='checkbox'
@@ -68,11 +110,13 @@ export const Order = ({ loggedInUser, itemPrice, shipping, total }) => {
             message='Please confirm that you have sent payment before placing your order.'
             onClick={() => {
               if (!isDisabled) {
-                if (!paymentSent) {
+                if (!selectedPaymentMethod) {
+                  window.alert('Please select a payment method before placing your order.')
+                } else if (!paymentSent) {
                   window.alert('Please confirm that you have sent payment before placing your order.')
                 } else {
                   setIsDisabled(true)
-                  createOrder(cart).then((createdOrder) => {
+                  createOrder({ ...cart, payment_method: selectedPaymentMethod }).then((createdOrder) => {
                     if (createdOrder.valid) {
                       localStorage.setItem('thankyougorgeous_cart', JSON.stringify({ products: [] }))
                       window.alert('Your order has been placed.')
