@@ -1,9 +1,9 @@
 name: Deploy Client
 
 on:
- push:
-   branches:
-     - main
+  push:
+    branches:
+      - main
 
 jobs:
   build-and-deploy:
@@ -29,7 +29,7 @@ jobs:
         working-directory: ./client
 
       - name: Create CNAME file
-        run: echo "thankyougorgeous.com" > ./client/build/CNAME
+        run: echo "myblessedgemz.com" > ./client/build/CNAME
 
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3

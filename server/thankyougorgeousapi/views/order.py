@@ -149,7 +149,7 @@ class Orders(ViewSet):
 
             # generate email content
             order_summary = (
-                'Thank you for your order from ThankyouGorgeous.com.\n'
+                'Thank you for your order from MyBlessedGemz.com.\n'
                 f'Your order ID is {order.id}.\n\n'
                 + '\n'.join(product_lines)
                 + f'\n\nSubtotal: ${subtotal:.2f}\n'
@@ -159,7 +159,7 @@ class Orders(ViewSet):
 
             # send email to applicant
             send_mail(
-                subject='Order Receipt | ThankyouGorgeous.com',
+                subject='Order Receipt | MyBlessedGemz.com',
                 message=order_summary,
                 from_email=os.getenv('EMAIL_HOST_USER'),
                 recipient_list=[req_user.email],

@@ -50,6 +50,7 @@ CORS_ORIGIN_WHITELIST = (
     'http://127.0.0.1:5173',
     'https://hewsonschulz.github.io',
     'https://thankyougorgeous.com',
+    'https://myblessedgemz.com',
 )
 
 
