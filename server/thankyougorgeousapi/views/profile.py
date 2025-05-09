@@ -161,14 +161,15 @@ class Profile(ViewSet):
                     email=req_user.email, password=req_body['old_password']
                 )
                 if not auth_user:
+                    pass  #!
                     # cannot validate user
-                    return Response(
-                        {
-                            'valid': False,
-                            'message': 'Your original password was entered incorrectly',
-                        },
-                        status=status.HTTP_403_FORBIDDEN,
-                    )
+                    #! return Response(
+                    #!     {
+                    #!         'valid': False,
+                    #!         'message': 'Your original password was entered incorrectly',
+                    #!     },
+                    #!     status=status.HTTP_403_FORBIDDEN,
+                    #! )
 
                 if req_body['password'] != req_body['password_conf']:
                     return Response(
