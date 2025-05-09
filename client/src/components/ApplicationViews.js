@@ -29,9 +29,9 @@ export const ApplicationViews = ({ loggedInUser, setLoggedInUser }) => {
           index
           element={
             <div className='title-container'>
-              <div className='shipping'>📦 FREE SHIPPING ON ORDERS OVER $125 ✨</div>
+              {/* <div className='shipping'>📦 FREE SHIPPING ON ORDERS OVER $125 ✨</div> */}
               <div className='title__container'>
-                <img className='title__handbag' src='/assets/handbag2.png' alt='handbag' />
+                {/* <img className='title__handbag' src='/assets/handbag3.png' alt='handbag' /> */}
                 <Title />
                 <img className='title__jewelry' src='/assets/jewelry.png' alt='jewely' />
               </div>
@@ -55,10 +55,12 @@ export const ApplicationViews = ({ loggedInUser, setLoggedInUser }) => {
           <Route
             path=':productId'
             element={
-              <AuthorizedRoute loggedInUser={loggedInUser}>
+              // <AuthorizedRoute loggedInUser={loggedInUser}>
+              <>
                 <NavBar loggedInUser={loggedInUser} setLoggedInUser={setLoggedInUser} />
                 <ProductDetails loggedInUser={loggedInUser} />
-              </AuthorizedRoute>
+              </>
+              // </AuthorizedRoute>
             }
           />
 
@@ -113,7 +115,7 @@ export const ApplicationViews = ({ loggedInUser, setLoggedInUser }) => {
           }
         />
 
-        <Route
+        {/* <Route
           path='users'
           element={
             <AuthorizedRoute loggedInUser={loggedInUser} isAdminOnly={true}>
@@ -121,9 +123,9 @@ export const ApplicationViews = ({ loggedInUser, setLoggedInUser }) => {
               <UserList loggedInUser={loggedInUser} />
             </AuthorizedRoute>
           }
-        />
+        /> */}
 
-        <Route path='profile'>
+        {/* <Route path='profile'>
           <Route
             index
             element={
@@ -131,9 +133,9 @@ export const ApplicationViews = ({ loggedInUser, setLoggedInUser }) => {
                 <Navigate to={`/profile/${loggedInUser?.id}`} state={{ from: location }} replace />
               </AuthorizedRoute>
             }
-          />
+          /> */}
 
-          <Route
+        {/* <Route
             path=':loggedInUserId'
             element={
               <AuthorizedRoute loggedInUser={loggedInUser}>
@@ -142,9 +144,9 @@ export const ApplicationViews = ({ loggedInUser, setLoggedInUser }) => {
               </AuthorizedRoute>
             }
           />
-        </Route>
+        </Route> */}
 
-        <Route
+        {/* <Route
           path='cart'
           element={
             <AuthorizedRoute loggedInUser={loggedInUser}>
@@ -152,9 +154,9 @@ export const ApplicationViews = ({ loggedInUser, setLoggedInUser }) => {
               <Cart loggedInUser={loggedInUser} />
             </AuthorizedRoute>
           }
-        />
+        /> */}
 
-        <Route
+        {/* <Route
           path='order'
           element={
             <AuthorizedRoute loggedInUser={loggedInUser}>
@@ -162,9 +164,9 @@ export const ApplicationViews = ({ loggedInUser, setLoggedInUser }) => {
               <Cart loggedInUser={loggedInUser} isOrder={true} />
             </AuthorizedRoute>
           }
-        />
+        /> */}
 
-        <Route
+        {/* <Route
           path='about'
           element={
             <>
@@ -172,7 +174,7 @@ export const ApplicationViews = ({ loggedInUser, setLoggedInUser }) => {
               <About />
             </>
           }
-        />
+        /> */}
       </Route>
 
       <Route path='*' element={<Navigate to={'/'} replace />} />

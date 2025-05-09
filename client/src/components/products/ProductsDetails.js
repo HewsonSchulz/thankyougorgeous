@@ -57,12 +57,12 @@ export const ProductDetails = ({ loggedInUser }) => {
           {product.quantity > 0 ? (
             <>
               <div className='product-details__item product-details__quantity'>{product.quantity} left in stock</div>
-              <AddToCartButton onClick={() => addToCart(product)} />
+              {/* <AddToCartButton onClick={() => addToCart(product)} /> */}
             </>
           ) : (
             <>
               <div className='product-details__item product-details__quantity'>OUT OF STOCK</div>
-              <AddToCartButton onClick={() => window.alert(`${product.label} is currently out of stock.`)} />
+              {/* <AddToCartButton onClick={() => window.alert(`${product.label} is currently out of stock.`)} /> */}
             </>
           )}
           <div className='product-details__item product-details__desc'>{product.description}</div>

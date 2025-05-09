@@ -13,6 +13,5 @@ export const App = () => {
     }
   }, [])
 
-  return <>This page has been removed.</>
-  //! return <ApplicationViews loggedInUser={loggedInUser} setLoggedInUser={setLoggedInUser} />
+  return <ApplicationViews loggedInUser={loggedInUser} setLoggedInUser={setLoggedInUser} />
 }

@@ -37,28 +37,28 @@ export const NavBar = ({ loggedInUser, setLoggedInUser, isTitle = false }) => {
     },
     {
       id: 'products',
-      label: isMobile ? 'SHOP' : 'SHOP ALL',
+      label: 'BROWSE',
       selected: url === '/products',
       click: () => navigate('/products'),
     },
-    {
-      id: 'profile',
-      label: 'PROFILE',
-      selected: /^\/profile(\/\d+)?$/.test(url),
-      click: () => navigate(`/profile/${loggedInUser?.id}`),
-    },
-    {
-      id: 'cart',
-      label: 'CART',
-      selected: url === '/cart',
-      click: () => navigate('/cart'),
-    },
-    {
-      id: 'about',
-      label: 'ABOUT',
-      selected: url === '/about',
-      click: () => navigate('/about'),
-    },
+    // {
+    //   id: 'profile',
+    //   label: 'PROFILE',
+    //   selected: /^\/profile(\/\d+)?$/.test(url),
+    //   click: () => navigate(`/profile/${loggedInUser?.id}`),
+    // },
+    // {
+    //   id: 'cart',
+    //   label: 'CART',
+    //   selected: url === '/cart',
+    //   click: () => navigate('/cart'),
+    // },
+    // {
+    //   id: 'about',
+    //   label: 'ABOUT',
+    //   selected: url === '/about',
+    //   click: () => navigate('/about'),
+    // },
   ]
 
   if (!!loggedInUser) {
