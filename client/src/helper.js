@@ -85,7 +85,8 @@ export const getRandom = (low, high, dec = 0) => {
 
 // converts given number into currency format
 export const currency = (n) => {
-  return n.toLocaleString('en-US', { style: 'currency', currency: 'USD' })
+  return `✨${n}`
+  // return n.toLocaleString('en-US', { style: 'currency', currency: 'USD' })
 }
 
 // truncates given text based on length
